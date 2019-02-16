@@ -33,7 +33,7 @@ class Register extends Component {
             mode: "cors"
         };
         console.log(options.body);
-        const endpoint = window.location.origin === "http://localhost:5000:3000" ? "http://localhost:5000/api/register" : (origin + "/api/login");
+        const endpoint = window.location.origin === "http://localhost:3000" ? "http://localhost:5000/api/register" : (origin + "/api/register");
         fetch(endpoint, options).then(r => {
             if (r.status !== 201) {
                 console.log(r);

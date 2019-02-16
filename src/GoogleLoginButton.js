@@ -24,7 +24,7 @@ class GoogleLoginButton extends Component {
     };
 
     googleResponse = (response) => {
-        const endpoint = window.location.origin === "http://localhost:5000:3000" ? "http://localhost:5000/api/login" : (origin + "/api/login");
+        const endpoint = window.location.origin === "http://localhost:3000" ? "http://localhost:5000/api/login" : (origin + "/api/login");
         const options = {
             method: "POST",
             headers: {
@@ -73,7 +73,7 @@ class GoogleLoginButton extends Component {
                 }
             };
             // Probably shouldn't be async but not critical
-            const endpoint = window.location.origin === "http://localhost:5000:3000" ? "http://localhost:5000/api/check_token" : (window.location.origin + "/api/check_token");
+            const endpoint = window.location.origin === "http://localhost:3000" ? "http://localhost:5000/api/check_token" : (window.location.origin + "/api/check_token");
             fetch(endpoint, options).then(r => {
                 r.json().then(response => {
                     console.log(response)
