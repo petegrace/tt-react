@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import CounterBox from "./CounterBox";
-
-var xhr;
+import ls from "local-storage";
 
 class CountersContainer extends Component {
     constructor(props) {
@@ -11,31 +10,31 @@ class CountersContainer extends Component {
             "heading": "",
             "counters": []
         };
-
-        this.processResponse = this.processResponse.bind(this);
+        
         this.createCounterBoxes = this.createCounterBoxes.bind(this);
     }
 
     componentDidMount() {
-        var endpoint = "http://localhost:5000/counters"; // TODO: We'll need to make this configurable
+        const accessToken = ls.get("accessToken");
+        const authHeader = "Bearer " + accessToken;
 
-        xhr = new XMLHttpRequest();
-        xhr.open("GET", endpoint, true);
-        xhr.send();
-        xhr.addEventListener("readystatechange", this.processResponse, false)
-    }
-
-    processResponse() {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            var response = JSON.parse(xhr.responseText);
-            this.setState(response);
-            console.log(this.state);
-        }
+        const options = {
+            method: "GET",
+            headers: {
+                "Authorization": authHeader
+            }
+        };
+        const endpoint = window.location.origin === "http://localhost:3000" ? "http://localhost:5000/api/annual_stats" : (window.location.origin + "/api/annual_stats");
+        fetch(endpoint, options).then(r => {
+            r.json().then(response => {
+                this.setState(response);
+            });
+        });
     }
 
     // function to be called from map() passing in array of counter objects 
     createCounterBoxes(counter) {
-        return <CounterBox categoryName={counter.category_name} categoryKey={counter.category_key} value={counter.value} uom={counter.uom} />
+        return <CounterBox key={counter.category_key} categoryName={counter.category_name} categoryKey={counter.category_key} value={counter.value} uom={counter.uom} />
     }
 
     render() {
@@ -44,8 +43,8 @@ class CountersContainer extends Component {
 
         return (
             <div>
-                <h4 class="mt-3">{this.state.heading}</h4>
-                <div class="row">
+                <h4 className="mt-3">{this.state.heading}</h4>
+                <div className="row">
                     {counterBoxes}
                 </div>
             </div>
@@ -54,4 +53,3 @@ class CountersContainer extends Component {
 }
 
 export default CountersContainer;
-

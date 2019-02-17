@@ -7,7 +7,7 @@ class CounterBox extends Component {
         return(
             <div className={classes}>
                 <small>{this.props.categoryName}:</small><br />
-                <span class="display-4">{this.props.value}</span> {this.props.uom}
+                <span className="display-4">{this.props.value}</span> {this.props.uom}
             </div>
         );
     }
