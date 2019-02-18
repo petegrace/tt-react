@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import CounterBox from "./CounterBox";
 import ls from "local-storage";
+
+import CounterBox from "./CounterBox";
 
 class CountersContainer extends Component {
     constructor(props) {

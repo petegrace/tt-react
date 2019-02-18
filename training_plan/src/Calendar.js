@@ -13,6 +13,8 @@ class Calendar extends Component {
             selectedDate: null,
             showCalendarDayModal: false
         };
+
+        
     }
 
     renderHeader() {
@@ -110,14 +112,13 @@ class Calendar extends Component {
             selectedDate: day,
             showCalendarDayModal: true
         });
-        console.log(this.state)
     };
 
-    closeCalendarDayModalHandler = () => {
+    handleCloseCalendarDayModal = () => {
         this.setState({
             showCalendarDayModal: false
         });
-    };
+    }
 
     nextMonth = () => {
         this.setState({
@@ -137,7 +138,12 @@ class Calendar extends Component {
                 {this.renderHeader()}
                 {this.renderDays()}
                 {this.renderCells()}
-                <CalendarDayModal className="modal" calendarDay={this.state.selectedDate} show={this.state.showCalendarDayModal} close={this.closeCalendarDayModalHandler} />
+                {this.state.showCalendarDayModal && (
+                <CalendarDayModal className="modal" calendarDay={this.state.selectedDate} close={this.handleCloseCalendarDayModal}>
+                    
+                    <p>Exercise 1 - 20 reps - 1 set - Repeat Weekly</p>
+                </CalendarDayModal>
+                )}
             </div>
         )
         
