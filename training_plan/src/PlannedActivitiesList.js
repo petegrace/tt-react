@@ -31,31 +31,30 @@ class PlannedActivitiesList extends Component {
         });
     }
 
-    handleRemoveActivity = (key) => {
+    handleRemoveActivity = (activityId) => {
         let filteredActivities = this.state.planned_activities.filter(function(plannedActivity) {
-            return plannedActivity.id != key;
+            return plannedActivity.id !== activityId;
         });
 
-        this.setState({
-            "planned_activities": filteredActivities
-        })
-
-        // const authHeader = "Bearer " + accessToken;
-        // const options = {
-        //     method: "GET",
-        //     headers: {
-        //         "Authorization": authHeader
-        //     }
-        // };
-        // const endpointOrigin = window.location.origin === "http://localhost:3000" ? "http://localhost:5000" : (window.location.origin);
-        // const dateFormat = "YYYY-MM-DD";
-        // const endpoint = endpointOrigin + "/api/planned_activities?startDate=" + dateFns.format(this.props.calendarDay, dateFormat);
-        // console.log(endpoint);
-        // fetch(endpoint, options).then(r => {
-        //     r.json().then(response => {
-        //         this.setState(response);
-        //     });
-        // });
+        const accessToken = ls.get("accessToken");
+        const authHeader = "Bearer " + accessToken;
+        const options = {
+            method: "DELETE",
+            headers: {
+                "Authorization": authHeader
+            }
+        };
+        const endpointOrigin = window.location.origin === "http://localhost:3000" ? "http://localhost:5000" : (window.location.origin); // todo: best means to manage this kind of thing?
+        const endpoint = endpointOrigin + "/api/planned_activity/" + activityId;
+        console.log(endpoint);
+        fetch(endpoint, options).then(r => {
+            if (r.status === 204) {
+                // only we've successfully hit the API (which could have failed with some kind of server error)
+                this.setState({
+                    "planned_activities": filteredActivities
+                })
+            }
+        });        
     }
 
     createPlannedActivityRow = (plannedActivity) => {
