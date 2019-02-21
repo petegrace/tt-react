@@ -56,20 +56,32 @@ class PlannedActivitiesList extends Component {
             }
         });        
     }
+    
+    handleEditActivity = (formInitData) => {
+        this.props.onEdit(formInitData)
+    }
 
     createPlannedActivityRow = (plannedActivity) => {
         const badgeClass = "badge badge-primary " +  plannedActivity.category_key;
+        const formInitData = {
+            id: plannedActivity.id,
+            activity_type: plannedActivity.activity_type,
+            badgeClass: badgeClass,
+            description: plannedActivity.description,
+            planned_distance: plannedActivity.planned_distance,
+            recurrence: "Repeats every " + dateFns.format(this.props.calendarDay, "dddd")
+        }
 
         return (
             <tr key={plannedActivity.id}>
                 <td><h4><span className={badgeClass}>{plannedActivity.activity_type}</span></h4></td>
-                <td>{plannedActivity.planned_distance}</td>
+                <td>{plannedActivity.planned_distance ? plannedActivity.planned_distance + " km" : ""}</td>
                 <td>{plannedActivity.description}</td>
                 <td>Repeats every {dateFns.format(this.props.calendarDay, "dddd")}</td>
                 <td>
                     <ul className="nav justify-content-end">
                         <li className="nav-item mr-5">
-                            {/* TODO: link to toggle visibility: <i className="fa fa-edit"></i> Edit</NavLink> */}
+                            <a href="#" role="button" onClick={() => this.handleEditActivity(formInitData)}><i className="fa fa-edit"></i> Edit</a>
                         </li>
                         <li className="nav-item mr-5">
                             <a href="#" role="button" onClick={() => this.handleRemoveActivity(plannedActivity.id)}><i className="fa fa-trash"></i> Remove</a>

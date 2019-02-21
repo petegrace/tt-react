@@ -139,11 +139,7 @@ class Calendar extends Component {
                 {this.renderDays()}
                 {this.renderCells()}
                 {this.state.showCalendarDayModal && (
-                <CalendarDayModal className="modal" calendarDay={this.state.selectedDate} close={this.handleCloseCalendarDayModal}>
-                    
-                    <p>Exercise 1 - 20 reps - 1 set - Repeat Weekly</p>
-                </CalendarDayModal>
-                )}
+                <CalendarDayModal className="modal" calendarDay={this.state.selectedDate} close={this.handleCloseCalendarDayModal} />)}
             </div>
         )
         
