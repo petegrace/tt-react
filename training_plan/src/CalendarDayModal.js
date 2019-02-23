@@ -3,16 +3,19 @@ import dateFns from "date-fns";
 import ls from "local-storage";
 
 import "./CalendarDayModal.css";
-import PlannedActivitiesList from "./PlannedActivitiesList"
+import ActivityTypeButtonSet from "./ActivityTypeButtonSet";
+import PlannedActivitiesList from "./PlannedActivitiesList";
 import PlannedActivityForm from "./PlannedActivityForm";
 
 class CalendarDayModal extends Component {
     constructor(props) {
         super(props);
 
+        // todo: should refactor to use redux
         this.state = {
             showCalendarDayMain: true,
-            showPlannedActivityForm: false
+            showPlannedActivityForm: false,
+            isFutureDate: (props.calendarDay > new Date())
         }
     }
 
@@ -21,6 +24,13 @@ class CalendarDayModal extends Component {
             showCalendarDayMain: !this.state.showCalendarDayMain,
             showPlannedActivityForm: !this.state.showPlannedActivityForm
         })
+    }
+
+    handleAddPlannedActivity = (formInitData) => {
+        this.setState({
+            plannedActivityFormInitData: formInitData
+        });
+        this.togglePlannedActivityForm();
     }
 
     handleEditPlannedActivity = (formInitData) => {
@@ -34,22 +44,33 @@ class CalendarDayModal extends Component {
         // TODO: refactor all of these API calls into a middleware layer
         const accessToken = ls.get("accessToken");
         const authHeader = "Bearer " + accessToken;
-        const options = {
-            method: "PATCH",
+        let endpoint;
+
+        let options = {
+            method: null,
             headers: {
                 "Authorization": authHeader,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({ 
+                activity_type: values.activity_type,
+                planned_date: values.planned_date,
                 description: values.description,
                 planned_distance: values.planned_distance
             }),
             mode: "cors"
         };
         const endpointOrigin = window.location.origin === "http://localhost:3000" ? "http://localhost:5000" : (window.location.origin); // todo: best means to manage this kind of thing?
-        const endpoint = endpointOrigin + "/api/planned_activity/" + values.id;
+        
+        if (values.id) {
+            options.method = "PATCH";
+            endpoint = endpointOrigin + "/api/planned_activity/" + values.id;
+        } else {
+            options.method = "POST";
+            endpoint = endpointOrigin + "/api/planned_activities";
+        }
         fetch(endpoint, options).then(r => {
-            if (r.status === 204) {
+            if (r.status === 201 || r.status === 204) {
                 // only if we've successfully hit the API (which could have failed with some kind of server error)
                 this.togglePlannedActivityForm();
             }
@@ -69,8 +90,11 @@ class CalendarDayModal extends Component {
                     </div>
                     <div className="calendar-modal-body">
                         <div>
-                            {this.state.showCalendarDayMain &&
-                            <PlannedActivitiesList calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedActivity} />}
+                            {this.state.showCalendarDayMain && this.state.isFutureDate &&
+                            <>
+                            <PlannedActivitiesList calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedActivity} />
+                            <ActivityTypeButtonSet calendarDay={this.props.calendarDay} onAdd={this.handleAddPlannedActivity} />
+                            </>}
                             {this.state.showPlannedActivityForm &&
                             <PlannedActivityForm initData={this.state.plannedActivityFormInitData} onSubmit={this.handleSavePlannedActivity} handleBackClick={this.togglePlannedActivityForm} />}
                         </div>

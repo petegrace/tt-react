@@ -7,15 +7,15 @@ class PlannedActivityForm extends Component {
         const { initData } = this.props;
         this.props.initialize(initData);
         console.log(initData);
-        console.log(this.props);
     }
 
     render() {
         const { handleSubmit, handleBackClick, initData } = this.props; 
-
+        const badgeClass = "badge badge-primary " +  initData.category_key;
+        
         return (
             <form onSubmit={handleSubmit} className="form">
-                <h4 className="mt-3 mb-3"><small>Activity Type:</small> <span className={initData.badgeClass}>{initData.activity_type}</span></h4>
+                <h4 className="mt-3 mb-3"><small>Activity Type:</small> <span className={badgeClass}>{initData.activity_type}</span></h4>
                 <div className="form-group ">
                     <label className="form-control-label" htmlFor="description">Description</label>
                     <Field component="input" type="text" className="form-control" id="description" name="description" placeholder="(optional)" />

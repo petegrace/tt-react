@@ -66,9 +66,10 @@ class PlannedActivitiesList extends Component {
         const formInitData = {
             id: plannedActivity.id,
             activity_type: plannedActivity.activity_type,
-            badgeClass: badgeClass,
+            category_key: plannedActivity.category_key,
             description: plannedActivity.description,
             planned_distance: plannedActivity.planned_distance,
+            planned_date: dateFns.format(this.props.calendarDay, "YYYY-MM-DD"),
             recurrence: "Repeats every " + dateFns.format(this.props.calendarDay, "dddd")
         }
 
@@ -108,7 +109,6 @@ class PlannedActivitiesList extends Component {
                         </table>
                         </>
                     )}
-                    <p>Activity 1 - Social run - 10k - One-off - Invite others</p>
                 </div>
         );
     }
