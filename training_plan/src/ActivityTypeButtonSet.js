@@ -34,7 +34,7 @@ class ActivityTypeButtonSet extends Component {
         this.props.onAdd(formInitData)
     }
 
-    createActivityTypeButton = (activityType) => {
+    renderActivityTypeButton = (activityType) => {
         const buttonClass = "btn btn-sm ml-1 mr-1 " + activityType.category_key;
         const formInitData = {
             activity_type: activityType.activity_type,
@@ -54,7 +54,7 @@ class ActivityTypeButtonSet extends Component {
 
     render() {
         let activityTypes = this.state.activity_types;
-        let activityTypeButtons = activityTypes.map(this.createActivityTypeButton);
+        let activityTypeButtons = activityTypes.map(this.renderActivityTypeButton);
         return(
             <>
             <h3>Add Activities</h3>

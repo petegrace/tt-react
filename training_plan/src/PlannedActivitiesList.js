@@ -61,7 +61,7 @@ class PlannedActivitiesList extends Component {
         this.props.onEdit(formInitData)
     }
 
-    createPlannedActivityRow = (plannedActivity) => {
+    renderPlannedActivityRow = (plannedActivity) => {
         const badgeClass = "badge badge-primary " +  plannedActivity.category_key;
         const formInitData = {
             id: plannedActivity.id,
@@ -95,7 +95,7 @@ class PlannedActivitiesList extends Component {
 
     render() {
         let plannedActivities = this.state.planned_activities;
-        let plannedActivityRows = plannedActivities.map(this.createPlannedActivityRow);
+        let plannedActivityRows = plannedActivities.map(this.renderPlannedActivityRow);
 
         return (
                 <div>
