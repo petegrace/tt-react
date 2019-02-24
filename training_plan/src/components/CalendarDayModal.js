@@ -35,9 +35,9 @@ class CalendarDayModal extends Component {
         this.togglePlannedActivityForm();
     }
 
-    handleEditPlannedActivity = (plannedActivityId) => {
+    handleEditPlannedActivity = (formInitData) => {
         this.setState({
-            editingPlannedActivityId: plannedActivityId
+            plannedActivityFormInitData: formInitData
         });
         this.togglePlannedActivityForm();
     }
@@ -91,7 +91,7 @@ class CalendarDayModal extends Component {
                             <ActivityTypeButtonSet calendarDay={this.props.calendarDay} onAdd={this.handleAddPlannedActivity} />
                             </>}
                             {this.state.showPlannedActivityForm &&
-                            <PlannedActivityForm plannedActivityId={this.state.editingPlannedActivityId} onSubmit={this.handleSavePlannedActivity} handleBackClick={this.togglePlannedActivityForm} />}
+                            <PlannedActivityForm initData={this.state.plannedActivityFormInitData} onSubmit={this.handleSavePlannedActivity} handleBackClick={this.togglePlannedActivityForm} />}
                         </div>
                     </div>
                 </div>

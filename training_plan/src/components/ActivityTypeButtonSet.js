@@ -1,34 +1,9 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import dateFns from "date-fns";
 import ls from "local-storage";
 
 class ActivityTypeButtonSet extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            "activity_types": []
-        };
-    }
-
-    componentDidMount() {
-        const accessToken = ls.get("accessToken");
-        const authHeader = "Bearer " + accessToken;
-        const options = {
-            method: "GET",
-            headers: {
-                "Authorization": authHeader
-            }
-        };
-        const endpointOrigin = window.location.origin === "http://localhost:3000" ? "http://localhost:5000" : (window.location.origin);
-        const endpoint = endpointOrigin + "/api/activity_types";
-        console.log(endpoint);
-        fetch(endpoint, options).then(r => {
-            r.json().then(response => {
-                this.setState(response);
-            });
-        });
-    }
     
     handleAddActivity = (formInitData) => {
         this.props.onAdd(formInitData)
@@ -53,7 +28,7 @@ class ActivityTypeButtonSet extends Component {
     }
 
     render() {
-        let activityTypes = this.state.activity_types;
+        let activityTypes = this.props.activityTypes;
         let activityTypeButtons = activityTypes.map(this.renderActivityTypeButton);
         return(
             <>
@@ -63,5 +38,13 @@ class ActivityTypeButtonSet extends Component {
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        activityTypes: state.activityTypes
+    };
+}
+
+ActivityTypeButtonSet = connect(mapStateToProps)(ActivityTypeButtonSet);
 
 export default ActivityTypeButtonSet;

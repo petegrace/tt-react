@@ -12,12 +12,21 @@ class PlannedActivitiesList extends Component {
         this.props.actions.deletePlannedActivity(plannedActivityId);
     }
     
-    handleEditActivity = (plannedActivityId) => {
-        this.props.onEdit(plannedActivityId)
+    handleEditActivity = (formInitData) => {
+        this.props.onEdit(formInitData)
     }
 
     renderPlannedActivityRow = (plannedActivity) => {
         const badgeClass = "badge badge-primary " +  plannedActivity.category_key;
+        const formInitData = {
+            id: plannedActivity.id,
+            activity_type: plannedActivity.activity_type,
+            category_key: plannedActivity.category_key,
+            description: plannedActivity.description,
+            planned_distance: plannedActivity.planned_distance,
+            planned_date: dateFns.format(this.props.calendarDay, "YYYY-MM-DD"),
+            recurrence: "Repeats every " + dateFns.format(this.props.calendarDay, "dddd")
+        }
 
         return (
             <tr key={plannedActivity.id}>
@@ -28,7 +37,7 @@ class PlannedActivitiesList extends Component {
                 <td>
                     <ul className="nav justify-content-end">
                         <li className="nav-item mr-5">
-                            <a href="#" role="button" onClick={() => this.handleEditActivity(plannedActivity.id)}><i className="fa fa-edit"></i> Edit</a>
+                            <a href="#" role="button" onClick={() => this.handleEditActivity(formInitData)}><i className="fa fa-edit"></i> Edit</a>
                         </li>
                         <li className="nav-item mr-5">
                             <a href="#" role="button" onClick={() => this.handleRemoveActivity(plannedActivity.id)}><i className="fa fa-trash"></i> Remove</a>

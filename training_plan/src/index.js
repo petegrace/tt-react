@@ -7,12 +7,14 @@ import { reducer as formReducer } from "redux-form";
 
 import App from "./components/App";
 import plannedActivitiesReducer from "./reducers/plannedActivitiesReducer";
+import activityTypesReducer from "./reducers/activityTypesReducer";
 import "./base.css"
 
 // Might want to refactor this redux stuff into separate files for reducers and configuring store as per tutorial
 const rootReducer = combineReducers({
     form: formReducer,
-    plannedActivities: plannedActivitiesReducer
+    plannedActivities: plannedActivitiesReducer,
+    activityTypes: activityTypesReducer
 });
 
 const store = createStore(
