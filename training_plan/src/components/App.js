@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import Calendar from "./Calendar";
 
-class Main extends Component {
+class App extends Component {
     render() {
         return (
             // This is where we can add routing in due course
@@ -11,4 +11,4 @@ class Main extends Component {
     }
 }
 
-export default Main;
+export default App;
