@@ -1,0 +1,55 @@
+import ls from "local-storage";
+                
+class PlannedActivityApi {
+    constructor() {
+        const accessToken = ls.get("accessToken");
+
+        this.authHeader = "Bearer " + accessToken;
+        this.endpointOrigin = window.location.origin === "http://localhost:3000" ? "http://localhost:5000" : (window.location.origin);
+    }
+
+    patchPlannedActivity = (id, requestBody) => {
+        const options = {
+            method: "PATCH",
+            headers: {
+                "Authorization": this.authHeader,
+                "Content-Type": "application/json"
+            },
+            body: requestBody,
+            mode: "cors"
+        };
+        const endpoint = this.endpointOrigin + "/api/planned_activity/" + id;
+
+        return fetch(endpoint, options).then(response => {
+            if (response.status === 204) {
+                return true;
+            }
+            // TODO: probably the cause of our reducer issue when expired token
+        }).catch(error => {
+            return error;
+        });
+    }
+
+    deletePlannedActivity = (id) => {
+        const options = {
+            method: "DELETE",
+            headers: {
+                "Authorization": authHeader
+            }
+        };
+        const endpoint = this.endpointOrigin + "/api/planned_activity/" + id;
+
+        return fetch(endpoint, options).then(response => {
+            if (response.status === 204) {
+                return true;
+            }
+        }).catch(error => {
+            return error;
+        });
+    }
+}
+
+export default PlannedActivityApi
+
+const accessToken = ls.get("accessToken");
+const authHeader = "Bearer " + accessToken;

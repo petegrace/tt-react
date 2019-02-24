@@ -1,8 +1,11 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import dateFns from "date-fns";
-import ls from "local-storage";
 
 import CalendarDayModal from "./CalendarDayModal";
+import * as plannedActivityActions from "../actions/plannedActivityActions";
+import { filterPlannedActivities } from "../helpers/trainingPlan";
 
 class Calendar extends Component {
     constructor(props) {
@@ -12,33 +15,14 @@ class Calendar extends Component {
             currentMonth: new Date(),
             today: new Date(),
             selectedDate: null,
-            showCalendarDayModal: false,
-            planned_activities: []
+            showCalendarDayModal: false
         };
     }
 
     refreshPlannedActivities = (currentMonth) => {
-        const accessToken = ls.get("accessToken");
-        const authHeader = "Bearer " + accessToken;
-        const options = {
-            method: "GET",
-            headers: {
-                "Authorization": authHeader
-            }
-        };
-        const endpointOrigin = window.location.origin === "http://localhost:3000" ? "http://localhost:5000" : (window.location.origin);
-        const dateFormat = "YYYY-MM-DD";
         const startDate = dateFns.startOfWeek(dateFns.startOfMonth(currentMonth), {weekStartsOn: 1});
         const endDate = dateFns.endOfWeek(dateFns.endOfMonth(currentMonth), {weekStartsOn: 1});
-        const endpoint = endpointOrigin + "/api/planned_activities?"
-                                        + "startDate=" + dateFns.format(startDate, dateFormat)
-                                        + "&endDate=" + dateFns.format(endDate, dateFormat);
-        console.log(endpoint);
-        fetch(endpoint, options).then(r => {
-            r.json().then(response => {
-                this.setState(response);
-            });
-        });
+        this.props.actions.loadPlannedActivities(startDate, endDate);
     }
 
     componentDidMount() {
@@ -113,7 +97,7 @@ class Calendar extends Component {
             for (let i = 0; i < 7; i++) {
                 formattedDate = dateFns.format(day, dateFormat);
                 const cloneDay = day;
-                const plannedActivities = this.filterPlannedActivities(day);
+                const plannedActivities = filterPlannedActivities(this.props.plannedActivities, day);
                 const plannedActivityBadges = plannedActivities.map(this.renderPlannedActivityBadge);
                 
                 days.push(
@@ -144,12 +128,6 @@ class Calendar extends Component {
                 {rows}
             </div>
         );
-    }
-
-    filterPlannedActivities = (day) => {
-        const jsonDate = dateFns.format(day, "YYYY-MM-DD");
-        const plannedActivities = this.state.planned_activities.filter(plannedActivity => plannedActivity.planned_date === jsonDate);
-        return plannedActivities;
     }
 
     onDateClick = (day, plannedActivities) => {
@@ -190,12 +168,25 @@ class Calendar extends Component {
                 {this.renderDayNames()}
                 {this.renderCells()}
                 {this.state.showCalendarDayModal && (
-                <CalendarDayModal className="modal" calendarDay={this.state.selectedDate} plannedActivities={this.state.selectedDatePlannedActivities}
-                    refresh={this.refreshPlannedActivities} filter={this.filterPlannedActivities} close={this.handleCloseCalendarDayModal} />)}
+                <CalendarDayModal className="modal" calendarDay={this.state.selectedDate} refresh={this.refreshPlannedActivities} close={this.handleCloseCalendarDayModal} />)}
             </div>
         )
         
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        plannedActivities: state.plannedActivities
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(plannedActivityActions, dispatch)
+    };
+}
+
+Calendar = connect(mapStateToProps, mapDispatchToProps)(Calendar)
 
 export default Calendar;

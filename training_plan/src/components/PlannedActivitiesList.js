@@ -1,77 +1,23 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import dateFns from "date-fns";
-import ls from "local-storage";
+
+import { filterPlannedActivities } from "../helpers/trainingPlan";
+import * as plannedActivityActions from "../actions/plannedActivityActions";
 
 class PlannedActivitiesList extends Component {
-    constructor(props) {
-        super(props);
 
-        this.state = {
-            "planned_activities": props.plannedActivities
-        };
-    }
-
-    componentDidMount() {
-        const accessToken = ls.get("accessToken");
-        const authHeader = "Bearer " + accessToken;
-        const options = {
-            method: "GET",
-            headers: {
-                "Authorization": authHeader
-            }
-        };
-        const endpointOrigin = window.location.origin === "http://localhost:3000" ? "http://localhost:5000" : (window.location.origin);
-        const dateFormat = "YYYY-MM-DD";
-        const endpoint = endpointOrigin + "/api/planned_activities?startDate=" + dateFns.format(this.props.calendarDay, dateFormat);
-        console.log(endpoint);
-        fetch(endpoint, options).then(r => {
-            r.json().then(response => {
-                this.setState(response);
-            });
-        });
-    }
-
-    handleRemoveActivity = (activityId) => {
-        let filteredActivities = this.state.planned_activities.filter(function(plannedActivity) {
-            return plannedActivity.id !== activityId;
-        });
-
-        const accessToken = ls.get("accessToken");
-        const authHeader = "Bearer " + accessToken;
-        const options = {
-            method: "DELETE",
-            headers: {
-                "Authorization": authHeader
-            }
-        };
-        const endpointOrigin = window.location.origin === "http://localhost:3000" ? "http://localhost:5000" : (window.location.origin); // todo: best means to manage this kind of thing?
-        const endpoint = endpointOrigin + "/api/planned_activity/" + activityId;
-        console.log(endpoint);
-        fetch(endpoint, options).then(r => {
-            if (r.status === 204) {
-                // only we've successfully hit the API (which could have failed with some kind of server error)
-                this.setState({
-                    "planned_activities": filteredActivities
-                })
-            }
-        });        
+    handleRemoveActivity = (plannedActivityId) => {
+        this.props.actions.deletePlannedActivity(plannedActivityId);
     }
     
-    handleEditActivity = (formInitData) => {
-        this.props.onEdit(formInitData)
+    handleEditActivity = (plannedActivityId) => {
+        this.props.onEdit(plannedActivityId)
     }
 
     renderPlannedActivityRow = (plannedActivity) => {
         const badgeClass = "badge badge-primary " +  plannedActivity.category_key;
-        const formInitData = {
-            id: plannedActivity.id,
-            activity_type: plannedActivity.activity_type,
-            category_key: plannedActivity.category_key,
-            description: plannedActivity.description,
-            planned_distance: plannedActivity.planned_distance,
-            planned_date: dateFns.format(this.props.calendarDay, "YYYY-MM-DD"),
-            recurrence: "Repeats every " + dateFns.format(this.props.calendarDay, "dddd")
-        }
 
         return (
             <tr key={plannedActivity.id}>
@@ -82,7 +28,7 @@ class PlannedActivitiesList extends Component {
                 <td>
                     <ul className="nav justify-content-end">
                         <li className="nav-item mr-5">
-                            <a href="#" role="button" onClick={() => this.handleEditActivity(formInitData)}><i className="fa fa-edit"></i> Edit</a>
+                            <a href="#" role="button" onClick={() => this.handleEditActivity(plannedActivity.id)}><i className="fa fa-edit"></i> Edit</a>
                         </li>
                         <li className="nav-item mr-5">
                             <a href="#" role="button" onClick={() => this.handleRemoveActivity(plannedActivity.id)}><i className="fa fa-trash"></i> Remove</a>
@@ -94,7 +40,7 @@ class PlannedActivitiesList extends Component {
     }
 
     render() {
-        let plannedActivities = this.state.planned_activities;
+        const plannedActivities = filterPlannedActivities(this.props.plannedActivities, this.props.calendarDay);
         let plannedActivityRows = plannedActivities.map(this.renderPlannedActivityRow);
 
         return (
@@ -113,5 +59,19 @@ class PlannedActivitiesList extends Component {
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        plannedActivities: state.plannedActivities
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(plannedActivityActions, dispatch)
+    };
+}
+
+PlannedActivitiesList = connect(mapStateToProps, mapDispatchToProps)(PlannedActivitiesList)
 
 export default PlannedActivitiesList;
