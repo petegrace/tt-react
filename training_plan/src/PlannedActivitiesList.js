@@ -7,7 +7,7 @@ class PlannedActivitiesList extends Component {
         super(props);
 
         this.state = {
-            "planned_activities": []
+            "planned_activities": props.plannedActivities
         };
     }
 

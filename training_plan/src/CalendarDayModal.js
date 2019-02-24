@@ -15,7 +15,8 @@ class CalendarDayModal extends Component {
         this.state = {
             showCalendarDayMain: true,
             showPlannedActivityForm: false,
-            isFutureDate: (props.calendarDay > new Date())
+            isFutureDate: (props.calendarDay >= dateFns.startOfDay(new Date())),
+            plannedActivities: props.plannedActivities
         }
     }
 
@@ -72,6 +73,10 @@ class CalendarDayModal extends Component {
         fetch(endpoint, options).then(r => {
             if (r.status === 201 || r.status === 204) {
                 // only if we've successfully hit the API (which could have failed with some kind of server error)
+                this.props.refresh(this.props.calendarDay);
+                this.setState({
+                    plannedActivities: this.props.filter(this.props.calendarDay)
+                });
                 this.togglePlannedActivityForm();
             }
         });
@@ -92,7 +97,7 @@ class CalendarDayModal extends Component {
                         <div>
                             {this.state.showCalendarDayMain && this.state.isFutureDate &&
                             <>
-                            <PlannedActivitiesList calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedActivity} />
+                            <PlannedActivitiesList calendarDay={this.props.calendarDay} plannedActivities={this.state.plannedActivities} onEdit={this.handleEditPlannedActivity} />
                             <ActivityTypeButtonSet calendarDay={this.props.calendarDay} onAdd={this.handleAddPlannedActivity} />
                             </>}
                             {this.state.showPlannedActivityForm &&

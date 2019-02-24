@@ -37,7 +37,6 @@ class Calendar extends Component {
         fetch(endpoint, options).then(r => {
             r.json().then(response => {
                 this.setState(response);
-                console.log(this.state);
             });
         });
     }
@@ -113,9 +112,8 @@ class Calendar extends Component {
         while (day <= endDate) {
             for (let i = 0; i < 7; i++) {
                 formattedDate = dateFns.format(day, dateFormat);
-                const jsonDate = dateFns.format(day, "YYYY-MM-DD");
                 const cloneDay = day;
-                const plannedActivities = this.state.planned_activities.filter(plannedActivity => plannedActivity.planned_date === jsonDate);
+                const plannedActivities = this.filterPlannedActivities(day);
                 const plannedActivityBadges = plannedActivities.map(this.renderPlannedActivityBadge);
                 
                 days.push(
@@ -123,7 +121,7 @@ class Calendar extends Component {
                             !dateFns.isSameMonth(day, monthStart)
                             ? "disabled"
                             : dateFns.isSameDay(day, selectedDate) ? "selected" : ""
-                        }`} key={day} onClick={() => this.onDateClick(dateFns.parse(cloneDay))}>
+                        }`} key={day} onClick={() => this.onDateClick(dateFns.parse(cloneDay), plannedActivities)}>
                         <span className="number">{formattedDate}</span>
                         <span className="bg">{formattedDate}</span>
                         {plannedActivityBadges}
@@ -148,10 +146,17 @@ class Calendar extends Component {
         );
     }
 
-    onDateClick = (day) => {
+    filterPlannedActivities = (day) => {
+        const jsonDate = dateFns.format(day, "YYYY-MM-DD");
+        const plannedActivities = this.state.planned_activities.filter(plannedActivity => plannedActivity.planned_date === jsonDate);
+        return plannedActivities;
+    }
+
+    onDateClick = (day, plannedActivities) => {
         this.setState({
             selectedDate: day,
-            showCalendarDayModal: true
+            showCalendarDayModal: true,
+            selectedDatePlannedActivities: plannedActivities
         });
     };
 
@@ -185,7 +190,8 @@ class Calendar extends Component {
                 {this.renderDayNames()}
                 {this.renderCells()}
                 {this.state.showCalendarDayModal && (
-                <CalendarDayModal className="modal" calendarDay={this.state.selectedDate} close={this.handleCloseCalendarDayModal} />)}
+                <CalendarDayModal className="modal" calendarDay={this.state.selectedDate} plannedActivities={this.state.selectedDatePlannedActivities}
+                    refresh={this.refreshPlannedActivities} filter={this.filterPlannedActivities} close={this.handleCloseCalendarDayModal} />)}
             </div>
         )
         
