@@ -30,7 +30,7 @@ class PlannedActivitiesList extends Component {
 
         return (
             <tr key={plannedActivity.id}>
-                <td><h4><span className={badgeClass}>{plannedActivity.activity_type}</span></h4></td>
+                <td><h5><span className={badgeClass}>{plannedActivity.activity_type}</span></h5></td>
                 <td>{plannedActivity.planned_distance ? plannedActivity.planned_distance + " km" : ""}</td>
                 <td>{plannedActivity.description}</td>
                 <td>Repeats every {dateFns.format(this.props.calendarDay, "dddd")}</td>

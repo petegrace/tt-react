@@ -264,7 +264,6 @@ h4 {
 
 h5 {
     color: #1d5454;
-    margin-top: 20px;
 }
 
 .carousel-control-prev-icon {
@@ -476,6 +475,9 @@ h5 {
   
   .calendar .body .selected {
     border-left: 10px solid transparent;
+    border-top: 1px solid transparent;
+    border-right: 1px solid transparent;
+    border-bottom: 1px solid transparent;
     border-color: #1d5454; /* linear-gradient(45deg, #1d5454 0%,#53cbf1 40%);*/
     border-image-slice: 1;
   }

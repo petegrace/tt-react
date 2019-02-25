@@ -6,6 +6,7 @@ import { bindActionCreators } from "redux";
 import "./CalendarDayModal.css";
 import ActivityTypeButtonSet from "./ActivityTypeButtonSet";
 import PlannedActivitiesList from "./PlannedActivitiesList";
+import PlannedExercisesList from "./PlannedExercisesList";
 import PlannedActivityForm from "./PlannedActivityForm";
 import * as plannedActivityActions from "../actions/plannedActivityActions";
 
@@ -76,6 +77,7 @@ class CalendarDayModal extends Component {
                             {this.state.showCalendarDayMain && this.state.isFutureDate &&
                             <>
                             <PlannedActivitiesList calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedActivity} />
+                            <PlannedExercisesList calendarDay={this.props.calendarDay} />
                             <ActivityTypeButtonSet calendarDay={this.props.calendarDay} onAdd={this.handleAddPlannedActivity} />
                             </>}
                             {this.state.showPlannedActivityForm &&
