@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import dateFns from "date-fns";
-import ls from "local-storage";
 
 class ActivityTypeButtonSet extends Component {
     

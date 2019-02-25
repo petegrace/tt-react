@@ -50,27 +50,15 @@ class CalendarDayModal extends Component {
             planned_distance: values.planned_distance
         })
         if (values.id) {
-            console.log("IN THE PATCH!");
-            this.props.actions.updatePlannedActivity(values.id, requestBody);
-            this.props.refresh(this.props.calendarDay);
+            this.props.actions.updatePlannedActivity(values.id, requestBody).then(result => {
+                this.props.refresh(this.props.calendarDay);
+            });
         } else {
-            console.log("POST will go here")
-            // todo: post
-            // options.method = "POST";
-            // endpoint = endpointOrigin + "/api/planned_activities";
+            this.props.actions.addPlannedActivity(requestBody).then(result => {
+                this.props.refresh(this.props.calendarDay);
+            });
         }
         this.togglePlannedActivityForm();
-        // fetch(endpoint, options).then(r => {
-        //     if (r.status === 201 || r.status === 204) {
-        //         // only if we've successfully hit the API (which could have failed with some kind of server error)
-        //         this.props.refresh(this.props.calendarDay);
-        //         this.setState({
-        //             plannedActivities: this.props.filter(this.props.calendarDay)
-        //         });
-        //         this.togglePlannedActivityForm();
-        //     }
-        // });
-
     };
 
     render() {

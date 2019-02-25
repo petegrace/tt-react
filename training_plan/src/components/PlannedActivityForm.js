@@ -10,7 +10,6 @@ class PlannedActivityForm extends Component {
 
     render() {
         const { handleSubmit, handleBackClick, initData } = this.props; 
-        //const plannedActivity = filterPlannedActivitiesById(this.props.plannedActivities, this.props.plannedActivityId); // could this just go into constructor as a normal attribute?
         const badgeClass = "badge badge-primary " +  initData.category_key;
 
         return (

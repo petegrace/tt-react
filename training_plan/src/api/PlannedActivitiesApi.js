@@ -24,6 +24,28 @@ class PlannedActivitiesApi {
         return fetch(endpoint, options).then(response => {
             return response.json();
         }).catch(error => {
+            // TODO: probably the cause of our reducer issue when expired token
+            return error;
+        });
+    }
+    
+    postPlannedActivities = (requestBody) => {
+        const options = {
+            method: "POST",
+            headers: {
+                "Authorization": this.authHeader,
+                "Content-Type": "application/json"
+            },
+            body: requestBody,
+            mode: "cors"
+        };
+        const endpoint = this.endpointOrigin + "/api/planned_activities";
+
+        return fetch(endpoint, options).then(response => {
+            if (response.status === 201) {
+                return response.json();
+            }
+        }).catch(error => {
             return error;
         });
     }

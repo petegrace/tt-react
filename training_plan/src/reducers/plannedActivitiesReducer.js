@@ -10,7 +10,7 @@ export default function plannedActivitiesReducer(state = initialState.plannedAct
                 return plannedActivity.id !== action.deletedId;
             });
             return remainingActivities;
-        // TODO: proper reducer for updates so that we can avoid the refresh to update state.  Probably more easy to think about once our data model allows for one-offs?
+        // TODO: proper reducer for adds and updates so that we can avoid the refresh to update state.  Probably more easy to think about once our data model allows for one-offs?
         default:
             return state;
     }

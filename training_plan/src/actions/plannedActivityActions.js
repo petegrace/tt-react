@@ -20,6 +20,24 @@ export function loadPlannedActivitiesSuccess(responseData) {
     };
 }
 
+export function addPlannedActivity(requestBody) {
+    return function(dispatch) {
+        const api = new PlannedActivitiesApi();
+        return api.postPlannedActivities(requestBody).then(responseData => {
+            dispatch(addPlannedActivitySuccess(responseData));
+        }).catch(error => {
+            throw(error);
+        });
+    }
+}
+
+export function addPlannedActivitySuccess(responseData) {
+    return {
+        type: types.ADD_PLANNED_ACTIVITY_SUCCESS,
+        addedId: responseData.id
+    };
+}
+
 export function updatePlannedActivity(id, requestBody) {
     return function(dispatch) {
         const api = new PlannedActivityApi();
@@ -50,8 +68,6 @@ export function deletePlannedActivity(id) {
 }
 
 export function deletePlannedActivitySuccess(id) {
-    console.log("IN SUCCESS ACTION");
-    console.log(id);
     return {
         type: types.DELETE_PLANNED_ACTIVITY_SUCCESS,
         deletedId: id
