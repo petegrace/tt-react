@@ -27,7 +27,7 @@ class PlannedExercisesList extends Component {
                             <a href="#" role="button" onClick={() => {return true;}}><i className="fa fa-edit"></i> Edit</a>
                         </li>
                         <li className="nav-item mr-5">
-                            <a href="#" role="button" onClick={() => {return true;}}><i className="fa fa-trash"></i> Remove</a>
+                            <a href="#" role="button" onClick={() => this.props.onRemove(plannedExercise.id)}><i className="fa fa-trash"></i> Remove</a>
                         </li>
                     </ul>
                 </td>

@@ -33,7 +33,7 @@ class PlannedActivityApi {
         const options = {
             method: "DELETE",
             headers: {
-                "Authorization": authHeader
+                "Authorization": this.authHeader
             }
         };
         const endpoint = this.endpointOrigin + "/api/planned_activity/" + id;
@@ -41,6 +41,8 @@ class PlannedActivityApi {
         return fetch(endpoint, options).then(response => {
             if (response.ok) {
                 return true;
+            } else {
+                throw Error(response.statusText);
             }
         }).catch(error => {
             return error;
@@ -48,7 +50,4 @@ class PlannedActivityApi {
     }
 }
 
-export default PlannedActivityApi
-
-const accessToken = ls.get("accessToken");
-const authHeader = "Bearer " + accessToken;
+export default PlannedActivityApi;

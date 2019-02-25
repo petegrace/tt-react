@@ -9,6 +9,7 @@ import PlannedActivitiesList from "./PlannedActivitiesList";
 import PlannedExercisesList from "./PlannedExercisesList";
 import PlannedActivityForm from "./PlannedActivityForm";
 import * as plannedActivityActions from "../actions/plannedActivityActions";
+import * as plannedExerciseActions from "../actions/plannedExerciseActions";
 
 class CalendarDayModal extends Component {
     constructor(props) {
@@ -29,6 +30,7 @@ class CalendarDayModal extends Component {
         })
     }
 
+    // Planned Activity CRUD operations
     handleAddPlannedActivity = (formInitData) => {
         this.setState({
             plannedActivityFormInitData: formInitData
@@ -51,16 +53,23 @@ class CalendarDayModal extends Component {
             planned_distance: values.planned_distance
         })
         if (values.id) {
-            this.props.actions.updatePlannedActivity(values.id, requestBody).then(result => {
+            this.props.plannedActivityActions.updatePlannedActivity(values.id, requestBody).then(result => {
                 this.props.refresh(this.props.calendarDay);
             });
         } else {
-            this.props.actions.addPlannedActivity(requestBody).then(result => {
+            this.props.plannedActivityActions.addPlannedActivity(requestBody).then(result => {
                 this.props.refresh(this.props.calendarDay);
             });
         }
         this.togglePlannedActivityForm();
     };
+    
+    // todo: refactor the remove handling to be done here instead of in the presentational component
+
+    // CRUD operations for planned exercises
+    handleRemovePlannedExercise = (plannedExerciseId) => {
+        this.props.plannedExerciseActions.deletePlannedExercise(plannedExerciseId);
+    }
 
     render() {
         const dateFormat = "dddd DD MMMM YYYY";
@@ -77,7 +86,7 @@ class CalendarDayModal extends Component {
                             {this.state.showCalendarDayMain && this.state.isFutureDate &&
                             <>
                             <PlannedActivitiesList calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedActivity} />
-                            <PlannedExercisesList calendarDay={this.props.calendarDay} />
+                            <PlannedExercisesList calendarDay={this.props.calendarDay} onRemove={this.handleRemovePlannedExercise} />
                             <ActivityTypeButtonSet calendarDay={this.props.calendarDay} onAdd={this.handleAddPlannedActivity} />
                             </>}
                             {this.state.showPlannedActivityForm &&
@@ -96,7 +105,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(plannedActivityActions, dispatch)
+        plannedActivityActions: bindActionCreators(plannedActivityActions, dispatch),
+        plannedExerciseActions: bindActionCreators(plannedExerciseActions, dispatch)
     };
 }
 
