@@ -7,6 +7,7 @@ import { reducer as formReducer } from "redux-form";
 
 import App from "./components/App";
 import plannedActivitiesReducer from "./reducers/plannedActivitiesReducer";
+import plannedExercisesReducer from "./reducers/plannedExercisesReducer";
 import activityTypesReducer from "./reducers/activityTypesReducer";
 import "./base.css"
 
@@ -14,6 +15,7 @@ import "./base.css"
 const rootReducer = combineReducers({
     form: formReducer,
     plannedActivities: plannedActivitiesReducer,
+    plannedExercises: plannedExercisesReducer,
     activityTypes: activityTypesReducer
 });
 
