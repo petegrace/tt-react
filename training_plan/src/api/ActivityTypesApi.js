@@ -18,7 +18,9 @@ class ActivityTypesApi {
         const endpoint = this.endpointOrigin + "/api/activity_types";
 
         return fetch(endpoint, options).then(response => {
-            return response.json();
+            if (response.ok) {
+                return response.json();
+            }
         }).catch(error => {
             return error;
         });

@@ -5,7 +5,9 @@ export function loadActivityTypes() {
     return function(dispatch) {
         const api = new ActivityTypesApi();
         return api.getActivityTypes().then(responseData => {
-            dispatch(loadActivityTypesSuccess(responseData));
+            if (responseData) {
+                dispatch(loadActivityTypesSuccess(responseData));
+            }
         }).catch(error => {
             throw(error);
         });

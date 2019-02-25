@@ -22,9 +22,10 @@ class PlannedActivitiesApi {
                                              + "&endDate=" + dateFns.format(endDate, this.dateFormat);
 
         return fetch(endpoint, options).then(response => {
-            return response.json();
+            if (response.ok) {
+                return response.json();
+            }
         }).catch(error => {
-            // TODO: probably the cause of our reducer issue when expired token
             return error;
         });
     }
@@ -42,7 +43,7 @@ class PlannedActivitiesApi {
         const endpoint = this.endpointOrigin + "/api/planned_activities";
 
         return fetch(endpoint, options).then(response => {
-            if (response.status === 201) {
+            if (response.ok) {
                 return response.json();
             }
         }).catch(error => {

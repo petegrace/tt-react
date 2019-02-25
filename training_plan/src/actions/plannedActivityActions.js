@@ -6,7 +6,9 @@ export function loadPlannedActivities(startDate, endDate) {
     return function(dispatch) {
         const api = new PlannedActivitiesApi();
         return api.getPlannedActivities(startDate, endDate).then(responseData => {
-            dispatch(loadPlannedActivitiesSuccess(responseData));
+            if (responseData) {
+                dispatch(loadPlannedActivitiesSuccess(responseData));
+            }
         }).catch(error => {
             throw(error);
         });
