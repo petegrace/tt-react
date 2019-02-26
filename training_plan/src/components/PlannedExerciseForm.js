@@ -16,8 +16,7 @@ class PlannedExerciseForm extends Component {
             <form onSubmit={handleSubmit} className="form">
                 <h4 className="mt-3 mb-3">{initData.exercise_name} <span className={badgeClass}>{initData.category_name}</span></h4>
                 <div className="form-group ">
-                    <label className="form-control-label" htmlFor="planned_sets">Planned Sets</label>
-                    <Field component="input" type="number" className="form-control" id="planned_sets" name="planned_sets" />
+                    <Field component={renderField} type="number" id="planned_sets" name="planned_sets" label="Planned Sets" />
                 </div>
                 {initData.measured_by === "reps" && (
                     <div className="form-group ">
@@ -39,8 +38,29 @@ class PlannedExerciseForm extends Component {
     };
 }
 
+const validate = (values) => {
+    let errors = {};
+    if (Number(values.planned_sets) <= 0) {
+        errors.planned_sets = "Planned Sets must be at least 1."
+    } 
+    return errors;
+}
+
+const renderField = ({ input, label, type, meta: { touched, error, warning } }) => {
+    return (
+        <div>
+            <label className="form-control-label">{label}</label>
+            <div>
+            <input className="form-control" {...input} type={type}/>
+            {touched && ((error && <div className="error mt-1">{error}</div>) || (warning && <span>{warning}</span>))}
+            </div>
+        </div>
+    );
+}
+
 PlannedExerciseForm = reduxForm({
-    form: "plannedExercise"
+    form: "plannedExercise",
+    validate
 })(PlannedExerciseForm);
 
 export default PlannedExerciseForm;

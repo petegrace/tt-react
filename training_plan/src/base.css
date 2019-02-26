@@ -541,3 +541,7 @@ table h5 {
     flex-basis: calc(100%/7);
     width: calc(100%/7);
   }
+
+  form .error {
+      color: #ef6461;
+  }
