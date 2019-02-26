@@ -8,6 +8,7 @@ import ActivityTypeButtonSet from "./ActivityTypeButtonSet";
 import PlannedActivitiesList from "./PlannedActivitiesList";
 import PlannedExercisesList from "./PlannedExercisesList";
 import PlannedActivityForm from "./PlannedActivityForm";
+import PlannedExerciseForm from "./PlannedExerciseForm";
 import * as plannedActivityActions from "../actions/plannedActivityActions";
 import * as plannedExerciseActions from "../actions/plannedExerciseActions";
 
@@ -18,6 +19,7 @@ class CalendarDayModal extends Component {
         this.state = {
             showCalendarDayMain: true,
             showPlannedActivityForm: false,
+            showPlannedExerciseForm: false,
             isFutureDate: (props.calendarDay >= dateFns.startOfDay(new Date())),
             plannedActivities: props.plannedActivities
         }
@@ -26,7 +28,16 @@ class CalendarDayModal extends Component {
     togglePlannedActivityForm = () => {
         this.setState({
             showCalendarDayMain: !this.state.showCalendarDayMain,
-            showPlannedActivityForm: !this.state.showPlannedActivityForm
+            showPlannedActivityForm: !this.state.showPlannedActivityForm,
+            showPlannedExerciseForm: false
+        })
+    }
+
+    togglePlannedExerciseForm = () => {
+        this.setState({
+            showCalendarDayMain: !this.state.showCalendarDayMain,
+            showPlannedExerciseForm: !this.state.showPlannedExerciseForm,
+            showPlannedActivityForm: false
         })
     }
 
@@ -62,11 +73,36 @@ class CalendarDayModal extends Component {
             });
         }
         this.togglePlannedActivityForm();
-    };
+    }
     
     // todo: refactor the remove handling to be done here instead of in the presentational component
 
     // CRUD operations for planned exercises
+    handleEditPlannedExercise = (formInitData) => {
+        this.setState({
+            plannedExerciseFormInitData: formInitData
+        });
+        this.togglePlannedExerciseForm();
+    }
+
+    handleSavePlannedExercise = (values) => {
+        const requestBody = JSON.stringify({ 
+            planned_sets: values.planned_sets,
+            planned_reps: values.planned_reps,
+            planned_seconds: values.planned_seconds
+        })
+        if (values.id) {
+            this.props.plannedExerciseActions.updatePlannedExercise(values.id, requestBody).then(result => {
+                this.props.refresh(this.props.calendarDay);
+            });
+        } //else {
+        //     this.props.plannedActivityActions.addPlannedActivity(requestBody).then(result => {
+        //         this.props.refresh(this.props.calendarDay);
+        //     });
+        // }
+        this.togglePlannedExerciseForm();
+    }
+
     handleRemovePlannedExercise = (plannedExerciseId) => {
         this.props.plannedExerciseActions.deletePlannedExercise(plannedExerciseId);
     }
@@ -86,11 +122,13 @@ class CalendarDayModal extends Component {
                             {this.state.showCalendarDayMain && this.state.isFutureDate &&
                             <>
                             <PlannedActivitiesList calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedActivity} />
-                            <PlannedExercisesList calendarDay={this.props.calendarDay} onRemove={this.handleRemovePlannedExercise} />
+                            <PlannedExercisesList calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedExercise} onRemove={this.handleRemovePlannedExercise} />
                             <ActivityTypeButtonSet calendarDay={this.props.calendarDay} onAdd={this.handleAddPlannedActivity} />
                             </>}
                             {this.state.showPlannedActivityForm &&
                             <PlannedActivityForm initData={this.state.plannedActivityFormInitData} onSubmit={this.handleSavePlannedActivity} handleBackClick={this.togglePlannedActivityForm} />}
+                            {this.state.showPlannedExerciseForm &&
+                            <PlannedExerciseForm initData={this.state.plannedExerciseFormInitData} onSubmit={this.handleSavePlannedExercise} handleBackClick={this.togglePlannedExerciseForm} />}
                         </div>
                     </div>
                 </div>

@@ -22,6 +22,7 @@ export default function plannedExercisesReducer(state, action) {
                 }
             }
             return remainingPlannedExerciseCategories;
+        // todo: proper reducers for update and create that avoid the need to refresh
         default:
             return state;
     }

@@ -9,6 +9,18 @@ class PlannedExercisesList extends Component {
 
     renderPlannedExerciseRow = (plannedExercise) => {
         const badgeClass = "badge badge-primary " +  plannedExercise.category_key;
+        const formInitData = {
+            id: plannedExercise.id,
+            exercise_name: plannedExercise.exercise_name,
+            category_name: plannedExercise.category_name,
+            category_key: plannedExercise.category_key,
+            planned_sets: plannedExercise.planned_sets,
+            measured_by: plannedExercise.measured_by,
+            planned_reps: plannedExercise.planned_reps,
+            planned_seconds: plannedExercise.planned_seconds,
+            planned_date: dateFns.format(this.props.calendarDay, "YYYY-MM-DD"),
+            recurrence: "Repeats every " + dateFns.format(this.props.calendarDay, "dddd")
+        }
 
         return (
             <tr key={plannedExercise.id}>
@@ -24,7 +36,7 @@ class PlannedExercisesList extends Component {
                 <td>
                     <ul className="nav justify-content-end">
                         <li className="nav-item mr-5">
-                            <a href="#" role="button" onClick={() => {return true;}}><i className="fa fa-edit"></i> Edit</a>
+                            <a href="#" role="button" onClick={() => this.props.onEdit(formInitData)}><i className="fa fa-edit"></i> Edit</a>
                         </li>
                         <li className="nav-item mr-5">
                             <a href="#" role="button" onClick={() => this.props.onRemove(plannedExercise.id)}><i className="fa fa-trash"></i> Remove</a>

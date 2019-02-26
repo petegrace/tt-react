@@ -8,6 +8,24 @@ export function loadPlannedExercisesSuccess(responseData) {
     };
 }
 
+export function updatePlannedExercise(id, requestBody) {
+    return function(dispatch) {
+        const api = new PlannedExerciseApi();
+        return api.patchPlannedExercise(id, requestBody).then(result => {
+            dispatch(updatePlannedExerciseSuccess(id));
+        }).catch(error => {
+            throw(error);
+        });
+    }
+}
+
+export function updatePlannedExerciseSuccess(id) {
+    return {
+        type: types.UPDATE_PLANNED_EXERCISE_SUCCESS,
+        updatedId: id
+    };
+}
+
 export function deletePlannedExercise(id) {
     return function(dispatch) {
         const api = new PlannedExerciseApi();
