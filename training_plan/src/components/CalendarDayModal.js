@@ -5,6 +5,7 @@ import { bindActionCreators } from "redux";
 
 import "./CalendarDayModal.css";
 import ActivityTypeButtonSet from "./ActivityTypeButtonSet";
+import ExerciseTypeButtonSet from "./ExerciseTypeButtonSet";
 import PlannedActivitiesList from "./PlannedActivitiesList";
 import PlannedExercisesList from "./PlannedExercisesList";
 import PlannedActivityForm from "./PlannedActivityForm";
@@ -78,6 +79,35 @@ class CalendarDayModal extends Component {
     // todo: refactor the remove handling to be done here instead of in the presentational component
 
     // CRUD operations for planned exercises
+    handleAddPlannedExercise = (id) => {
+        const calendarDay = dateFns.format(this.props.calendarDay, "YYYY-MM-DD");
+        const categories = this.props.plannedExercises.filter(function(plannedExercise) {
+            return plannedExercise.planned_date === calendarDay;
+        });
+
+        let existingPlannedExerciseId;
+        let patchRequestBody;
+        for (let category of categories) {
+            for (let exercise of category.exercises) {
+                if (exercise.exercise_type_id === id) {
+                    existingPlannedExerciseId = exercise.id;
+                    patchRequestBody = JSON.stringify({ 
+                        planned_sets: (exercise.planned_sets + 1),
+                        planned_reps: exercise.planned_reps,
+                        planned_seconds: exercise.planned_seconds
+                    });
+                    break;
+                }
+            }
+        }
+        
+        if (existingPlannedExerciseId) {
+            this.props.plannedExerciseActions.updatePlannedExercise(existingPlannedExerciseId, patchRequestBody).then(result => {
+                this.props.refresh(this.props.calendarDay);
+            });
+        }
+    }
+
     handleEditPlannedExercise = (formInitData) => {
         this.setState({
             plannedExerciseFormInitData: formInitData
@@ -90,7 +120,7 @@ class CalendarDayModal extends Component {
             planned_sets: values.planned_sets,
             planned_reps: values.planned_reps,
             planned_seconds: values.planned_seconds
-        })
+        });
         if (values.id) {
             this.props.plannedExerciseActions.updatePlannedExercise(values.id, requestBody).then(result => {
                 this.props.refresh(this.props.calendarDay);
@@ -124,6 +154,7 @@ class CalendarDayModal extends Component {
                             <PlannedActivitiesList calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedActivity} />
                             <PlannedExercisesList calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedExercise} onRemove={this.handleRemovePlannedExercise} />
                             <ActivityTypeButtonSet calendarDay={this.props.calendarDay} onAdd={this.handleAddPlannedActivity} />
+                            <ExerciseTypeButtonSet calendarDay={this.props.calendarDay} onAdd={this.handleAddPlannedExercise} />
                             </>}
                             {this.state.showPlannedActivityForm &&
                             <PlannedActivityForm initData={this.state.plannedActivityFormInitData} onSubmit={this.handleSavePlannedActivity} handleBackClick={this.togglePlannedActivityForm} />}
@@ -138,7 +169,9 @@ class CalendarDayModal extends Component {
 } 
 
 function mapStateToProps(state) {
-    return {};
+    return {
+        plannedExercises: state.plannedExercises
+    };
 }
 
 function mapDispatchToProps(dispatch) {

@@ -1,5 +1,6 @@
 import * as types from "./actionTypes";
 import ActivityTypesApi from "../api/ActivityTypesApi";
+import { loadExerciseTypesSuccess } from "./exerciseTypeActions"
 
 export function loadActivityTypes() {
     return function(dispatch) {
@@ -7,6 +8,7 @@ export function loadActivityTypes() {
         return api.getActivityTypes().then(responseData => {
             if (responseData) {
                 dispatch(loadActivityTypesSuccess(responseData));
+                dispatch(loadExerciseTypesSuccess(responseData));
             }
         }).catch(error => {
             throw(error);
