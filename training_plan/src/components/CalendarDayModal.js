@@ -61,6 +61,7 @@ class CalendarDayModal extends Component {
         const requestBody = JSON.stringify({ 
             activity_type: values.activity_type,
             planned_date: values.planned_date,
+            recurrence: values.recurrence,
             description: values.description,
             planned_distance: values.planned_distance
         })

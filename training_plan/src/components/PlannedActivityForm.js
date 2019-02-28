@@ -11,10 +11,20 @@ class PlannedActivityForm extends Component {
     render() {
         const { handleSubmit, handleBackClick, initData } = this.props; 
         const badgeClass = "badge badge-primary " +  initData.category_key;
+        console.log(initData);
 
         return (
             <form onSubmit={handleSubmit} className="form">
                 <h4 className="mt-3 mb-3"><small>Activity Type:</small> <span className={badgeClass}>{initData.activity_type}</span></h4>
+                {!initData.id &&
+                <div className="form-group ">
+                    <label className="form-control-label" htmlFor="recurrence">Recurrence</label>
+                    <Field component="select" className="form-control" id="recurrence" name="recurrence">
+                        <option value="once">Once only</option>
+                        <option value="weekly">{initData.repeatOption}</option>
+                    </Field>
+                </div>
+                }
                 <div className="form-group ">
                     <label className="form-control-label" htmlFor="description">Description</label>
                     <Field component="input" type="text" className="form-control" id="description" name="description" placeholder="(optional)" />
@@ -23,7 +33,6 @@ class PlannedActivityForm extends Component {
                     <label className="form-control-label" htmlFor="planned_distance">Planned Distance (km)</label>
                     <Field component="input" type="number" className="form-control" id="planned_distance" name="planned_distance" placeholder="(optional)" />
                 </div>
-                <div className="mb-3">{initData.recurrence}</div>
                 <button type="submit" className="btn btn-primary mr-1">Save Activity</button>
                 <button type="button" className="btn btn-secondary" onClick={handleBackClick}>Back</button>
             </form>

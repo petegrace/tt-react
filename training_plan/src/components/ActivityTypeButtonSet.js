@@ -3,22 +3,19 @@ import { connect } from "react-redux";
 import dateFns from "date-fns";
 
 class ActivityTypeButtonSet extends Component {
-    
-    handleAddActivity = (formInitData) => {
-        this.props.onAdd(formInitData)
-    }
 
     renderActivityTypeButton = (activityType) => {
         const buttonClass = "btn btn-sm ml-1 mr-1 " + activityType.category_key;
         const formInitData = {
             activity_type: activityType.activity_type,
             category_key: activityType.category_key,
+            recurrence: "once",
             planned_date: dateFns.format(this.props.calendarDay, "YYYY-MM-DD"),
-            recurrence: "Repeats every " + dateFns.format(this.props.calendarDay, "dddd")
+            repeatOption: "Repeat every " + dateFns.format(this.props.calendarDay, "dddd")
         }
 
         return (
-            <button key={activityType.activity_type} className={buttonClass} onClick={() => this.handleAddActivity(formInitData)}>
+            <button key={activityType.activity_type} className={buttonClass} onClick={() => this.props.onAdd(formInitData)}>
                 <i className="fa fa-calendar-plus-o"></i> {activityType.activity_type}
                 <br />
                 <small>&nbsp;</small>

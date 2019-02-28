@@ -11,10 +11,6 @@ class PlannedActivitiesList extends Component {
     handleRemoveActivity = (plannedActivityId) => {
         this.props.actions.deletePlannedActivity(plannedActivityId);
     }
-    
-    handleEditActivity = (formInitData) => {
-        this.props.onEdit(formInitData)
-    }
 
     renderPlannedActivityRow = (plannedActivity) => {
         const badgeClass = "badge badge-primary " +  plannedActivity.category_key;
@@ -24,8 +20,9 @@ class PlannedActivitiesList extends Component {
             category_key: plannedActivity.category_key,
             description: plannedActivity.description,
             planned_distance: plannedActivity.planned_distance,
+            recurrence: plannedActivity.recurrence,
             planned_date: dateFns.format(this.props.calendarDay, "YYYY-MM-DD"),
-            recurrence: "Repeats every " + dateFns.format(this.props.calendarDay, "dddd")
+            repeatOption: "Repeat every " + dateFns.format(this.props.calendarDay, "dddd")
         }
 
         return (
@@ -33,11 +30,14 @@ class PlannedActivitiesList extends Component {
                 <td><h5><span className={badgeClass}>{plannedActivity.activity_type}</span></h5></td>
                 <td>{plannedActivity.planned_distance ? plannedActivity.planned_distance + " km" : ""}</td>
                 <td>{plannedActivity.description}</td>
-                <td>Repeats every {dateFns.format(this.props.calendarDay, "dddd")}</td>
+                <td>
+                    {plannedActivity.recurrence === "once" && "Once only"}
+                    {plannedActivity.recurrence === "weekly" && <>Repeats every {dateFns.format(this.props.calendarDay, "dddd")}</>}
+                </td>
                 <td>
                     <ul className="nav justify-content-end">
                         <li className="nav-item mr-5">
-                            <a href="#" role="button" onClick={() => this.handleEditActivity(formInitData)}><i className="fa fa-edit"></i> Edit</a>
+                            <a href="#" role="button" onClick={() => this.props.onEdit(formInitData)}><i className="fa fa-edit"></i> Edit</a>
                         </li>
                         <li className="nav-item mr-5">
                             <a href="#" role="button" onClick={() => this.handleRemoveActivity(plannedActivity.id)}><i className="fa fa-trash"></i> Remove</a>
