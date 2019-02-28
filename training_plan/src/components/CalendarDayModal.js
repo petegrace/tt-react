@@ -77,7 +77,9 @@ class CalendarDayModal extends Component {
         this.togglePlannedActivityForm();
     }
     
-    // todo: refactor the remove handling to be done here instead of in the presentational component
+    handleRemovePlannedActivity = (plannedActivityId) => {
+        this.props.plannedActivityActions.deletePlannedActivity(plannedActivityId);
+    }
 
     // CRUD operations for planned exercises
     handleAddPlannedExercise = (id) => {
@@ -190,7 +192,7 @@ class CalendarDayModal extends Component {
                         <div>
                             {this.state.showCalendarDayMain && this.state.isFutureDate &&
                             <>
-                            <PlannedActivitiesList calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedActivity} />
+                            <PlannedActivitiesList calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedActivity} onRemove={this.handleRemovePlannedActivity} />
                             <PlannedExercisesList calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedExercise} onRemove={this.handleRemovePlannedExercise} />
                             <ActivityTypeButtonSet calendarDay={this.props.calendarDay} onAdd={this.handleAddPlannedActivity} />
                             <ExerciseTypeButtonSet calendarDay={this.props.calendarDay} onAdd={this.handleAddPlannedExercise} />

@@ -1,16 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import dateFns from "date-fns";
 
 import { filterPlannedActivities } from "../helpers/trainingPlan";
-import * as plannedActivityActions from "../actions/plannedActivityActions";
 
 class PlannedActivitiesList extends Component {
-
-    handleRemoveActivity = (plannedActivityId) => {
-        this.props.actions.deletePlannedActivity(plannedActivityId);
-    }
 
     renderPlannedActivityRow = (plannedActivity) => {
         const badgeClass = "badge badge-primary " +  plannedActivity.category_key;
@@ -40,7 +34,7 @@ class PlannedActivitiesList extends Component {
                             <a href="#" role="button" onClick={() => this.props.onEdit(formInitData)}><i className="fa fa-edit"></i> Edit</a>
                         </li>
                         <li className="nav-item mr-5">
-                            <a href="#" role="button" onClick={() => this.handleRemoveActivity(plannedActivity.id)}><i className="fa fa-trash"></i> Remove</a>
+                            <a href="#" role="button" onClick={() => this.props.onRemove(plannedActivity.id)}><i className="fa fa-trash"></i> Remove</a>
                         </li>
                     </ul>
                 </td>
@@ -75,12 +69,6 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators(plannedActivityActions, dispatch)
-    };
-}
-
-PlannedActivitiesList = connect(mapStateToProps, mapDispatchToProps)(PlannedActivitiesList)
+PlannedActivitiesList = connect(mapStateToProps)(PlannedActivitiesList)
 
 export default PlannedActivitiesList;
