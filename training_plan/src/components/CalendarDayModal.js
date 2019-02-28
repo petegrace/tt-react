@@ -85,13 +85,13 @@ class CalendarDayModal extends Component {
             return plannedExercise.planned_date === calendarDay;
         });
 
+        let requestBody;
         let existingPlannedExerciseId;
-        let patchRequestBody;
         for (let category of categories) {
             for (let exercise of category.exercises) {
                 if (exercise.exercise_type_id === id) {
                     existingPlannedExerciseId = exercise.id;
-                    patchRequestBody = JSON.stringify({ 
+                    requestBody = JSON.stringify({ 
                         planned_sets: (exercise.planned_sets + 1),
                         planned_reps: exercise.planned_reps,
                         planned_seconds: exercise.planned_seconds
@@ -102,9 +102,22 @@ class CalendarDayModal extends Component {
         }
         
         if (existingPlannedExerciseId) {
-            this.props.plannedExerciseActions.updatePlannedExercise(existingPlannedExerciseId, patchRequestBody).then(result => {
+            this.props.plannedExerciseActions.updatePlannedExercise(existingPlannedExerciseId, requestBody).then(result => {
                 this.props.refresh(this.props.calendarDay);
             });
+        } else {
+            const exerciseType = this.props.exerciseTypes.filter(function(exerciseType) {
+                return exerciseType.id === id;
+            })[0];
+            requestBody = JSON.stringify({
+                exercise_type_id: id,
+                planned_date: calendarDay,
+                planned_reps: exerciseType.default_reps,
+                planned_seconds: exerciseType.default_seconds
+            });
+            this.props.plannedExerciseActions.addPlannedExercise(requestBody).then(result => {
+                this.props.refresh(this.props.calendarDay);
+            });                
         }
     }
 
@@ -170,7 +183,8 @@ class CalendarDayModal extends Component {
 
 function mapStateToProps(state) {
     return {
-        plannedExercises: state.plannedExercises
+        plannedExercises: state.plannedExercises,
+        exerciseTypes: state.exerciseTypes
     };
 }
 
