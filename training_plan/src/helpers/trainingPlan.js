@@ -7,7 +7,6 @@ export function filterPlannedActivities(plannedActivities, day) {
 }
 
 export function filterPlannedActivitiesById(plannedActivities, id) {
-    console.log(plannedActivities);
     const plannedActivitiesFiltered = plannedActivities.filter(plannedActivity => plannedActivity.id === id);
     return plannedActivitiesFiltered[0];
 }

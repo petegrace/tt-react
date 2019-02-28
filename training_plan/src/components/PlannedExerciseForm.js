@@ -18,7 +18,11 @@ class PlannedExerciseForm extends Component {
     render() {
         const { handleSubmit, handleBackClick, initData } = this.props; 
         const badgeClass = "badge badge-primary " +  initData.category_key;
-        let categorySelectOptions = initData.categoryOptions.map(this.renderCategorySelectOption);
+        let categorySelectOptions;
+
+        if (initData.isNewExerciseType) {
+            categorySelectOptions = initData.categoryOptions.map(this.renderCategorySelectOption);
+        }
 
         return (
             <form onSubmit={handleSubmit} className="form">

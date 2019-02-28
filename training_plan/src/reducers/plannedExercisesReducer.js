@@ -9,7 +9,6 @@ export default function plannedExercisesReducer(state, action) {
         case types.LOAD_PLANNED_EXERCISES_SUCCESS:
             return action.plannedExercises;
         case types.DELETE_PLANNED_EXERCISE_SUCCESS:
-            console.log(state);
             let remainingPlannedExerciseCategories = []
             let remainingExercises;
             for (let plannedExerciseCategory of state) {
