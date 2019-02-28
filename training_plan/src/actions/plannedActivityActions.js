@@ -60,20 +60,21 @@ export function updatePlannedActivitySuccess(id) {
     };
 }
 
-export function deletePlannedActivity(id) {
+export function deletePlannedActivity(id, scope) {
     return function(dispatch) {
         const api = new PlannedActivityApi();
-        return api.deletePlannedActivity(id).then(result => {
-            dispatch(deletePlannedActivitySuccess(id));
+        return api.deletePlannedActivity(id, scope).then(result => {
+            dispatch(deletePlannedActivitySuccess(id, scope));
         }).catch(error => {
             throw(error);
         });
     }
 }
 
-export function deletePlannedActivitySuccess(id) {
+export function deletePlannedActivitySuccess(id, scope) {
     return {
         type: types.DELETE_PLANNED_ACTIVITY_SUCCESS,
-        deletedId: id
+        deletedId: id,
+        scope: scope
     };
 }

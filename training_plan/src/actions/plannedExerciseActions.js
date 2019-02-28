@@ -45,10 +45,10 @@ export function updatePlannedExerciseSuccess(id) {
     };
 }
 
-export function deletePlannedExercise(id) {
+export function deletePlannedExercise(id, scope) {
     return function(dispatch) {
         const api = new PlannedExerciseApi();
-        return api.deletePlannedExercise(id).then(result => {
+        return api.deletePlannedExercise(id, scope).then(result => {
             dispatch(deletePlannedExerciseSuccess(id));
         }).catch(error => {
             throw(error);
@@ -56,9 +56,10 @@ export function deletePlannedExercise(id) {
     }
 }
 
-export function deletePlannedExerciseSuccess(id) {
+export function deletePlannedExerciseSuccess(id, scope) {
     return {
         type: types.DELETE_PLANNED_EXERCISE_SUCCESS,
-        deletedId: id
+        deletedId: id,
+        scope: scope
     };
 }

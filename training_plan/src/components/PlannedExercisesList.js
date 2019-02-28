@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Dropdown } from "react-bootstrap";
 import dateFns from "date-fns";
 
 import { filterPlannedExercises } from "../helpers/trainingPlan";
@@ -39,12 +40,21 @@ class PlannedExercisesList extends Component {
                 </td>
                 <td>
                     <ul className="nav justify-content-end">
-                        <li className="nav-item mr-5">
-                            <a href="#" role="button" onClick={() => this.props.onEdit(formInitData)}><i className="fa fa-edit"></i> Edit</a>
+                        <li className="nav-item mr-4">
+                            <a href="#" role="button" onClick={() => this.props.onEdit(formInitData)}><i className="fa fa-edit"></i></a>
                         </li>
-                        <li className="nav-item mr-5">
-                            <a href="#" role="button" onClick={() => this.props.onRemove(plannedExercise.id)}><i className="fa fa-trash"></i> Remove</a>
-                        </li>
+                        <Dropdown as="li" className="nav-item">
+                            <Dropdown.Toggle as="a" cole="button" href="#" bsPrefix="none"><i className="fa fa-trash"></i></Dropdown.Toggle>
+                            <Dropdown.Menu alignRight="true">
+                                {plannedExercise.recurrence === "once" &&
+                                <Dropdown.Item href="#" role="button" onClick={() => this.props.onRemove(plannedExercise.id, "all")}>Remove from plan</Dropdown.Item>}
+                                {plannedExercise.recurrence === "weekly" &&
+                                <>
+                                <Dropdown.Item href="#" role="button" onClick={() => this.props.onRemove(plannedExercise.id, dateFns.format(this.props.calendarDay, "YYYY-MM-DD"))}>Remove for this day</Dropdown.Item>
+                                <Dropdown.Item href="#" role="button" onClick={() => this.props.onRemove(plannedExercise.id, "all")}>Remove for all weeks</Dropdown.Item>
+                                </>}
+                            </Dropdown.Menu>
+                        </Dropdown>
                     </ul>
                 </td>
             </tr>

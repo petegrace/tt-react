@@ -77,14 +77,16 @@ class CalendarDayModal extends Component {
         this.togglePlannedActivityForm();
     }
     
-    handleRemovePlannedActivity = (plannedActivityId) => {
-        this.props.plannedActivityActions.deletePlannedActivity(plannedActivityId);
+    handleRemovePlannedActivity = (plannedActivityId, scope) => {
+        this.props.plannedActivityActions.deletePlannedActivity(plannedActivityId, scope).then(result => {
+            this.props.refresh(this.props.calendarDay);
+        });
     }
 
     // CRUD operations for planned exercises
     handleAddPlannedExercise = (id) => {
         const calendarDay = dateFns.format(this.props.calendarDay, "YYYY-MM-DD");
-        
+        console.log(id)
         if (!id) {
             const formInitData = {
                 isNewExerciseType: true,
@@ -111,14 +113,16 @@ class CalendarDayModal extends Component {
                     if (exercise.exercise_type_id === id) {
                         existingPlannedExerciseId = exercise.id;
                         requestBody = JSON.stringify({ 
+                            recurrence: exercise.recurrence,
+                            planned_date: calendarDay,
                             planned_sets: (exercise.planned_sets + 1),
                             planned_reps: exercise.planned_reps,
                             planned_seconds: exercise.planned_seconds
                         });
-                        break;
                     }
                 }
             }
+            console.log(requestBody)
             
             if (existingPlannedExerciseId) {
                 this.props.plannedExerciseActions.updatePlannedExercise(existingPlannedExerciseId, requestBody).then(result => {
@@ -130,10 +134,12 @@ class CalendarDayModal extends Component {
                 })[0];
                 requestBody = JSON.stringify({
                     exercise_type_id: id,
+                    recurrence: "weekly",
                     planned_date: calendarDay,
                     planned_reps: exerciseType.default_reps,
                     planned_seconds: exerciseType.default_seconds
                 });
+                console.log(requestBody)
                 this.props.plannedExerciseActions.addPlannedExercise(requestBody).then(result => {
                     this.props.refresh(this.props.calendarDay);
                 });                
@@ -178,8 +184,10 @@ class CalendarDayModal extends Component {
         this.togglePlannedExerciseForm();
     }
 
-    handleRemovePlannedExercise = (plannedExerciseId) => {
-        this.props.plannedExerciseActions.deletePlannedExercise(plannedExerciseId);
+    handleRemovePlannedExercise = (plannedExerciseId, scope) => {
+        this.props.plannedExerciseActions.deletePlannedExercise(plannedExerciseId, scope).then(result => {
+            this.props.refresh(this.props.calendarDay);
+        });
     }
 
     render() {

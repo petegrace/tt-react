@@ -29,14 +29,14 @@ class PlannedExerciseApi {
         });
     }
 
-    deletePlannedExercise = (id) => {
+    deletePlannedExercise = (id, scope) => {
         const options = {
             method: "DELETE",
             headers: {
                 "Authorization": this.authHeader
             }
         };
-        const endpoint = this.endpointOrigin + "/api/planned_exercise/" + id;
+        const endpoint = this.endpointOrigin + "/api/planned_exercise/" + id + "?scope=" + scope;
         
         return fetch(endpoint, options).then(response => {
             if (response.ok) {

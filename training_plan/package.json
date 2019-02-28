@@ -7,6 +7,7 @@
     "formik": "^1.5.0",
     "local-storage": "^1.4.2",
     "react": "^16.7.0",
+    "react-bootstrap": "^1.0.0-beta.5",
     "react-dom": "^16.7.0",
     "react-ga": "^2.5.7",
     "react-google-login": "^5.0.2",
