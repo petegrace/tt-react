@@ -90,8 +90,9 @@ class CalendarDayModal extends Component {
                 isNewExerciseType: true,
                 measured_by: "reps",
                 planned_sets: 1,
+                recurrence: "weekly",
                 planned_date: dateFns.format(this.props.calendarDay, "YYYY-MM-DD"),
-                recurrence: "Repeats every " + dateFns.format(this.props.calendarDay, "dddd"),
+                repeatOption: "Repeat every " + dateFns.format(this.props.calendarDay, "dddd"),
                 categoryOptions: this.props.exerciseCategories
             }
             this.setState({
@@ -150,6 +151,8 @@ class CalendarDayModal extends Component {
     handleSavePlannedExercise = (values) => {
         if (values.id) {
             const requestBody = JSON.stringify({ 
+                planned_date: values.planned_date,
+                recurrence: values.recurrence,
                 planned_sets: values.planned_sets,
                 planned_reps: values.planned_reps,
                 planned_seconds: values.planned_seconds
@@ -165,6 +168,7 @@ class CalendarDayModal extends Component {
                 planned_sets: values.planned_sets,
                 planned_reps: values.planned_reps,
                 planned_seconds: values.planned_seconds,
+                recurrence: values.recurrence,
                 planned_date: dateFns.format(this.props.calendarDay, "YYYY-MM-DD")
             });
             this.props.plannedExerciseActions.addPlannedExercise(requestBody).then(result => {

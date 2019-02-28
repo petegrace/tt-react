@@ -41,9 +41,6 @@ class PlannedExerciseForm extends Component {
                     </div>
                     </>
                 )}
-                <div className="form-group ">
-                    <Field component={renderField} type="number" id="planned_sets" name="planned_sets" label="Planned Sets" />
-                </div>
                 {((!this.props.measuredByValue && initData.measured_by === "reps") || this.props.measuredByValue === "reps") && (
                     <div className="form-group ">
                         <label className="form-control-label" htmlFor="planned_reps">Reps (per Set)</label>
@@ -56,6 +53,16 @@ class PlannedExerciseForm extends Component {
                         <Field component="input" type="number" className="form-control" id="planned_seconds" name="planned_seconds" />
                     </div>
                 )}
+                <div className="form-group ">
+                    <Field component={renderField} type="number" id="planned_sets" name="planned_sets" label="Planned Sets" />
+                </div>
+                <div className="form-group ">
+                    <label className="form-control-label" htmlFor="recurrence">Recurrence</label>
+                    <Field component="select" className="form-control" id="recurrence" name="recurrence">
+                        <option value="weekly">{initData.repeatOption}</option>
+                        <option value="once">Once only</option>
+                    </Field>
+                </div>
                 {initData.isNewExerciseType && initData.categoryOptions && (
                     <>
                     <div className="form-group ">
@@ -66,7 +73,6 @@ class PlannedExerciseForm extends Component {
                     </div>
                     </>
                 )}
-                <div className="mb-3">{initData.recurrence}</div>
                 <button type="submit" className="btn btn-primary mr-1">Save Exercise</button>
                 <button type="button" className="btn btn-secondary" onClick={handleBackClick}>Back</button>
             </form>

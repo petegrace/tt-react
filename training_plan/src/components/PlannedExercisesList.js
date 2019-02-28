@@ -18,8 +18,9 @@ class PlannedExercisesList extends Component {
             measured_by: plannedExercise.measured_by,
             planned_reps: plannedExercise.planned_reps,
             planned_seconds: plannedExercise.planned_seconds,
+            recurrence: plannedExercise.recurrence,
             planned_date: dateFns.format(this.props.calendarDay, "YYYY-MM-DD"),
-            recurrence: "Repeats every " + dateFns.format(this.props.calendarDay, "dddd")
+            repeatOption: "Repeat every " + dateFns.format(this.props.calendarDay, "dddd")
         }
 
         return (
@@ -32,7 +33,10 @@ class PlannedExercisesList extends Component {
                 {plannedExercise.measured_by === "seconds" && (
                     <td>{plannedExercise.planned_seconds ? plannedExercise.planned_seconds + " secs" : ""}</td>
                 )}
-                <td>Repeats every {dateFns.format(this.props.calendarDay, "dddd")}</td>
+                <td>
+                    {plannedExercise.recurrence === "once" && "Once only"}
+                    {plannedExercise.recurrence === "weekly" && <>Repeats every {dateFns.format(this.props.calendarDay, "dddd")}</>}
+                </td>
                 <td>
                     <ul className="nav justify-content-end">
                         <li className="nav-item mr-5">
