@@ -23,7 +23,7 @@ class PlannedActivityForm extends Component {
                     <label className="form-control-label" htmlFor="planned_distance">Planned Distance (km)</label>
                     <Field component="input" type="number" className="form-control" id="planned_distance" name="planned_distance" placeholder="(optional)" />
                 </div>
-                <div className="mb-3">Repeats every {initData.recurrence}</div>
+                <div className="mb-3">{initData.recurrence}</div>
                 <button type="submit" className="btn btn-primary mr-1">Save Activity</button>
                 <button type="button" className="btn btn-secondary" onClick={handleBackClick}>Back</button>
             </form>

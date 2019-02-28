@@ -23,6 +23,11 @@ class ExerciseTypeButtonSet extends Component {
         return(
             <>
             <h3>Add Exercises</h3>
+            <button key="new" className="btn btn-sm ml-1 mr-1 btn-secondary" onClick={() => this.props.onAdd(null)}>
+                <i className="fa fa-calendar-plus-o"></i> New Exercise Type
+                <br />
+                <small>&nbsp;</small>
+			</button>
             {exerciseTypeButtons}
             </>
         );

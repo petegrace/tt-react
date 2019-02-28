@@ -81,43 +81,59 @@ class CalendarDayModal extends Component {
     // CRUD operations for planned exercises
     handleAddPlannedExercise = (id) => {
         const calendarDay = dateFns.format(this.props.calendarDay, "YYYY-MM-DD");
-        const categories = this.props.plannedExercises.filter(function(plannedExercise) {
-            return plannedExercise.planned_date === calendarDay;
-        });
+        
+        if (!id) {
+            const formInitData = {
+                isNewExerciseType: true,
+                measured_by: "reps",
+                planned_sets: 1,
+                planned_date: dateFns.format(this.props.calendarDay, "YYYY-MM-DD"),
+                recurrence: "Repeats every " + dateFns.format(this.props.calendarDay, "dddd"),
+                categoryOptions: this.props.exerciseCategories
+            }
+            this.setState({
+                plannedExerciseFormInitData: formInitData
+            });
+            this.togglePlannedExerciseForm();
+        } else {
+            const categories = this.props.plannedExercises.filter(function(plannedExercise) {
+                return plannedExercise.planned_date === calendarDay;
+            });
 
-        let requestBody;
-        let existingPlannedExerciseId;
-        for (let category of categories) {
-            for (let exercise of category.exercises) {
-                if (exercise.exercise_type_id === id) {
-                    existingPlannedExerciseId = exercise.id;
-                    requestBody = JSON.stringify({ 
-                        planned_sets: (exercise.planned_sets + 1),
-                        planned_reps: exercise.planned_reps,
-                        planned_seconds: exercise.planned_seconds
-                    });
-                    break;
+            let requestBody;
+            let existingPlannedExerciseId;
+            for (let category of categories) {
+                for (let exercise of category.exercises) {
+                    if (exercise.exercise_type_id === id) {
+                        existingPlannedExerciseId = exercise.id;
+                        requestBody = JSON.stringify({ 
+                            planned_sets: (exercise.planned_sets + 1),
+                            planned_reps: exercise.planned_reps,
+                            planned_seconds: exercise.planned_seconds
+                        });
+                        break;
+                    }
                 }
             }
-        }
-        
-        if (existingPlannedExerciseId) {
-            this.props.plannedExerciseActions.updatePlannedExercise(existingPlannedExerciseId, requestBody).then(result => {
-                this.props.refresh(this.props.calendarDay);
-            });
-        } else {
-            const exerciseType = this.props.exerciseTypes.filter(function(exerciseType) {
-                return exerciseType.id === id;
-            })[0];
-            requestBody = JSON.stringify({
-                exercise_type_id: id,
-                planned_date: calendarDay,
-                planned_reps: exerciseType.default_reps,
-                planned_seconds: exerciseType.default_seconds
-            });
-            this.props.plannedExerciseActions.addPlannedExercise(requestBody).then(result => {
-                this.props.refresh(this.props.calendarDay);
-            });                
+            
+            if (existingPlannedExerciseId) {
+                this.props.plannedExerciseActions.updatePlannedExercise(existingPlannedExerciseId, requestBody).then(result => {
+                    this.props.refresh(this.props.calendarDay);
+                });
+            } else {
+                const exerciseType = this.props.exerciseTypes.filter(function(exerciseType) {
+                    return exerciseType.id === id;
+                })[0];
+                requestBody = JSON.stringify({
+                    exercise_type_id: id,
+                    planned_date: calendarDay,
+                    planned_reps: exerciseType.default_reps,
+                    planned_seconds: exerciseType.default_seconds
+                });
+                this.props.plannedExerciseActions.addPlannedExercise(requestBody).then(result => {
+                    this.props.refresh(this.props.calendarDay);
+                });                
+            }
         }
     }
 
@@ -129,20 +145,29 @@ class CalendarDayModal extends Component {
     }
 
     handleSavePlannedExercise = (values) => {
-        const requestBody = JSON.stringify({ 
-            planned_sets: values.planned_sets,
-            planned_reps: values.planned_reps,
-            planned_seconds: values.planned_seconds
-        });
         if (values.id) {
+            const requestBody = JSON.stringify({ 
+                planned_sets: values.planned_sets,
+                planned_reps: values.planned_reps,
+                planned_seconds: values.planned_seconds
+            });
             this.props.plannedExerciseActions.updatePlannedExercise(values.id, requestBody).then(result => {
                 this.props.refresh(this.props.calendarDay);
             });
-        } //else {
-        //     this.props.plannedActivityActions.addPlannedActivity(requestBody).then(result => {
-        //         this.props.refresh(this.props.calendarDay);
-        //     });
-        // }
+        } else {
+            const requestBody = JSON.stringify({
+                exercise_name: values.exercise_name,
+                measured_by: values.measured_by,
+                exercise_category_id: values.exercise_category_id,
+                planned_sets: values.planned_sets,
+                planned_reps: values.planned_reps,
+                planned_seconds: values.planned_seconds,
+                planned_date: dateFns.format(this.props.calendarDay, "YYYY-MM-DD")
+            });
+            this.props.plannedExerciseActions.addPlannedExercise(requestBody).then(result => {
+                this.props.refresh(this.props.calendarDay);
+            });
+        }
         this.togglePlannedExerciseForm();
     }
 
@@ -184,7 +209,8 @@ class CalendarDayModal extends Component {
 function mapStateToProps(state) {
     return {
         plannedExercises: state.plannedExercises,
-        exerciseTypes: state.exerciseTypes
+        exerciseTypes: state.exerciseTypes,
+        exerciseCategories: state.exerciseCategories
     };
 }
 

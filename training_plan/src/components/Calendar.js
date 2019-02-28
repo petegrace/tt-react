@@ -114,11 +114,10 @@ class Calendar extends Component {
                 const plannedExerciseCategoryBadges = plannedExerciseCategories.map(this.renderPlannedExerciseCategoryBadge);
                 
                 days.push(
-                    <div className={`col cell ${
-                            !dateFns.isSameMonth(day, monthStart)
-                            ? "disabled"
-                            : dateFns.isSameDay(day, selectedDate) ? "selected" : ""
-                        }`} key={day} onClick={() => this.onDateClick(dateFns.parse(cloneDay), plannedActivities)}>
+                    <div className={`col cell
+                            ${!dateFns.isSameMonth(day, monthStart) ? "disabled" : ""}
+                            ${dateFns.isSameDay(day, selectedDate) ? "selected" : ""}
+                        `} key={day} onClick={() => this.onDateClick(dateFns.parse(cloneDay), plannedActivities)}>
                         <span className="number">{formattedDate}</span>
                         <span className="bg">{formattedDate}</span>
                         <div>{plannedActivityBadges}</div>

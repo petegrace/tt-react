@@ -508,8 +508,7 @@ table h5 {
   }
   
   .calendar .body .disabled {
-    color: var(--text-color-light);
-    pointer-events: none;
+    opacity: 0.5;
   }
   
   .calendar .body .cell .bg {
