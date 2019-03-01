@@ -12,6 +12,7 @@ import PlannedActivityForm from "./PlannedActivityForm";
 import PlannedExerciseForm from "./PlannedExerciseForm";
 import * as plannedActivityActions from "../actions/plannedActivityActions";
 import * as plannedExerciseActions from "../actions/plannedExerciseActions";
+import * as activityTypeActions from "../actions/activityTypeActions";
 
 class CalendarDayModal extends Component {
     constructor(props) {
@@ -121,7 +122,6 @@ class CalendarDayModal extends Component {
                     }
                 }
             }
-            console.log(requestBody)
             
             if (existingPlannedExerciseId) {
                 this.props.plannedExerciseActions.updatePlannedExercise(existingPlannedExerciseId, requestBody).then(result => {
@@ -138,7 +138,6 @@ class CalendarDayModal extends Component {
                     planned_reps: exerciseType.default_reps,
                     planned_seconds: exerciseType.default_seconds
                 });
-                console.log(requestBody)
                 this.props.plannedExerciseActions.addPlannedExercise(requestBody).then(result => {
                     this.props.refresh(this.props.calendarDay);
                 });                
@@ -178,6 +177,8 @@ class CalendarDayModal extends Component {
             });
             this.props.plannedExerciseActions.addPlannedExercise(requestBody).then(result => {
                 this.props.refresh(this.props.calendarDay);
+                // we need to refresh buttons too
+                this.props.activityTypeActions.loadActivityTypes();
             });
         }
         this.togglePlannedExerciseForm();
@@ -233,7 +234,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         plannedActivityActions: bindActionCreators(plannedActivityActions, dispatch),
-        plannedExerciseActions: bindActionCreators(plannedExerciseActions, dispatch)
+        plannedExerciseActions: bindActionCreators(plannedExerciseActions, dispatch),
+        activityTypeActions: bindActionCreators(activityTypeActions, dispatch)
     };
 }
 

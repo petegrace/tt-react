@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 class ExerciseTypeButtonSet extends Component {
 
     renderExerciseTypeButton = (exerciseType) => {
-        const buttonClass = "btn btn-sm ml-1 mr-1 " + exerciseType.category_key;
+        const buttonClass = "btn btn-sm ml-1 mr-1 " + (exerciseType.category_key ? exerciseType.category_key : "uncategorised");
 
         return (
             <button key={exerciseType.id} className={buttonClass} onClick={() => this.props.onAdd(exerciseType.id)}>
@@ -23,7 +23,7 @@ class ExerciseTypeButtonSet extends Component {
         return(
             <>
             <h3>Add Exercises</h3>
-            <button key="new" className="btn btn-sm ml-1 mr-1 btn-secondary" onClick={() => this.props.onAdd(null)}>
+            <button key="new" className="btn btn-sm ml-1 mr-1 btn-secondary new-exercise-type" onClick={() => this.props.onAdd(null)}>
                 <i className="fa fa-calendar-plus-o"></i> New Exercise Type
                 <br />
                 <small>&nbsp;</small>
