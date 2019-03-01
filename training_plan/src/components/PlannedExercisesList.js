@@ -26,7 +26,18 @@ class PlannedExercisesList extends Component {
 
         return (
             <tr key={plannedExercise.id}>
-                <td><h5><span className={badgeClass}>{plannedExercise.exercise_name}</span></h5></td>
+                <td>
+                <div className="d-none d-sm-inline">
+                    <h5><span className={badgeClass}>
+                        {plannedExercise.exercise_name}
+                    </span></h5>
+                </div>
+                <div className="d-inline d-sm-none">
+                    <h5><span className={badgeClass}>
+                        {plannedExercise.exercise_name.length <= 20 ? plannedExercise.exercise_name : plannedExercise.exercise_name.substring(0,17) + "..." }
+                    </span></h5>
+                </div>
+                </td>
                 <td>{plannedExercise.planned_sets ? plannedExercise.planned_sets + " sets" : ""}</td>
                 {plannedExercise.measured_by === "reps" && (
                     <td>{plannedExercise.planned_reps ? plannedExercise.planned_reps + " reps" : ""}</td>
@@ -35,12 +46,18 @@ class PlannedExercisesList extends Component {
                     <td>{plannedExercise.planned_seconds ? plannedExercise.planned_seconds + " secs" : ""}</td>
                 )}
                 <td>
-                    {plannedExercise.recurrence === "once" && "Once only"}
-                    {plannedExercise.recurrence === "weekly" && <>Repeats every {dateFns.format(this.props.calendarDay, "dddd")}</>}
+                    <div className="d-none d-sm-inline">
+                        {plannedExercise.recurrence === "once" && "Once only"}
+                        {plannedExercise.recurrence === "weekly" && <>Repeats every {dateFns.format(this.props.calendarDay, "dddd")}</>}
+                    </div>
+                    <div className="d-inline d-sm-none">
+                        {plannedExercise.recurrence === "once" && "Once"}
+                        {plannedExercise.recurrence === "weekly" && <>{dateFns.format(this.props.calendarDay, "ddd")}</>}
+                    </div>
                 </td>
-                <td>
+                <td className="actions">
                     <ul className="nav justify-content-end">
-                        <li className="nav-item mr-4">
+                        <li className="nav-item mr-3">
                             <a href="#" role="button" onClick={() => this.props.onEdit(formInitData)}><i className="fa fa-edit"></i></a>
                         </li>
                         <Dropdown as="li" className="nav-item">
@@ -60,7 +77,7 @@ class PlannedExercisesList extends Component {
             </tr>
         );
     }
-    
+   
     render() {
         const plannedExerciseCategories = filterPlannedExercises(this.props.plannedExercises, this.props.calendarDay);
         let plannedExerciseRows = [];

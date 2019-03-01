@@ -29,9 +29,9 @@ class PlannedActivitiesList extends Component {
                     {plannedActivity.recurrence === "once" && "Once only"}
                     {plannedActivity.recurrence === "weekly" && <>Repeats every {dateFns.format(this.props.calendarDay, "dddd")}</>}
                 </td>
-                <td>
+                <td className="actions">
                     <ul className="nav justify-content-end">
-                        <li className="nav-item mr-4">
+                        <li className="nav-item mr-3">
                             <a href="#" role="button" onClick={() => this.props.onEdit(formInitData)}><i className="fa fa-edit"></i></a>
                         </li>
                         <Dropdown as="li" className="nav-item">

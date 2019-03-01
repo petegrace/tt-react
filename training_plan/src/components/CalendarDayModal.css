@@ -2,10 +2,10 @@
     background: white;
     border: 1px solid #d0cccc;
     box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.17);
-    margin: 100px auto 0;
-    margin-bottom: 20px;
+    margin: 100px auto 20px;
     /*transition: all .8s;*/
-    width: 60%;
+    width: 95%;
+    max-width: 800px;
 }
 
 .calendar-modal-header {
@@ -23,8 +23,20 @@
     padding: 0;
 }
 
+.calendar-modal-body table {
+    font-size: 90%;
+}
+
+.calendar-modal-body table td {
+    vertical-align: middle;
+}
+
+.calendar-modal-body table td.actions {
+    min-width: 52px;
+}
+
 .calendar-modal-body {
-    padding: 10px 15px;
+    padding: 10px;
     text-align: center;
 }
 
@@ -74,10 +86,11 @@
     background-color: rgba(48, 49, 48, 0.2);
     height: 100%;
     position: fixed;
-    overflow:auto;
     left: 0;
     top: 0;
     width: 100%;
+    z-index: 50;
+    overflow-y: scroll;
 }
 
 .open-modal-btn {

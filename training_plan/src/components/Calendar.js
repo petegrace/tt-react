@@ -52,7 +52,8 @@ class Calendar extends Component {
     }
 
     renderDayNames = () => {
-        const dateFormat = "dddd";
+        const dateFormatFull = "dddd";
+        const dateFormatAbbrev = "ddd";
         const days = [];
 
         let startDate = dateFns.startOfWeek(this.state.currentMonth, {weekStartsOn: 1});
@@ -60,7 +61,12 @@ class Calendar extends Component {
         for (let i = 0; i < 7; i++) {
             days.push(
                 <div className="col col-center" key={i}>
-                    {dateFns.format(dateFns.addDays(startDate, i), dateFormat)}
+                    <div className="d-none d-md-block">
+                        {dateFns.format(dateFns.addDays(startDate, i), dateFormatFull)}
+                    </div>
+                    <div className="d-block d-md-none">
+                        {dateFns.format(dateFns.addDays(startDate, i), dateFormatAbbrev)}
+                    </div>
                 </div>
             );
         }
@@ -73,18 +79,32 @@ class Calendar extends Component {
     }
 
     renderPlannedActivityBadge = (plannedActivity) => {
-        const badgeClass = "m-1 badge badge-primary " +  plannedActivity.category_key;
+        const badgeClass = "badge badge-primary " +  plannedActivity.category_key;
 
         return (
-            <span key={plannedActivity.id} className={badgeClass}>{plannedActivity.activity_type}</span>
+            <div key={plannedActivity.id} className="d-inline">
+                <div className="d-none d-md-inline">
+                    <span className={badgeClass}>{plannedActivity.activity_type}</span>
+                </div>
+                <div className="d-inline d-md-none ">
+                    <span className={badgeClass}>{plannedActivity.activity_type[0]}</span>
+                </div>
+            </div>
         );
     }
 
     renderPlannedExerciseCategoryBadge = (plannedExerciseCategory) => {
-        const badgeClass = "m-1 badge badge-primary " +  plannedExerciseCategory.category_key;
+        const badgeClass = "badge badge-primary " +  plannedExerciseCategory.category_key;
 
         return (
-            <span key={plannedExerciseCategory.category_key + plannedExerciseCategory.planned_date} className={badgeClass}>{plannedExerciseCategory.category_name}</span>
+            <div key={plannedExerciseCategory.category_key + plannedExerciseCategory.planned_date} className="d-inline">
+                <div className="d-none d-md-inline">
+                    <span className={badgeClass}>{plannedExerciseCategory.category_name}</span>
+                </div>
+                <div className="d-inline d-md-none ">
+                    <span className={badgeClass}>{plannedExerciseCategory.category_name[0]}</span>
+                </div>
+            </div>
         );
     }
 
@@ -120,8 +140,10 @@ class Calendar extends Component {
                         `} key={day} onClick={() => this.onDateClick(dateFns.parse(cloneDay), plannedActivities)}>
                         <span className="number">{formattedDate}</span>
                         <span className="bg">{formattedDate}</span>
-                        <div>{plannedActivityBadges}</div>
-                        <div>{plannedExerciseCategoryBadges}</div>
+                        <div className="cell-content">
+                            <div>{plannedActivityBadges}</div>
+                            <div>{plannedExerciseCategoryBadges}</div>
+                        </div>
                     </div>
                 );
 
@@ -149,12 +171,14 @@ class Calendar extends Component {
             showCalendarDayModal: true,
             selectedDatePlannedActivities: plannedActivities
         });
+        document.body.classList.toggle("noscroll");
     };
 
     handleCloseCalendarDayModal = () => {
         this.setState({
             showCalendarDayModal: false
         });
+        document.body.classList.toggle("noscroll");
         this.refreshPlannedActivities(this.state.currentMonth);
     }
 

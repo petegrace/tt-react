@@ -14,12 +14,21 @@
 }
 
 .card {
-    border-color: #1d5454;
+    border: none;
 }
 
 .card-header {
-    border-color: #1d5454;
-    background-color: #ededed;
+    background-color: #e6e6e6;
+    border: none;
+}
+
+.card-body {
+    background-color: #f3f3f3;
+    border: none;
+}
+
+.card-header h4 {
+    margin-bottom: 0px;
 }
 
 .btn {
@@ -148,6 +157,7 @@
     border-color: #3f7eba;
     color: #ffffff; 
     border-width: 2px;
+    border-style: solid;
 }
 
 .cat_blue_outline {
@@ -168,6 +178,7 @@
     border-color: #ef6461;
     color: #ffffff; 
     border-width: 2px;
+    border-style: solid;
 }
 
 .cat_red_outline {
@@ -188,6 +199,7 @@
     border-color: #e4b363;
     color: #292b2c; 
     border-width: 2px;
+    border-style: solid;
 }
 
 .cat_yellow_outline {
@@ -260,6 +272,7 @@ h1 {
 
 h2 {
     color: #1d5454;
+    font-weight: bold;
     margin-top: 20px; /* TODO: Bin these off and use the boostrap mt classes */;
 }
 
@@ -270,10 +283,15 @@ h3 {
 
 h4 {
     color: #1d5454;
+    font-weight: bold;
 }
 
 h5 {
     color: #1d5454;
+}
+
+h6 {
+  font-weight: bold;
 }
 
 table h5 {
@@ -355,7 +373,6 @@ table h5 {
       font-weight: 300;
       line-height: 1.5;
       color: var(--text-color);
-      background: var(--bg-color);
       position: relative;
   }
 
@@ -434,14 +451,14 @@ table h5 {
     position: relative;
     width: 100%;
     background: var(--neutral-color);
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--calendar-border-color);
   }
   
   .calendar .header {
     font-weight: 700;
     font-size: 115%;
-    padding: 1.5em 0;
-    border-bottom: 1px solid var(--border-color);
+    padding: 1em 0;
+    border-bottom: 1px solid var(--calendar-border-color);
   }
   
   .calendar .header .icon {
@@ -466,20 +483,35 @@ table h5 {
   .calendar .days {
     text-transform: uppercase;
     font-weight: 400;
-    color: var(--text-color-light);
-    font-size: 70%;
+    color: var(--text-color);
+    font-size: 80%;
     padding: .75em 0;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--calendar-border-color);
+  }
+
+  .calendar .body .cell .badge {
+    padding: .15em .3em;
+    margin: .15em;
+  }
+  
+  .calendar .days .col {
+    padding-left: 5px;
+    padding-right: 5px;
   }
   
   .calendar .body .cell {
     position: relative;
-    height: 5em;
-    border-right: 1px solid var(--border-color);
+    height: 6em;
+    border-right: 1px solid var(--calendar-border-color);
     overflow: hidden;
     cursor: pointer;
     background: var(--neutral-color);
     transition: 0.25s ease-out;
+    padding: 3px;
+  }
+  
+  .calendar .body .cell .cell-content {
+    margin-right: 20px;
   }
   
   .calendar .body .cell:hover {
@@ -497,7 +529,7 @@ table h5 {
   }
   
   .calendar .body .row {
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--calendar-border-color);
   }
   
   .calendar .body .row:last-child {
@@ -512,9 +544,19 @@ table h5 {
     position: absolute;
     font-size: 82.5%;
     line-height: 1;
-    top: .75em;
-    right: .75em;
+    top: .2em;
+    right: .2em;
     font-weight: 700;
+    background-color: #eeeeee;
+    height: 1.9em;
+    width: 1.9em;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #dddddd;
+    padding-top: 0.5em;
   }
   
   .calendar .body .disabled {
@@ -528,7 +570,7 @@ table h5 {
     opacity: 0;
     font-size: 8em;
     position: absolute;
-    top: -.2em;
+    top: -.1em;
     right: -.05em;
     transition: .25s ease-out;
     letter-spacing: -.07em;
@@ -553,4 +595,12 @@ table h5 {
 
   form .error {
       color: #ef6461;
+  }
+
+  :root {
+    --calendar-border-color: #cccccc;
+  }
+
+  .noscroll { 
+    overflow: hidden;
   }

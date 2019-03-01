@@ -191,13 +191,19 @@ class CalendarDayModal extends Component {
     }
 
     render() {
-        const dateFormat = "dddd DD MMMM YYYY";
+        const dateFormatFull = "dddd DD MMMM YYYY";
+        const dateFormatAbbrev = "ddd DD MMM YYYY";
 
         return (
             <div className="modal-back-drop">
                 <div className="modal-wrapper">
                     <div className="calendar-modal-header">
-                        <h4>{dateFns.format(this.props.calendarDay, dateFormat)}</h4>
+                        <div className="d-none d-sm-inline">
+                            <h4>{dateFns.format(this.props.calendarDay, dateFormatFull)}</h4>
+                        </div>
+                        <div className="d-inline d-sm-none">
+                            <h4>{dateFns.format(this.props.calendarDay, dateFormatAbbrev)}</h4>
+                        </div>
                         <span className="close-modal-btn" onClick={this.props.close}><i className="fa fa-window-close"></i></span>
                     </div>
                     <div className="calendar-modal-body">
