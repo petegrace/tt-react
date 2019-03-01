@@ -86,7 +86,6 @@ class CalendarDayModal extends Component {
     // CRUD operations for planned exercises
     handleAddPlannedExercise = (id) => {
         const calendarDay = dateFns.format(this.props.calendarDay, "YYYY-MM-DD");
-        console.log(id)
         if (!id) {
             const formInitData = {
                 isNewExerciseType: true,
@@ -213,6 +212,8 @@ class CalendarDayModal extends Component {
                             <PlannedActivityForm initData={this.state.plannedActivityFormInitData} onSubmit={this.handleSavePlannedActivity} handleBackClick={this.togglePlannedActivityForm} />}
                             {this.state.showPlannedExerciseForm &&
                             <PlannedExerciseForm initData={this.state.plannedExerciseFormInitData} onSubmit={this.handleSavePlannedExercise} handleBackClick={this.togglePlannedExerciseForm} />}
+                            {!this.state.isFutureDate &&
+                            <p>Please select a date in the future to plan your training.</p>}
                         </div>
                     </div>
                 </div>

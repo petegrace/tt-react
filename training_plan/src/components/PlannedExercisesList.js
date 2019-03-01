@@ -64,6 +64,7 @@ class PlannedExercisesList extends Component {
     render() {
         const plannedExerciseCategories = filterPlannedExercises(this.props.plannedExercises, this.props.calendarDay);
         let plannedExerciseRows = [];
+        console.log(plannedExerciseCategories);
         for (let plannedExerciseCategory of plannedExerciseCategories) {
             plannedExerciseRows.push(plannedExerciseCategory.exercises.map(this.renderPlannedExerciseRow));
         }

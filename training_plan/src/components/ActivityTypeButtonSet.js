@@ -28,7 +28,8 @@ class ActivityTypeButtonSet extends Component {
         let activityTypeButtons = activityTypes.map(this.renderActivityTypeButton);
         return(
             <>
-            <h3>Add Activities</h3>
+            {activityTypes.length > 0 &&
+            <h3>Add Activities</h3>}
             {activityTypeButtons}
             </>
         );

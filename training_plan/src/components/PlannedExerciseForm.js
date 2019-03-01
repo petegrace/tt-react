@@ -63,7 +63,7 @@ class PlannedExerciseForm extends Component {
                         <option value="once">Once only</option>
                     </Field>
                 </div>
-                {initData.isNewExerciseType && initData.categoryOptions && (
+                {initData.isNewExerciseType && initData.categoryOptions && initData.categoryOptions.length > 0 && (
                     <>
                     <div className="form-group ">
                         <label className="form-control-label" htmlFor="exercise_category_id">Category</label>
