@@ -98,3 +98,7 @@
     padding: 10px;
     font-weight: bold;
 }
+
+td.name-badge {
+    text-align: left;
+}

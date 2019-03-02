@@ -26,7 +26,7 @@ class PlannedExercisesList extends Component {
 
         return (
             <tr key={plannedExercise.id}>
-                <td>
+                <td className="name-badge">
                 <div className="d-none d-sm-inline">
                     <h5><span className={badgeClass}>
                         {plannedExercise.exercise_name}
