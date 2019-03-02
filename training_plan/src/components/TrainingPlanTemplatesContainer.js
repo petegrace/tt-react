@@ -3,11 +3,19 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import * as trainingPlanTemplateActions from "../actions/trainingPlanTemplateActions";
+import * as activityTypeActions from "../actions/activityTypeActions";
 
-class TrainingPlanTemplatesList extends Component {  
+class TrainingPlanTemplatesContainer extends Component {  
 
     componentDidMount() {
         this.props.trainingPlanTemplateActions.loadTrainingPlanTemplates();
+    }
+
+    handleAddToTrainingPlan = (templateId) => {
+        this.props.trainingPlanTemplateActions.copyTrainingPlanTemplate(templateId).then(result => {
+            this.props.refresh(this.props.calendarDay);
+            this.props.activityTypeActions.loadActivityTypes();
+        });
     }
 
     renderTemplateDetails = (template) => {
@@ -15,7 +23,7 @@ class TrainingPlanTemplatesList extends Component {
             <div key={template.id}>
                 <hr />
                 <div className="alert alert-info">
-                    <h6>{template.name} [<a href="#">Add to Training Plan</a>]</h6>
+                    <h6>{template.name} [<a href="#" onClick={() => this.handleAddToTrainingPlan(template.id)}>Add to Training Plan</a>]</h6>
                     <p>{template.description} <a href={template.link_url} target="_blank" rel="noopener noreferrer">{template.link_text}</a></p>
                 </div>
             </div>
@@ -53,10 +61,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        trainingPlanTemplateActions: bindActionCreators(trainingPlanTemplateActions, dispatch)
+        trainingPlanTemplateActions: bindActionCreators(trainingPlanTemplateActions, dispatch),
+        activityTypeActions: bindActionCreators(activityTypeActions, dispatch)
     };
 }
 
-TrainingPlanTemplatesList = connect(mapStateToProps, mapDispatchToProps)(TrainingPlanTemplatesList);
+TrainingPlanTemplatesContainer = connect(mapStateToProps, mapDispatchToProps)(TrainingPlanTemplatesContainer);
 
-export default TrainingPlanTemplatesList;
+export default TrainingPlanTemplatesContainer;

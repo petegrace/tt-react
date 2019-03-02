@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import Calendar from "./Calendar";
-import TrainingPlanTemplatesList from "./TrainingPlanTemplatesList";
 import * as activityTypeActions from "../actions/activityTypeActions";
 
 class App extends Component {
@@ -23,7 +22,6 @@ class App extends Component {
                     and they'll show up on your home page when it's time to do them.
             </div>
             <Calendar />
-            <TrainingPlanTemplatesList />
             </>
         )
     }

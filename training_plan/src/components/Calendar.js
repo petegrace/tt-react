@@ -4,6 +4,7 @@ import { bindActionCreators } from "redux";
 import dateFns from "date-fns";
 
 import CalendarDayModal from "./CalendarDayModal";
+import TrainingPlanTemplatesContainer from "./TrainingPlanTemplatesContainer";
 import * as plannedActivityActions from "../actions/plannedActivityActions";
 import { filterPlannedActivities, filterPlannedExercises } from "../helpers/trainingPlan";
 
@@ -200,13 +201,16 @@ class Calendar extends Component {
 
     render() {
         return (
+            <>
             <div className="calendar">
                 {this.renderHeader()}
                 {this.renderDayNames()}
                 {this.renderCells()}
-                {this.state.showCalendarDayModal && (
-                <CalendarDayModal className="modal" calendarDay={this.state.selectedDate} refresh={this.refreshPlannedActivities} close={this.handleCloseCalendarDayModal} />)}
             </div>
+            {this.state.showCalendarDayModal && (
+            <CalendarDayModal className="modal" calendarDay={this.state.selectedDate} refresh={this.refreshPlannedActivities} close={this.handleCloseCalendarDayModal} />)}
+            <TrainingPlanTemplatesContainer calendarDay={this.state.selectedDate} refresh={this.refreshPlannedActivities} />
+            </>
         )
         
     }
