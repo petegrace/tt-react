@@ -1,7 +1,31 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
-class TrainingPlanTemplatesList extends Component {
+import * as trainingPlanTemplateActions from "../actions/trainingPlanTemplateActions";
+
+class TrainingPlanTemplatesList extends Component {  
+
+    componentDidMount() {
+        this.props.trainingPlanTemplateActions.loadTrainingPlanTemplates();
+    }
+
+    renderTemplateDetails = (template) => {
+        return (
+            <div key={template.id}>
+                <hr />
+                <div className="alert alert-info">
+                    <h6>{template.name} [<a href="#">Add to Training Plan</a>]</h6>
+                    <p>{template.description} <a href={template.link_url} target="_blank" rel="noopener noreferrer">{template.link_text}</a></p>
+                </div>
+            </div>
+        );
+    }
+
     render() {
+        let templates = this.props.trainingPlanTemplates;
+        let templateDetailsList = templates.map(this.renderTemplateDetails);
+
         return (
             <div className="card mt-4">
                 <div className="card-header">
@@ -14,15 +38,25 @@ class TrainingPlanTemplatesList extends Component {
                         a training plan you've come across that you'd like to be available as a template.</p>
                     <p><i>Please note that Training Ticks has no association with any of the websites or authors referenced below.
                     We are sharing them as useful resources that will hopefully help your training.</i></p>
-                    <hr />
-                        <div className="alert alert-info">
-                            <h6>Test [<a href="#">Add to Training Plan</a>]</h6>
-                            <p>Brief description about the template <a href="#" target="_blank">Click to learn more</a></p>
-                        </div>
+                    {templateDetailsList}
                 </div>
             </div>
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        trainingPlanTemplates: state.trainingPlanTemplates
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        trainingPlanTemplateActions: bindActionCreators(trainingPlanTemplateActions, dispatch)
+    };
+}
+
+TrainingPlanTemplatesList = connect(mapStateToProps, mapDispatchToProps)(TrainingPlanTemplatesList);
 
 export default TrainingPlanTemplatesList;

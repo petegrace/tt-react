@@ -11,6 +11,7 @@ import plannedExercisesReducer from "./reducers/plannedExercisesReducer";
 import activityTypesReducer from "./reducers/activityTypesReducer";
 import exerciseTypesReducer from "./reducers/exerciseTypesReducer";
 import exerciseCategoriesReducer from "./reducers/exerciseCategoriesReducer";
+import trainingPlanTemplatesReducer from "./reducers/trainingPlanTemplatesReducer";
 import "./base.css"
 
 // Might want to refactor this redux stuff into separate files for reducers and configuring store as per tutorial
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
     plannedExercises: plannedExercisesReducer,
     activityTypes: activityTypesReducer,
     exerciseTypes: exerciseTypesReducer,
-    exerciseCategories: exerciseCategoriesReducer
+    exerciseCategories: exerciseCategoriesReducer,
+    trainingPlanTemplates: trainingPlanTemplatesReducer
 });
 
 const store = createStore(
