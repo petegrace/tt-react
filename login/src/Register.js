@@ -93,7 +93,7 @@ class Register extends Component {
                                         <div className="col-sm-1 pt-1 text-md-right">
                                             <Field type="checkbox" id="opt_in_to_marketing_emails" name="opt_in_to_marketing_emails" checked={formProps.values.opt_in_to_marketing_emails} />
                                         </div>
-                                        <div className="col-sm-11"><label htmlFor="opt_in_to_marketing_emails">(Optional) I'd like to receive occasional updates from Training Ticks to tell me about new features being released or in development that might help me out with my training.</label></div>
+                                        <div className="col-sm-11"><label htmlFor="opt_in_to_marketing_emails">(Optional) I'd like to receive occasional updates from Training Ticks to tell me about new features being released or in development and that might help me out with my training.</label></div>
                                     </div>
                                     <p>
                                         <button type="submit" disabled={formProps.isSubmitting} className="btn btn-primary mr-2">Complete Registration</button>
