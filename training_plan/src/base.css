@@ -215,8 +215,15 @@
     border-width: 2px;
 }
 
-/* Classes for uncategorised when displaying the stats */
+/* Classes for uncategorised when displaying the stats, we've ended up with upper and lowercase variants so play it safe with both */
 .Uncategorised {
+    background-color: #ffffff;
+    border-color: #292b2c;
+    border-width: 2px;
+    border-style: solid;
+    color: #292b2c;
+}
+.uncategorised {
     background-color: #ffffff;
     border-color: #292b2c;
     border-width: 2px;
