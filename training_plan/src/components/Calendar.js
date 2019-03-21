@@ -15,7 +15,7 @@ class Calendar extends Component {
         this.state = {
             currentMonth: new Date(),
             today: new Date(),
-            selectedDate: null,
+            selectedDate: new Date(),
             showCalendarDayModal: false
         };
     }
