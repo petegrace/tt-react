@@ -4,10 +4,12 @@ import { bindActionCreators } from "redux";
 
 import Calendar from "./Calendar";
 import * as activityTypeActions from "../actions/activityTypeActions";
+import * as userActions from "../actions/userActions";
 
 class App extends Component {
 
     componentDidMount() {
+        this.props.userActions.loadUserInfo();
         this.props.activityTypeActions.loadActivityTypes();
     }
 
@@ -33,7 +35,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        activityTypeActions: bindActionCreators(activityTypeActions, dispatch)
+        activityTypeActions: bindActionCreators(activityTypeActions, dispatch),
+        userActions: bindActionCreators(userActions, dispatch)
     };
 }
 

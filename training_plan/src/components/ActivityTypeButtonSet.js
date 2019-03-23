@@ -11,7 +11,8 @@ class ActivityTypeButtonSet extends Component {
             category_key: activityType.category_key,
             recurrence: "once",
             planned_date: dateFns.format(this.props.calendarDay, "YYYY-MM-DD"),
-            repeatOption: "Repeat every " + dateFns.format(this.props.calendarDay, "dddd")
+            repeatOption: "Repeat every " + dateFns.format(this.props.calendarDay, "dddd"),
+            distance_uom_preference: this.props.user.distance_uom_preference
         }
 
         return (
@@ -38,7 +39,8 @@ class ActivityTypeButtonSet extends Component {
 
 function mapStateToProps(state) {
     return {
-        activityTypes: state.activityTypes
+        activityTypes: state.activityTypes,
+        user: state.user
     };
 }
 

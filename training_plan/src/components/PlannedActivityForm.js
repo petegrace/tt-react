@@ -27,7 +27,7 @@ class PlannedActivityForm extends Component {
                     <Field component="input" type="text" className="form-control" id="description" name="description" placeholder="(optional)" />
                 </div>
                 <div className="form-group ">
-                    <label className="form-control-label" htmlFor="planned_distance">Planned Distance (km)</label>
+                    <label className="form-control-label" htmlFor="planned_distance">Planned Distance ({initData.distance_uom_preference})</label>
                     <Field component="input" type="number" className="form-control" id="planned_distance" name="planned_distance" placeholder="(optional)" />
                 </div>
                 <button type="submit" className="btn btn-primary mr-1">Save Activity</button>

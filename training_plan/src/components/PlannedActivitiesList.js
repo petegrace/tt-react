@@ -17,13 +17,14 @@ class PlannedActivitiesList extends Component {
             planned_distance: plannedActivity.planned_distance,
             recurrence: plannedActivity.recurrence,
             planned_date: dateFns.format(this.props.calendarDay, "YYYY-MM-DD"),
-            repeatOption: "Repeat every " + dateFns.format(this.props.calendarDay, "dddd")
+            repeatOption: "Repeat every " + dateFns.format(this.props.calendarDay, "dddd"),
+            distance_uom_preference: this.props.user.distance_uom_preference
         }
 
         return (
             <tr key={plannedActivity.id}>
                 <td className="name-badge"><h5><span className={badgeClass}>{plannedActivity.activity_type}</span></h5></td>
-                <td>{plannedActivity.planned_distance ? plannedActivity.planned_distance + " km" : ""}</td>
+                <td>{plannedActivity.planned_distance ? plannedActivity.planned_distance + " " + this.props.user.distance_uom_preference : ""}</td>
                 <td>{plannedActivity.description}</td>
                 <td>
                     {plannedActivity.recurrence === "once" && "Once only"}
@@ -32,7 +33,7 @@ class PlannedActivitiesList extends Component {
                 <td className="actions">
                     <ul className="nav justify-content-end">
                         <li className="nav-item mr-3">
-                            <a href="#" role="button" onClick={() => this.props.onEdit(formInitData)}><i className="fa fa-edit"></i></a>
+                            <a href="#edit" role="button" onClick={() => this.props.onEdit(formInitData)}><i className="fa fa-edit"></i></a>
                         </li>
                         <Dropdown as="li" className="nav-item">
                             <Dropdown.Toggle as="a" cole="button" href="#" bsPrefix="none"><i className="fa fa-trash"></i></Dropdown.Toggle>
@@ -75,7 +76,8 @@ class PlannedActivitiesList extends Component {
 
 function mapStateToProps(state) {
     return {
-        plannedActivities: state.plannedActivities
+        plannedActivities: state.plannedActivities,
+        user: state.user
     };
 }
 
