@@ -8,6 +8,7 @@ import { reducer as formReducer } from "redux-form";
 import App from "./components/App";
 import plannedActivitiesReducer from "./reducers/plannedActivitiesReducer";
 import plannedExercisesReducer from "./reducers/plannedExercisesReducer";
+import completedActivitiesReducer from "./reducers/completedActivitiesReducer";
 import activityTypesReducer from "./reducers/activityTypesReducer";
 import exerciseTypesReducer from "./reducers/exerciseTypesReducer";
 import exerciseCategoriesReducer from "./reducers/exerciseCategoriesReducer";
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
     form: formReducer,
     plannedActivities: plannedActivitiesReducer,
     plannedExercises: plannedExercisesReducer,
+    completedActivities: completedActivitiesReducer,
     activityTypes: activityTypesReducer,
     exerciseTypes: exerciseTypesReducer,
     exerciseCategories: exerciseCategoriesReducer,

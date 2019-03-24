@@ -58,7 +58,7 @@ class PlannedExercisesList extends Component {
                 <td className="actions">
                     <ul className="nav justify-content-end">
                         <li className="nav-item mr-3">
-                            <a href="#" role="button" onClick={() => this.props.onEdit(formInitData)}><i className="fa fa-edit"></i></a>
+                            <a href="#edit" role="button" onClick={() => this.props.onEdit(formInitData)}><i className="fa fa-edit"></i></a>
                         </li>
                         <Dropdown as="li" className="nav-item">
                             <Dropdown.Toggle as="a" cole="button" href="#" bsPrefix="none"><i className="fa fa-trash"></i></Dropdown.Toggle>

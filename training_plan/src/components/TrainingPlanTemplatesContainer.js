@@ -23,7 +23,7 @@ class TrainingPlanTemplatesContainer extends Component {
             <div key={template.id}>
                 <hr />
                 <div className="alert alert-info">
-                    <h6>{template.name} [<a href="#" onClick={() => this.handleAddToTrainingPlan(template.id)}>Add to Training Plan</a>]</h6>
+                    <h6>{template.name} [<a href="#add" onClick={() => this.handleAddToTrainingPlan(template.id)}>Add to Training Plan</a>]</h6>
                     <p>{template.description} <a href={template.link_url} target="_blank" rel="noopener noreferrer">{template.link_text}</a></p>
                 </div>
             </div>

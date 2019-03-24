@@ -1,7 +1,10 @@
 import * as types from "../actions/actionTypes";
-import initialState from "./initialState";
 
-export default function plannedActivitiesReducer(state = initialState.plannedActivities, action) {
+export default function plannedActivitiesReducer(state, action) {
+    if (state === undefined) {
+        return [];
+    }
+
     switch(action.type) {
         case types.LOAD_PLANNED_ACTIVITIES_SUCCESS:
             return action.plannedActivities;

@@ -14,17 +14,40 @@
 }
 
 .card {
-    border: none;
+    border-style: none;
 }
 
 .card-header {
     background-color: #e6e6e6;
-    border: none;
+    border-style: none;
 }
 
 .card-body {
     background-color: #f3f3f3;
-    border: none;
+    border-style: none;
+}
+
+.activity-summary .card {
+  border-style: solid;
+  text-align: left;
+}
+
+.activity-summary .card-header {
+  border-style: solid;
+}
+
+.activity-summary .card-body {
+  background-color: #fcfcfc;
+  padding: 5px;
+  padding-top: 15px;
+}
+
+.activity-summary .card-body table {
+  width: 100%;
+}
+
+.activity-summary .card-body table td {
+  width: 50%;
 }
 
 .card-header h4 {
@@ -564,6 +587,10 @@ table h5 {
     border-width: 1px;
     border-color: #dddddd;
     padding-top: 0.5em;
+  }
+  
+  .calendar .body .past {
+    opacity: 1;
   }
   
   .calendar .body .disabled {

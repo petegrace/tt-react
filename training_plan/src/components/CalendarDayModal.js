@@ -6,6 +6,7 @@ import { bindActionCreators } from "redux";
 import "./CalendarDayModal.css";
 import ActivityTypeButtonSet from "./ActivityTypeButtonSet";
 import ExerciseTypeButtonSet from "./ExerciseTypeButtonSet";
+import CompletedActivitiesList from "./CompletedActivitiesList";
 import PlannedActivitiesList from "./PlannedActivitiesList";
 import PlannedExercisesList from "./PlannedExercisesList";
 import PlannedActivityForm from "./PlannedActivityForm";
@@ -208,19 +209,21 @@ class CalendarDayModal extends Component {
                     </div>
                     <div className="calendar-modal-body">
                         <div>
-                            {this.state.showCalendarDayMain && this.state.isFutureDate &&
+                            {this.state.showCalendarDayMain &&
                             <>
-                            <PlannedActivitiesList calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedActivity} onRemove={this.handleRemovePlannedActivity} />
-                            <PlannedExercisesList calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedExercise} onRemove={this.handleRemovePlannedExercise} />
-                            <ActivityTypeButtonSet calendarDay={this.props.calendarDay} onAdd={this.handleAddPlannedActivity} />
-                            <ExerciseTypeButtonSet calendarDay={this.props.calendarDay} onAdd={this.handleAddPlannedExercise} />
+                                <CompletedActivitiesList calendarDay={this.props.calendarDay} />
+                                <PlannedActivitiesList calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedActivity} onRemove={this.handleRemovePlannedActivity} />
+                                <PlannedExercisesList calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedExercise} onRemove={this.handleRemovePlannedExercise} />
+                                {this.state.isFutureDate &&
+                                <>
+                                    <ActivityTypeButtonSet calendarDay={this.props.calendarDay} onAdd={this.handleAddPlannedActivity} />
+                                    <ExerciseTypeButtonSet calendarDay={this.props.calendarDay} onAdd={this.handleAddPlannedExercise} />
+                                </>}
                             </>}
                             {this.state.showPlannedActivityForm &&
                             <PlannedActivityForm initData={this.state.plannedActivityFormInitData} onSubmit={this.handleSavePlannedActivity} handleBackClick={this.togglePlannedActivityForm} />}
                             {this.state.showPlannedExerciseForm &&
                             <PlannedExerciseForm initData={this.state.plannedExerciseFormInitData} onSubmit={this.handleSavePlannedExercise} handleBackClick={this.togglePlannedExerciseForm} />}
-                            {!this.state.isFutureDate &&
-                            <p>Please select a date in the future to plan your training.</p>}
                         </div>
                     </div>
                 </div>

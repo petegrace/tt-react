@@ -6,7 +6,8 @@ import dateFns from "date-fns";
 import CalendarDayModal from "./CalendarDayModal";
 import TrainingPlanTemplatesContainer from "./TrainingPlanTemplatesContainer";
 import * as plannedActivityActions from "../actions/plannedActivityActions";
-import { filterPlannedActivities, filterPlannedExercises } from "../helpers/trainingPlan";
+import * as completedActivityActions from "../actions/completedActivityActions";
+import { filterPlannedActivities, filterPlannedExercises, filterCompletedActivities } from "../helpers/trainingPlan";
 
 class Calendar extends Component {
     constructor(props) {
@@ -23,11 +24,22 @@ class Calendar extends Component {
     refreshPlannedActivities = (currentMonth) => {
         const startDate = dateFns.startOfWeek(dateFns.startOfMonth(currentMonth), {weekStartsOn: 1});
         const endDate = dateFns.endOfWeek(dateFns.endOfMonth(currentMonth), {weekStartsOn: 1});
-        this.props.actions.loadPlannedActivities(startDate, endDate);
+        this.props.plannedActivityActions.loadPlannedActivities(startDate, endDate);
+    }
+
+    refreshCompletedActivities = (currentMonth) => {
+        const startDate = dateFns.startOfWeek(dateFns.startOfMonth(currentMonth), {weekStartsOn: 1});
+        const endDate = dateFns.endOfWeek(dateFns.endOfMonth(currentMonth), {weekStartsOn: 1});
+        this.props.completedActivityActions.loadCompletedActivities(startDate, endDate);
+    }
+
+    refreshAllActivities = (currentMonth) => {
+        this.refreshPlannedActivities(currentMonth);
+        this.refreshCompletedActivities(currentMonth);
     }
 
     componentDidMount() {
-        this.refreshPlannedActivities(this.state.currentMonth);
+        this.refreshAllActivities(this.state.currentMonth);
     }
 
     renderHeader = () => {
@@ -109,8 +121,20 @@ class Calendar extends Component {
         );
     }
 
+    renderCompletedActivityBadge = (completedActivity) => {
+        const badgeClass = "badge badge-primary " +  completedActivity.category_key;
+
+        return (
+            <div key={completedActivity.id} className="d-inline">
+                <div className="d-inline">
+                    <span className={badgeClass}>{completedActivity.name}</span>
+                </div>
+            </div>
+        );
+    }
+
     renderCells = () => {
-        const { currentMonth, selectedDate } = this.state;
+        const { currentMonth, selectedDate, today } = this.state;
         const monthStart = dateFns.startOfMonth(currentMonth);
         const monthEnd = dateFns.endOfMonth(monthStart);
         const startDate = dateFns.startOfWeek(monthStart, {weekStartsOn: 1});
@@ -133,15 +157,20 @@ class Calendar extends Component {
 
                 const plannedExerciseCategories = filterPlannedExercises(this.props.plannedExercises, day);
                 const plannedExerciseCategoryBadges = plannedExerciseCategories.map(this.renderPlannedExerciseCategoryBadge);
+
+                const completedActivities = filterCompletedActivities(this.props.completedActivities, day);
+                const completedActivityBadges = completedActivities.map(this.renderCompletedActivityBadge);
                 
                 days.push(
                     <div className={`col cell
                             ${!dateFns.isSameMonth(day, monthStart) ? "disabled" : ""}
                             ${dateFns.isSameDay(day, selectedDate) ? "selected" : ""}
+                            ${dateFns.isBefore(day, today) ? "past" : ""}
                         `} key={day} onClick={() => this.onDateClick(dateFns.parse(cloneDay), plannedActivities)}>
                         <span className="number">{formattedDate}</span>
                         <span className="bg">{formattedDate}</span>
                         <div className="cell-content">
+                            <div>{completedActivityBadges}</div>
                             <div>{plannedActivityBadges}</div>
                             <div>{plannedExerciseCategoryBadges}</div>
                         </div>
@@ -188,7 +217,7 @@ class Calendar extends Component {
         this.setState({
             currentMonth: newMonth
         });
-        this.refreshPlannedActivities(newMonth);
+        this.refreshAllActivities(newMonth);
     };
 
     prevMonth = () => {
@@ -196,7 +225,7 @@ class Calendar extends Component {
         this.setState({
             currentMonth: newMonth
         });
-        this.refreshPlannedActivities(newMonth);
+        this.refreshAllActivities(newMonth);
     };
 
     render() {
@@ -219,13 +248,15 @@ class Calendar extends Component {
 function mapStateToProps(state) {
     return {
         plannedActivities: state.plannedActivities,
-        plannedExercises: state.plannedExercises
+        plannedExercises: state.plannedExercises,
+        completedActivities: state.completedActivities
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(plannedActivityActions, dispatch)
+        plannedActivityActions: bindActionCreators(plannedActivityActions, dispatch),
+        completedActivityActions: bindActionCreators(completedActivityActions, dispatch)
     };
 }
 
