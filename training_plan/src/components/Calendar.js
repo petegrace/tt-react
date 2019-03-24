@@ -114,7 +114,7 @@ class Calendar extends Component {
                 <div className="d-none d-md-inline">
                     <span className={badgeClass}>{plannedExerciseCategory.category_name}</span>
                 </div>
-                <div className="d-inline d-md-none ">
+                <div className="d-inline d-md-none">
                     <span className={badgeClass}>{plannedExerciseCategory.category_name[0]}</span>
                 </div>
             </div>
@@ -127,7 +127,7 @@ class Calendar extends Component {
         return (
             <div key={completedActivity.id} className="d-inline">
                 <div className="d-inline">
-                    <span className={badgeClass}>{completedActivity.name}</span>
+                    <span className={badgeClass}><div className="d-none d-md-inline"><i className="fa fa-check"></i></div> {completedActivity.name}</span>
                 </div>
             </div>
         );
