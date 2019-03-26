@@ -56,7 +56,24 @@ class GoogleLoginButton extends Component {
     };
 
     onFailure = (error) => {
-        console.log(error);
+        // use the monitoring API to log the error
+        const endpoint = window.location.origin === "http://localhost:3000" ? "http://localhost:5000/api/monitoring" : (origin + "/api/monitoring");
+            const requestBody = JSON.stringify({ 
+                type: "error",
+                message: error.message
+            });
+            const options = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: requestBody,
+                mode: "cors"
+            };
+            fetch(endpoint, options).then(r => {
+                // redirect to error page
+                window.location.href = "/error";
+            });
     }
 
     componentWillMount() {
