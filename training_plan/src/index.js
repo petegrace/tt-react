@@ -9,6 +9,7 @@ import App from "./components/App";
 import plannedActivitiesReducer from "./reducers/plannedActivitiesReducer";
 import plannedExercisesReducer from "./reducers/plannedExercisesReducer";
 import completedActivitiesReducer from "./reducers/completedActivitiesReducer";
+import completedExercisesReducer from "./reducers/completedExercisesReducer";
 import activityTypesReducer from "./reducers/activityTypesReducer";
 import exerciseTypesReducer from "./reducers/exerciseTypesReducer";
 import exerciseCategoriesReducer from "./reducers/exerciseCategoriesReducer";
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
     plannedActivities: plannedActivitiesReducer,
     plannedExercises: plannedExercisesReducer,
     completedActivities: completedActivitiesReducer,
+    completedExercises: completedExercisesReducer,
     activityTypes: activityTypesReducer,
     exerciseTypes: exerciseTypesReducer,
     exerciseCategories: exerciseCategoriesReducer,

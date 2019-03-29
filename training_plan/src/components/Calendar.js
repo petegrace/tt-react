@@ -7,7 +7,7 @@ import CalendarDayModal from "./CalendarDayModal";
 import TrainingPlanTemplatesContainer from "./TrainingPlanTemplatesContainer";
 import * as plannedActivityActions from "../actions/plannedActivityActions";
 import * as completedActivityActions from "../actions/completedActivityActions";
-import { filterPlannedActivities, filterPlannedExercises, filterCompletedActivities } from "../helpers/trainingPlan";
+import { filterPlannedActivities, filterPlannedExercises, filterCompletedActivities, filterCompletedExercises } from "../helpers/trainingPlan";
 
 class Calendar extends Component {
     constructor(props) {
@@ -133,6 +133,18 @@ class Calendar extends Component {
         );
     }
 
+    renderCompletedExerciseCategoryBadge = (completedExerciseCategory) => {
+        const badgeClass = "badge badge-primary " +  completedExerciseCategory.category_key;
+
+        return (
+            <div key={completedExerciseCategory.category_key + completedExerciseCategory.exercise_date} className="d-inline">
+                <div className="d-inline">
+                    <span className={badgeClass}><div className="d-none d-md-inline"><i className="fa fa-check"></i></div> {completedExerciseCategory.category_name}</span>
+                </div>
+            </div>
+        );
+    }
+
     renderCells = () => {
         const { currentMonth, selectedDate, today } = this.state;
         const monthStart = dateFns.startOfMonth(currentMonth);
@@ -160,6 +172,9 @@ class Calendar extends Component {
 
                 const completedActivities = filterCompletedActivities(this.props.completedActivities, day);
                 const completedActivityBadges = completedActivities.map(this.renderCompletedActivityBadge);
+
+                const completedExercises = filterCompletedExercises(this.props.completedExercises, day);
+                const completedExerciseCategoryBadges = completedExercises.map(this.renderCompletedExerciseCategoryBadge);
                 
                 days.push(
                     <div className={`col cell
@@ -171,6 +186,7 @@ class Calendar extends Component {
                         <span className="bg">{formattedDate}</span>
                         <div className="cell-content">
                             <div>{completedActivityBadges}</div>
+                            <div>{completedExerciseCategoryBadges}</div>
                             <div>{plannedActivityBadges}</div>
                             <div>{plannedExerciseCategoryBadges}</div>
                         </div>
@@ -249,7 +265,8 @@ function mapStateToProps(state) {
     return {
         plannedActivities: state.plannedActivities,
         plannedExercises: state.plannedExercises,
-        completedActivities: state.completedActivities
+        completedActivities: state.completedActivities,
+        completedExercises: state.completedExercises
     };
 }
 

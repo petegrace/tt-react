@@ -1,6 +1,6 @@
 import * as types from "./actionTypes";
 import CompletedActivitiesApi from "../api/CompletedActivitiesApi";
-// TODO: import { loadCompletedExercisesSuccess } from "./completedExerciseActions";
+import { loadCompletedExercisesSuccess } from "./completedExerciseActions";
 
 export function loadCompletedActivities(startDate, endDate) {
     return function(dispatch) {
@@ -8,7 +8,7 @@ export function loadCompletedActivities(startDate, endDate) {
         return api.getCompletedActivities(startDate, endDate).then(responseData => {
             if (responseData) {
                 dispatch(loadCompletedActivitiesSuccess(responseData));
-                // TODO: dispatch(loadCompletedExercisesSuccess(responseData))
+                dispatch(loadCompletedExercisesSuccess(responseData));
             }
         }).catch(error => {
             throw(error);
