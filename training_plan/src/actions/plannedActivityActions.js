@@ -9,7 +9,7 @@ export function loadPlannedActivities(startDate, endDate) {
         return api.getPlannedActivities(startDate, endDate).then(responseData => {
             if (responseData) {
                 dispatch(loadPlannedActivitiesSuccess(responseData));
-                dispatch(loadPlannedExercisesSuccess(responseData))
+                dispatch(loadPlannedExercisesSuccess(responseData));
             }
         }).catch(error => {
             throw(error);

@@ -22,3 +22,9 @@ export function filterCompletedActivities(completedActivities, day) {
     const completedActivitiesFiltered = completedActivities.filter(completedActivity => completedActivity.activity_date === jsonDate);
     return completedActivitiesFiltered;
 }
+
+export function filterCompletedExercises(completedExercises, day) {
+    const jsonDate = dateFns.format(day, "YYYY-MM-DD");
+    const completedExercisesFiltered = completedExercises.filter(completedExerciseCategory => completedExerciseCategory.exercise_date === jsonDate);
+    return completedExercisesFiltered;
+}

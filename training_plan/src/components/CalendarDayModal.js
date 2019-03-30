@@ -7,6 +7,7 @@ import "./CalendarDayModal.css";
 import ActivityTypeButtonSet from "./ActivityTypeButtonSet";
 import ExerciseTypeButtonSet from "./ExerciseTypeButtonSet";
 import CompletedActivitiesList from "./CompletedActivitiesList";
+import CompletedExercisesList from "./CompletedExercisesList";
 import PlannedActivitiesList from "./PlannedActivitiesList";
 import PlannedExercisesList from "./PlannedExercisesList";
 import PlannedActivityForm from "./PlannedActivityForm";
@@ -212,6 +213,7 @@ class CalendarDayModal extends Component {
                             {this.state.showCalendarDayMain &&
                             <>
                                 <CompletedActivitiesList calendarDay={this.props.calendarDay} />
+                                <CompletedExercisesList calendarDay={this.props.calendarDay} />
                                 <PlannedActivitiesList calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedActivity} onRemove={this.handleRemovePlannedActivity} />
                                 <PlannedExercisesList calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedExercise} onRemove={this.handleRemovePlannedExercise} />
                                 {this.state.isFutureDate &&
