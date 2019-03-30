@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import GoogleLoginButton from "./GoogleLoginButton";
+import DirectLoginForm from "./DirectLoginForm";
 
 class Login extends Component {
     render() {
@@ -8,13 +9,18 @@ class Login extends Component {
             <div>
                 <div className="jumbotron">
                     <div className="container">
-                    <h1 className="display-3">Get started<div className="d-none d-md-inline"> now</div>!</h1>
-                    <p>Log yourself in, or if you're a new user simply use your existing Google account to sign yourself up and start using Training Ticks straight away.
-                        <div className="d-none d-md-inline"> If you need some convincing on why you should use Training Ticks then scroll down to check out the features available to enhance your training and supercharge your inner motivation!</div>
-                    </p>
-                    <p>
-                        <GoogleLoginButton />
-                    </p>
+                        <h1 className="display-3">Get started<div className="d-none d-md-inline"> now</div>!</h1>
+                        <p>Log yourself in, or if you're a new user simply use your existing Google account to sign yourself up and start using Training Ticks straight away.
+                            <div className="d-none d-md-inline"> If you need some convincing on why you should use Training Ticks then scroll down to check out the features available to enhance your training and supercharge your inner motivation!</div>
+                        </p>
+                        <div className="row">
+                            <div className="col-md-4">
+                                <GoogleLoginButton />
+                            </div>
+                            <div className="col-md-4 pl-0">
+                                <DirectLoginForm />
+                            </div>
+                        </div>
                     </div>
                 </div>
 

@@ -290,3 +290,7 @@ h5 {
 .carousel-indicators .active {
   background-color: #444;
 }
+
+.form-error {
+    color: #b40300;
+}

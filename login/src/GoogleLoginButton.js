@@ -15,14 +15,6 @@ class GoogleLoginButton extends Component {
         };
     }
 
-    logout = () => {
-        this.setState({
-            isAuthenticated: false,
-            user: null,
-            token: ""
-        })
-    };
-
     googleResponse = (response) => {
         const endpoint = window.location.origin === "http://localhost:3000" ? "http://localhost:5000/api/login" : (origin + "/api/login");
         const options = {
@@ -30,7 +22,10 @@ class GoogleLoginButton extends Component {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ google_access_token: response.accessToken }),
+            body: JSON.stringify({
+                authType: "Google",
+                google_access_token: response.accessToken
+            }),
             mode: "cors"
         };
         fetch(endpoint, options).then(r => {
@@ -39,7 +34,7 @@ class GoogleLoginButton extends Component {
                 r.json().then(response => {
                     this.props.history.push({
                         pathname: "/register",
-                        state: { googleEmail: response.google_email }
+                        state: { googleEmail: response.email }
                     });
                 });
                 
@@ -76,11 +71,19 @@ class GoogleLoginButton extends Component {
             });
     }
 
+    logout = () => {
+        this.setState({
+            isAuthenticated: false,
+            user: null,
+            token: ""
+        })
+    };
+
     componentWillMount() {
+        // TODO: Refactor the token check into Login component and bin off the token in local storage if not valid (take the logout logic above also)
         const existingToken = ls.get("accessToken");
 
         if (existingToken) {
-            console.log("Access token found");
             const authHeader = "Bearer " + existingToken;
            
             const options = {
@@ -93,7 +96,6 @@ class GoogleLoginButton extends Component {
             const endpoint = window.location.origin === "http://localhost:3000" ? "http://localhost:5000/api/check_token" : (window.location.origin + "/api/check_token");
             fetch(endpoint, options).then(r => {
                 r.json().then(response => {
-                    console.log(response)
                     if (response.result === "valid" && window.location.pathname !== "/hub") {
                         window.location.href = "/hub";
                     }
