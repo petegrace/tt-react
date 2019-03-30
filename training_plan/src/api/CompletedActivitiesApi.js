@@ -26,7 +26,6 @@ class CompletedActivitiesApi {
                 return response.json();
             }
         }).catch(error => {
-            console.log(error);
             throw error;
         });
     }

@@ -17,7 +17,6 @@ export function loadCompletedActivities(startDate, endDate) {
 }
 
 export function loadCompletedActivitiesSuccess(responseData) {
-    console.log(responseData.completed_activities);
     return {
         type: types.LOAD_COMPLETED_ACTIVITIES_SUCCESS,
         completedActivities: responseData.completed_activities
