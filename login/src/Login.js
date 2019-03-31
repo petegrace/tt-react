@@ -39,15 +39,15 @@ class Login extends Component {
                         <h1 className="display-3">Get started<div className="d-none d-md-inline"> now</div>!</h1>
                         <div className="lead mb-4">If you're new to the site you can sign up quickly using your Google account, or directly using your email address.</div>
                         <div className="row">
-                            <div className="col-md-4">
+                            <div className="col-md-6">
                                 <div className="card-body mb-2">
                                     <h5 className="mt-0 mb-3">Login with Google account</h5>
                                     <GoogleLoginButton />
                                     <p className="mt-3 mb-0">We'll register your account if you're new to Training Ticks.</p>
                                 </div>
                             </div>
-                            <div className="col-md-4">
-                                <div className="card-body pb-0">
+                            <div className="col-md-6">
+                                <div className="card-body">
                                     <h5 className="mt-0">Login with email</h5>
                                     <p>or <NavLink to="/register">register new account</NavLink></p>
                                     <DirectLoginForm />
@@ -56,9 +56,8 @@ class Login extends Component {
                         </div>
                     </div>
                 </div>
-                <h1 className="display-4">Why use Training Ticks?</h1>
-                <div className="lead">Take a look at the features we provide to help you enhance your training and supercharge your inner motivation!</div>
-                <div className="row featurette mt-5 pt-2 pb-2">
+                <h1 className="display-4">Learn more...</h1>
+                <div className="row featurette mt-0 pt-2 pb-2">
                     <div className="col-md-5">
                     <h2 className="featurette-heading">Create your own customised training plan.</h2>
                     <p className="lead">Improve your training routine by planning your runs, cross-training and strengthening exercises, either as one-off activities or on a recurring weekly basis.</p>

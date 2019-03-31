@@ -75,10 +75,12 @@ class DirectLoginButton extends Component {
                                         <Field component="input" type="password" className="form-control" id="password" name="password" required />
                                     </div>
                                     {this.state.serverValidationError &&  <div className="form-error mt-2">{this.state.serverValidationError}</div>}
-                                    <div>
+                                    <div className="row">
+                                    <div className="col-4">
                                         <button type="submit" disabled={formProps.isSubmitting} className="btn btn-primary">Login</button>
                                     </div>
-                                    <div className="mt-2 text-right"><NavLink to="/reset_password">Forgot your password?</NavLink></div>
+                                    <div className="col-8 mt-2 text-right"><NavLink to="/reset_password">Forgot your password?</NavLink></div>
+                                    </div>
                                 </Form>
                             );
                         }} />

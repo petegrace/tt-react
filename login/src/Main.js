@@ -7,7 +7,6 @@ import ResetPassword from "./ResetPassword";
 
 class Main extends Component {
     render() {
-        console.log(window.location.hostname);
         return (
             <HashRouter>
                 <div>
