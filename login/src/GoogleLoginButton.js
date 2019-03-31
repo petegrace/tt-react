@@ -71,45 +71,12 @@ class GoogleLoginButton extends Component {
             });
     }
 
-    logout = () => {
-        this.setState({
-            isAuthenticated: false,
-            user: null,
-            token: ""
-        })
-    };
-
-    componentWillMount() {
-        // TODO: Refactor the token check into Login component and bin off the token in local storage if not valid (take the logout logic above also)
-        const existingToken = ls.get("accessToken");
-
-        if (existingToken) {
-            const authHeader = "Bearer " + existingToken;
-           
-            const options = {
-                method: "GET",
-                headers: {
-                    "Authorization": authHeader
-                }
-            };
-            // Probably shouldn't be async but not critical
-            const endpoint = window.location.origin === "http://localhost:3000" ? "http://localhost:5000/api/check_token" : (window.location.origin + "/api/check_token");
-            fetch(endpoint, options).then(r => {
-                r.json().then(response => {
-                    if (response.result === "valid" && window.location.pathname !== "/hub") {
-                        window.location.href = "/hub";
-                    }
-                });
-            });
-        }
-    }
-
     render() {
         return (
              <GoogleLogin clientId={config.GOOGLE_CLIENT_ID}
                           buttonText="Login"
                           render={renderProps => (
-                             <a onClick={renderProps.onClick} href="#"><img src={require("./static/img/btn_google_signin_dark_normal_web.png")} alt="Sign In with Google" /></a>
+                             <a onClick={renderProps.onClick} href="#googlelogin"><img src={require("./static/img/btn_google_signin_dark_normal_web.png")} alt="Sign In with Google" /></a>
                           )}
                           onSuccess={this.googleResponse}
                           onFailure={this.onFailure}

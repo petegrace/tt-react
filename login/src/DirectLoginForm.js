@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import ls from "local-storage";
-import { withRouter } from "react-router-dom";
+import { withRouter, NavLink } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
-
-import config from "./config.json";
 
 class DirectLoginButton extends Component {
     constructor() {
@@ -77,9 +75,10 @@ class DirectLoginButton extends Component {
                                         <Field component="input" type="password" className="form-control" id="password" name="password" required />
                                     </div>
                                     {this.state.serverValidationError &&  <div className="form-error mt-2">{this.state.serverValidationError}</div>}
-                                    <p>
-                                        <button type="submit" disabled={formProps.isSubmitting} className="btn btn-primary mr-2">Login</button>
-                                    </p>
+                                    <div>
+                                        <button type="submit" disabled={formProps.isSubmitting} className="btn btn-primary">Login</button>
+                                    </div>
+                                    <div className="mt-2 text-right"><NavLink to="/reset_password">Forgot your password?</NavLink></div>
                                 </Form>
                             );
                         }} />
