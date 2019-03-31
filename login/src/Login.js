@@ -1,24 +1,63 @@
 import React, { Component } from "react";
+import { withRouter, NavLink } from "react-router-dom";
+import ls from "local-storage";
 
 import GoogleLoginButton from "./GoogleLoginButton";
+import DirectLoginForm from "./DirectLoginForm";
 
 class Login extends Component {
+
+    componentWillMount() {
+        const existingToken = ls.get("accessToken");
+
+        if (existingToken) {
+            const authHeader = "Bearer " + existingToken;
+           
+            const options = {
+                method: "GET",
+                headers: {
+                    "Authorization": authHeader
+                }
+            };
+            // Probably shouldn't be async but not critical
+            const checkTokenApiUrl = window.location.origin === "http://localhost:3000" ? "http://localhost:5000/api/check_token" : (window.location.origin + "/api/check_token");
+            fetch(checkTokenApiUrl, options).then(r => {
+                r.json().then(response => {
+                    if (response.result === "valid" && window.location.pathname !== "/hub") {
+                        window.location.href = "/hub";
+                    }
+                });
+            });
+        }
+    }
+
     render() {
         return (
             <div>
                 <div className="jumbotron">
                     <div className="container">
-                    <h1 className="display-3">Get started<div className="d-none d-md-inline"> now</div>!</h1>
-                    <p>Log yourself in, or if you're a new user simply use your existing Google account to sign yourself up and start using Training Ticks straight away.
-                        <div className="d-none d-md-inline"> If you need some convincing on why you should use Training Ticks then scroll down to check out the features available to enhance your training and supercharge your inner motivation!</div>
-                    </p>
-                    <p>
-                        <GoogleLoginButton />
-                    </p>
+                        <h1 className="display-3">Get started<div className="d-none d-md-inline"> now</div>!</h1>
+                        <div className="lead mb-4">If you're new to the site you can sign up quickly using your Google account, or directly using your email address.</div>
+                        <div className="row">
+                            <div className="col-md-6">
+                                <div className="card-body mb-2">
+                                    <h5 className="mt-0 mb-3">Login with Google account</h5>
+                                    <GoogleLoginButton />
+                                    <p className="mt-3 mb-0">We'll register your account if you're new to Training Ticks.</p>
+                                </div>
+                            </div>
+                            <div className="col-md-6">
+                                <div className="card-body">
+                                    <h5 className="mt-0">Login with email</h5>
+                                    <p>or <NavLink to="/register">register new account</NavLink></p>
+                                    <DirectLoginForm />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <div className="row featurette mt-5 pt-2 pb-2">
+                <h1 className="display-4">Learn more...</h1>
+                <div className="row featurette mt-0 pt-2 pb-2">
                     <div className="col-md-5">
                     <h2 className="featurette-heading">Create your own customised training plan.</h2>
                     <p className="lead">Improve your training routine by planning your runs, cross-training and strengthening exercises, either as one-off activities or on a recurring weekly basis.</p>
@@ -97,4 +136,4 @@ class Login extends Component {
     }
 }
 
-export default Login;
+export default withRouter(Login);

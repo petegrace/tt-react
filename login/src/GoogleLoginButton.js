@@ -15,14 +15,6 @@ class GoogleLoginButton extends Component {
         };
     }
 
-    logout = () => {
-        this.setState({
-            isAuthenticated: false,
-            user: null,
-            token: ""
-        })
-    };
-
     googleResponse = (response) => {
         const endpoint = window.location.origin === "http://localhost:3000" ? "http://localhost:5000/api/login" : (origin + "/api/login");
         const options = {
@@ -30,7 +22,10 @@ class GoogleLoginButton extends Component {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ google_access_token: response.accessToken }),
+            body: JSON.stringify({
+                authType: "Google",
+                google_access_token: response.accessToken
+            }),
             mode: "cors"
         };
         fetch(endpoint, options).then(r => {
@@ -39,7 +34,7 @@ class GoogleLoginButton extends Component {
                 r.json().then(response => {
                     this.props.history.push({
                         pathname: "/register",
-                        state: { googleEmail: response.google_email }
+                        state: { googleEmail: response.email }
                     });
                 });
                 
@@ -76,38 +71,12 @@ class GoogleLoginButton extends Component {
             });
     }
 
-    componentWillMount() {
-        const existingToken = ls.get("accessToken");
-
-        if (existingToken) {
-            console.log("Access token found");
-            const authHeader = "Bearer " + existingToken;
-           
-            const options = {
-                method: "GET",
-                headers: {
-                    "Authorization": authHeader
-                }
-            };
-            // Probably shouldn't be async but not critical
-            const endpoint = window.location.origin === "http://localhost:3000" ? "http://localhost:5000/api/check_token" : (window.location.origin + "/api/check_token");
-            fetch(endpoint, options).then(r => {
-                r.json().then(response => {
-                    console.log(response)
-                    if (response.result === "valid" && window.location.pathname !== "/hub") {
-                        window.location.href = "/hub";
-                    }
-                });
-            });
-        }
-    }
-
     render() {
         return (
              <GoogleLogin clientId={config.GOOGLE_CLIENT_ID}
                           buttonText="Login"
                           render={renderProps => (
-                             <a onClick={renderProps.onClick} href="#"><img src={require("./static/img/btn_google_signin_dark_normal_web.png")} alt="Sign In with Google" /></a>
+                             <a onClick={renderProps.onClick} href="#googlelogin"><img src={require("./static/img/btn_google_signin_dark_normal_web.png")} alt="Sign In with Google" /></a>
                           )}
                           onSuccess={this.googleResponse}
                           onFailure={this.onFailure}
