@@ -8,6 +8,7 @@ import TrainingPlanTemplatesContainer from "./TrainingPlanTemplatesContainer";
 import * as plannedActivityActions from "../actions/plannedActivityActions";
 import * as completedActivityActions from "../actions/completedActivityActions";
 import { filterPlannedActivities, filterPlannedExercises, filterCompletedActivities, filterCompletedExercises } from "../helpers/trainingPlan";
+import RaceDayBackground from '../static/img/race-day-bg.png';
 
 class Calendar extends Component {
     constructor(props) {
@@ -173,6 +174,18 @@ class Calendar extends Component {
                 const completedActivities = filterCompletedActivities(this.props.completedActivities, day);
                 const completedActivityBadges = completedActivities.map(this.renderCompletedActivityBadge);
 
+                let isRaceDay = false;
+                let backgroundStyle = {}
+                for (let activity of completedActivities) {
+                    if (activity.is_race === true) {
+                        isRaceDay = true;
+                        backgroundStyle = {
+                            backgroundImage: `url(${RaceDayBackground})`,
+                            backgroundStyle: "cover"
+                        };
+                    }
+                }
+
                 const completedExercises = filterCompletedExercises(this.props.completedExercises, day);
                 const completedExerciseCategoryBadges = completedExercises.map(this.renderCompletedExerciseCategoryBadge);
                 
@@ -181,7 +194,7 @@ class Calendar extends Component {
                             ${!dateFns.isSameMonth(day, monthStart) ? "disabled" : ""}
                             ${dateFns.isSameDay(day, selectedDate) ? "selected" : ""}
                             ${dateFns.isBefore(day, today) ? "past" : ""}
-                        `} key={day} onClick={() => this.onDateClick(dateFns.parse(cloneDay), plannedActivities)}>
+                        `} style={backgroundStyle} key={day} onClick={() => this.onDateClick(dateFns.parse(cloneDay), plannedActivities)}>
                         <span className="number">{formattedDate}</span>
                         <span className="bg">{formattedDate}</span>
                         <div className="cell-content">

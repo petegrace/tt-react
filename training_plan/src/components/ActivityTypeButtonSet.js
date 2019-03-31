@@ -32,6 +32,11 @@ class ActivityTypeButtonSet extends Component {
             {activityTypes.length > 0 &&
             <h3>Add Activities</h3>}
             {activityTypeButtons}
+            <button key="race" className="btn btn-sm ml-1 mr-1 btn-secondary new-exercise-type" onClick={() => this.props.onAdd(null)}>
+            <i className="fa fa-flag-checkered"></i> Planned Race
+                <br />
+                <small>&nbsp;</small>
+			</button>
             </>
         );
     }

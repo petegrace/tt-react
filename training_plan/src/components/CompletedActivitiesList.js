@@ -16,7 +16,7 @@ class CompletedActivitiesList extends Component {
                     <div className={cardHeaderClass}>
                         <h6 className="m-0 p-0">
                             <a href={activityUrl}>
-                                {completedActivity.name}
+                                {completedActivity.name}&nbsp;
                                 {completedActivity.is_race && <i className="fa fa-flag-checkered"></i>}
                             </a>
                         </h6>

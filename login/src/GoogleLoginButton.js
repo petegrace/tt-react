@@ -55,7 +55,7 @@ class GoogleLoginButton extends Component {
         const endpoint = window.location.origin === "http://localhost:3000" ? "http://localhost:5000/api/monitoring" : (origin + "/api/monitoring");
             const requestBody = JSON.stringify({ 
                 type: "error",
-                message: error.message
+                message: error
             });
             const options = {
                 method: "POST",
