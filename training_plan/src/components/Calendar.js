@@ -7,7 +7,7 @@ import CalendarDayModal from "./CalendarDayModal";
 import TrainingPlanTemplatesContainer from "./TrainingPlanTemplatesContainer";
 import * as plannedActivityActions from "../actions/plannedActivityActions";
 import * as completedActivityActions from "../actions/completedActivityActions";
-import { filterPlannedActivities, filterPlannedExercises, filterCompletedActivities, filterCompletedExercises } from "../helpers/trainingPlan";
+import { filterPlannedActivities, filterPlannedRaces, filterPlannedExercises, filterCompletedActivities, filterCompletedExercises } from "../helpers/trainingPlan";
 import RaceDayBackground from '../static/img/race-day-bg.png';
 
 class Calendar extends Component {
@@ -107,6 +107,18 @@ class Calendar extends Component {
         );
     }
 
+    renderPlannedRaceBadge = (plannedRace) => {
+        const badgeClass = "badge badge-primary " +  plannedRace.category_key;
+
+        return (
+            <div key={plannedRace.id} className="d-inline">
+                <div className="d-inline">
+                    <span className={badgeClass}>{plannedRace.name}</span>
+                </div>
+            </div>
+        );
+    }
+
     renderPlannedExerciseCategoryBadge = (plannedExerciseCategory) => {
         const badgeClass = "badge badge-primary " +  plannedExerciseCategory.category_key;
 
@@ -168,22 +180,32 @@ class Calendar extends Component {
                 const plannedActivities = filterPlannedActivities(this.props.plannedActivities, day);
                 const plannedActivityBadges = plannedActivities.map(this.renderPlannedActivityBadge);
 
+                const plannedRaces = filterPlannedRaces(this.props.plannedRaces, day);
+                const plannedRaceBadges = plannedRaces.map(this.renderPlannedRaceBadge);
+
                 const plannedExerciseCategories = filterPlannedExercises(this.props.plannedExercises, day);
                 const plannedExerciseCategoryBadges = plannedExerciseCategories.map(this.renderPlannedExerciseCategoryBadge);
 
                 const completedActivities = filterCompletedActivities(this.props.completedActivities, day);
                 const completedActivityBadges = completedActivities.map(this.renderCompletedActivityBadge);
 
-                let isRaceDay = false;
                 let backgroundStyle = {}
-                for (let activity of completedActivities) {
-                    if (activity.is_race === true) {
-                        isRaceDay = true;
-                        backgroundStyle = {
-                            backgroundImage: `url(${RaceDayBackground})`,
-                            backgroundStyle: "cover"
-                        };
+                let isRaceDay = false;
+                if (plannedRaces.length > 0) {
+                    isRaceDay = true;
+                } else {
+                    for (let activity of completedActivities) {
+                        if (activity.is_race === true) {
+                            isRaceDay = true;
+                        }
                     }
+                }
+
+                if (isRaceDay) {
+                    backgroundStyle = {
+                        backgroundImage: `url(${RaceDayBackground})`,
+                        backgroundSize: "cover"
+                    };
                 }
 
                 const completedExercises = filterCompletedExercises(this.props.completedExercises, day);
@@ -201,6 +223,7 @@ class Calendar extends Component {
                             <div>{completedActivityBadges}</div>
                             <div>{completedExerciseCategoryBadges}</div>
                             <div>{plannedActivityBadges}</div>
+                            <div>{plannedRaceBadges}</div>
                             <div>{plannedExerciseCategoryBadges}</div>
                         </div>
                     </div>
@@ -277,6 +300,7 @@ class Calendar extends Component {
 function mapStateToProps(state) {
     return {
         plannedActivities: state.plannedActivities,
+        plannedRaces: state.plannedRaces,
         plannedExercises: state.plannedExercises,
         completedActivities: state.completedActivities,
         completedExercises: state.completedExercises

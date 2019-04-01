@@ -1,6 +1,7 @@
 import * as types from "./actionTypes";
 import PlannedActivitiesApi from "../api/PlannedActivitiesApi";
 import PlannedActivityApi from "../api/PlannedActivityApi";
+import { loadPlannedRacesSuccess } from "./plannedRaceActions";
 import { loadPlannedExercisesSuccess } from "./plannedExerciseActions";
 
 export function loadPlannedActivities(startDate, endDate) {
@@ -9,6 +10,7 @@ export function loadPlannedActivities(startDate, endDate) {
         return api.getPlannedActivities(startDate, endDate).then(responseData => {
             if (responseData) {
                 dispatch(loadPlannedActivitiesSuccess(responseData));
+                dispatch(loadPlannedRacesSuccess(responseData));
                 dispatch(loadPlannedExercisesSuccess(responseData));
             }
         }).catch(error => {

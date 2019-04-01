@@ -11,8 +11,10 @@ import CompletedExercisesList from "./CompletedExercisesList";
 import PlannedActivitiesList from "./PlannedActivitiesList";
 import PlannedExercisesList from "./PlannedExercisesList";
 import PlannedActivityForm from "./PlannedActivityForm";
+import PlannedRaceForm from "./PlannedRaceForm";
 import PlannedExerciseForm from "./PlannedExerciseForm";
 import * as plannedActivityActions from "../actions/plannedActivityActions";
+import * as plannedRaceActions from "../actions/plannedRaceActions";
 import * as plannedExerciseActions from "../actions/plannedExerciseActions";
 import * as activityTypeActions from "../actions/activityTypeActions";
 
@@ -23,6 +25,7 @@ class CalendarDayModal extends Component {
         this.state = {
             showCalendarDayMain: true,
             showPlannedActivityForm: false,
+            showPlannedRaceForm: false,
             showPlannedExerciseForm: false,
             isFutureDate: (props.calendarDay >= dateFns.startOfDay(new Date())),
             plannedActivities: props.plannedActivities
@@ -33,6 +36,16 @@ class CalendarDayModal extends Component {
         this.setState({
             showCalendarDayMain: !this.state.showCalendarDayMain,
             showPlannedActivityForm: !this.state.showPlannedActivityForm,
+            showPlannedRaceForm: false,
+            showPlannedExerciseForm: false
+        })
+    }
+
+    togglePlannedRaceForm = () => {
+        this.setState({
+            showCalendarDayMain: !this.state.showCalendarDayMain,
+            showPlannedRaceForm: !this.state.showPlannedRaceForm,
+            showPlannedActivityForm: false,
             showPlannedExerciseForm: false
         })
     }
@@ -41,7 +54,8 @@ class CalendarDayModal extends Component {
         this.setState({
             showCalendarDayMain: !this.state.showCalendarDayMain,
             showPlannedExerciseForm: !this.state.showPlannedExerciseForm,
-            showPlannedActivityForm: false
+            showPlannedActivityForm: false,
+            showPlannedRaceForm: false
         })
     }
 
@@ -84,6 +98,36 @@ class CalendarDayModal extends Component {
         this.props.plannedActivityActions.deletePlannedActivity(plannedActivityId, scope).then(result => {
             this.props.refresh(this.props.calendarDay);
         });
+    }
+
+    
+
+    // Planned Race CRUD operations
+    handleAddPlannedRace = (formInitData) => {
+        this.setState({
+            plannedRaceFormInitData: formInitData
+        });
+        this.togglePlannedRaceForm();
+    }
+
+    handleSavePlannedRace = (values) => {
+        const requestBody = JSON.stringify({ 
+            name: values.name,
+            planned_date: values.planned_date,
+            race_type: values.race_type,
+            distance: values.distance,
+            notes: values.notes
+        });
+        // if (values.id) {
+        //     this.props.plannedActivityActions.updatePlannedActivity(values.id, requestBody).then(result => {
+        //         this.props.refresh(this.props.calendarDay);
+        //     });
+        // } else {
+            this.props.plannedRaceActions.addPlannedRace(requestBody).then(result => {
+                this.props.refresh(this.props.calendarDay);
+            });
+        // }
+        this.togglePlannedRaceForm();
     }
 
     // CRUD operations for planned exercises
@@ -218,12 +262,14 @@ class CalendarDayModal extends Component {
                                 <PlannedExercisesList calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedExercise} onRemove={this.handleRemovePlannedExercise} />
                                 {this.state.isFutureDate &&
                                 <>
-                                    <ActivityTypeButtonSet calendarDay={this.props.calendarDay} onAdd={this.handleAddPlannedActivity} />
+                                    <ActivityTypeButtonSet calendarDay={this.props.calendarDay} onAdd={this.handleAddPlannedActivity} onAddRace={this.handleAddPlannedRace} />
                                     <ExerciseTypeButtonSet calendarDay={this.props.calendarDay} onAdd={this.handleAddPlannedExercise} />
                                 </>}
                             </>}
                             {this.state.showPlannedActivityForm &&
                             <PlannedActivityForm initData={this.state.plannedActivityFormInitData} onSubmit={this.handleSavePlannedActivity} handleBackClick={this.togglePlannedActivityForm} />}
+                            {this.state.showPlannedRaceForm &&
+                            <PlannedRaceForm initData={this.state.plannedRaceFormInitData} onSubmit={this.handleSavePlannedRace} handleBackClick={this.togglePlannedRaceForm} />}
                             {this.state.showPlannedExerciseForm &&
                             <PlannedExerciseForm initData={this.state.plannedExerciseFormInitData} onSubmit={this.handleSavePlannedExercise} handleBackClick={this.togglePlannedExerciseForm} />}
                         </div>
@@ -245,6 +291,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         plannedActivityActions: bindActionCreators(plannedActivityActions, dispatch),
+        plannedRaceActions: bindActionCreators(plannedRaceActions, dispatch),
         plannedExerciseActions: bindActionCreators(plannedExerciseActions, dispatch),
         activityTypeActions: bindActionCreators(activityTypeActions, dispatch)
     };
