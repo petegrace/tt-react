@@ -33,6 +33,19 @@ class PlannedRaceForm extends Component {
                     <Field component="input" type="number" className="form-control" id="distance" name="distance" placeholder="(optional)" />
                 </div>
                 <div className="form-group">
+                    <label className="form-control-label" htmlFor="entry_status">Entry Status</label>
+                    <Field component="select" className="form-control" id="entry_status" name="entry_status">
+                        <option value="">(optional)</option>
+                        <option value="Entered">Entered</option>
+                        <option value="Probable">Probable</option>
+                        <option value="Possible">Possible</option>
+                    </Field>
+                </div>
+                <div className="form-group">
+                    <label className="form-control-label" htmlFor="race_website_url">Race Website URL</label>
+                    <Field component="input" type="text" className="form-control" id="race_website_url" name="race_website_url" placeholder="(optional)" />
+                </div>
+                <div className="form-group">
                     <label className="form-control-label" htmlFor="notes">Notes</label>
                     <Field component="input" type="text" className="form-control" id="notes" name="notes" placeholder="(optional)" />
                 </div>

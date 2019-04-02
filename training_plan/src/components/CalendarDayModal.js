@@ -124,8 +124,11 @@ class CalendarDayModal extends Component {
             planned_date: values.planned_date,
             race_type: values.race_type,
             distance: values.distance,
+            entry_status: values.entry_status,
+            race_website_url: values.race_website_url,
             notes: values.notes
         });
+        console.log(requestBody);
         if (values.id) {
             this.props.plannedRaceActions.updatePlannedRace(values.id, requestBody).then(result => {
                 this.props.refresh(this.props.calendarDay);

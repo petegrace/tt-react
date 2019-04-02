@@ -17,6 +17,8 @@ class PlannedRacesList extends Component {
             planned_date: dateFns.format(this.props.calendarDay, "YYYY-MM-DD"),
             race_type: plannedRace.race_type,
             distance: plannedRace.distance,
+            entry_status: plannedRace.entry_status,
+            race_website_url: plannedRace.race_website_url,
             notes: plannedRace.notes,
             distance_uom_preference: this.props.user.distance_uom_preference
         }
@@ -33,7 +35,20 @@ class PlannedRacesList extends Component {
                         <div className="row">
                             <div className="col-sm-6">
                                 <p>Race Type: {plannedRace.race_type}</p>
-                                <p>Distance: {plannedRace.distance}</p>
+                                {plannedRace.distance &&
+                                <p>Distance: {plannedRace.distance} {this.props.user.distance_uom_preference}</p>}
+                                {plannedRace.entry_status &&
+                                <p>Entry Status: {plannedRace.entry_status}</p>}
+                            </div>
+                            <div className="col-sm-6">
+                                {plannedRace.notes &&
+                                <p>Notes:<br />{plannedRace.notes}</p>}                                
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-12">
+                                {plannedRace.race_website_url &&
+                                <p>Race Website: {plannedRace.race_website_url}</p>}
                                 <ul className="nav">
                                     <li className="nav-item mr-3">
                                         <a href="#edit" role="button" onClick={() => this.props.onEdit(formInitData)}><i className="fa fa-edit"></i> Edit</a>
@@ -45,13 +60,6 @@ class PlannedRacesList extends Component {
                                         </Dropdown.Menu>
                                     </Dropdown>
                                 </ul>
-                                <p></p>
-                            </div>
-                            <div className="col-sm-6">
-                                <p>
-                                    Notes:<br />
-                                    {plannedRace.notes}
-                                </p>
                             </div>
                         </div>
                     </div>
