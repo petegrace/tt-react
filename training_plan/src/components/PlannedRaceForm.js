@@ -21,9 +21,9 @@ class PlannedRaceForm extends Component {
                 <div className="form-group">
                     <label className="form-control-label" htmlFor="race_type">Race Type</label>
                     <Field component="select" className="form-control" id="race_type" name="race_type">
-                        <option value="Run">Running</option>
-                        <option value="Ride">Cycling</option>
-                        <option value="Swim">Swimming</option>
+                        <option value="Run">Run</option>
+                        <option value="Ride">Ride</option>
+                        <option value="Swim">Swim</option>
                         <option value="Triathlon">Triathlon</option>
                         <option value="Duathlon">Duathlon</option>
                     </Field>

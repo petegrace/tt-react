@@ -8,6 +8,7 @@ import ActivityTypeButtonSet from "./ActivityTypeButtonSet";
 import ExerciseTypeButtonSet from "./ExerciseTypeButtonSet";
 import CompletedActivitiesList from "./CompletedActivitiesList";
 import CompletedExercisesList from "./CompletedExercisesList";
+import PlannedRacesList from "./PlannedRacesList";
 import PlannedActivitiesList from "./PlannedActivitiesList";
 import PlannedExercisesList from "./PlannedExercisesList";
 import PlannedActivityForm from "./PlannedActivityForm";
@@ -110,6 +111,13 @@ class CalendarDayModal extends Component {
         this.togglePlannedRaceForm();
     }
 
+    handleEditPlannedRace = (formInitData) => {
+        this.setState({
+            plannedRaceFormInitData: formInitData
+        });
+        this.togglePlannedRaceForm();
+    }
+
     handleSavePlannedRace = (values) => {
         const requestBody = JSON.stringify({ 
             name: values.name,
@@ -118,16 +126,22 @@ class CalendarDayModal extends Component {
             distance: values.distance,
             notes: values.notes
         });
-        // if (values.id) {
-        //     this.props.plannedActivityActions.updatePlannedActivity(values.id, requestBody).then(result => {
-        //         this.props.refresh(this.props.calendarDay);
-        //     });
-        // } else {
+        if (values.id) {
+            this.props.plannedRaceActions.updatePlannedRace(values.id, requestBody).then(result => {
+                this.props.refresh(this.props.calendarDay);
+            });
+        } else {
             this.props.plannedRaceActions.addPlannedRace(requestBody).then(result => {
                 this.props.refresh(this.props.calendarDay);
             });
-        // }
+        }
         this.togglePlannedRaceForm();
+    }
+    
+    handleRemovePlannedRace = (plannedRaceId) => {
+        this.props.plannedRaceActions.deletePlannedRace(plannedRaceId).then(result => {
+            this.props.refresh(this.props.calendarDay);
+        });
     }
 
     // CRUD operations for planned exercises
@@ -257,6 +271,7 @@ class CalendarDayModal extends Component {
                             {this.state.showCalendarDayMain &&
                             <>
                                 <CompletedActivitiesList calendarDay={this.props.calendarDay} />
+                                <PlannedRacesList calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedRace} onRemove={this.handleRemovePlannedRace} />
                                 <CompletedExercisesList calendarDay={this.props.calendarDay} />
                                 <PlannedActivitiesList calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedActivity} onRemove={this.handleRemovePlannedActivity} />
                                 <PlannedExercisesList calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedExercise} onRemove={this.handleRemovePlannedExercise} />
