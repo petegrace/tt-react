@@ -18,6 +18,7 @@ class Calendar extends Component {
             currentMonth: new Date(),
             today: new Date(),
             selectedDate: new Date(),
+            selectedWeek: null,
             showCalendarDayModal: false
         };
     }
@@ -159,7 +160,7 @@ class Calendar extends Component {
     }
 
     renderCells = () => {
-        const { currentMonth, selectedDate, today } = this.state;
+        const { currentMonth, selectedDate, selectedWeek, today } = this.state;
         const monthStart = dateFns.startOfMonth(currentMonth);
         const monthEnd = dateFns.endOfMonth(monthStart);
         const startDate = dateFns.startOfWeek(monthStart, {weekStartsOn: 1});
@@ -172,6 +173,8 @@ class Calendar extends Component {
         let formattedDate = "";
 
         while (day <= endDate) {
+            const weekCommencingDay = day;
+
             for (let i = 0; i < 7; i++) {
 
                 formattedDate = dateFns.format(day, dateFormat);
@@ -232,6 +235,19 @@ class Calendar extends Component {
                 day = dateFns.addDays(day, 1);
             }
 
+            if (dateFns.isAfter(day, today)) {
+                rows.push(
+                    <div key={weekCommencingDay} className="row">
+                        <div className="week-todos">
+                            <div className={`col cell
+                            ${dateFns.isSameDay(weekCommencingDay, selectedWeek) ? "selected" : ""}`} onClick={() => this.onWeekClick(dateFns.parse(weekCommencingDay))}>
+                                <div className="cell-content">{"w/c " + dateFns.format(weekCommencingDay, "D MMMM YYYY")}</div>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
             rows.push(
                 <div className="row" key={day}>
                     {days}
@@ -252,6 +268,14 @@ class Calendar extends Component {
             selectedDate: day,
             showCalendarDayModal: true,
             selectedDatePlannedActivities: plannedActivities
+        });
+        document.body.classList.toggle("noscroll");
+    };
+
+    onWeekClick = (startDay) => {
+        this.setState({
+            selectedWeek: startDay,
+            showCalendarDayModal: true
         });
         document.body.classList.toggle("noscroll");
     };

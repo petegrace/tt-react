@@ -539,6 +539,22 @@ table h5 {
     transition: 0.25s ease-out;
     padding: 3px;
   }
+
+  .calendar .body .week-todos {
+    width: 100%;
+  }
+  
+  .calendar .body .week-todos .cell {
+    position: relative;
+    width: 100%;
+    height: 2.5em;
+    border-right: 1px solid var(--calendar-border-color);
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--neutral-color);
+    transition: 0.25s ease-out;
+    padding: 3px;
+  }
   
   .calendar .body .cell .cell-content {
     margin-right: 20px;
@@ -613,6 +629,12 @@ table h5 {
   .calendar .body .cell:hover .bg, .calendar .body .selected .bg  {
     opacity: 0.05;
     transition: .5s ease-in;
+  }
+  
+  .calendar .body .week-todos .col {
+    flex-grow: 1;
+    flex-basis: 100%;
+    width: 100%;
   }
   
   .calendar .body .col {
