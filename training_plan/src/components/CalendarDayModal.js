@@ -79,6 +79,7 @@ class CalendarDayModal extends Component {
         const requestBody = JSON.stringify({ 
             activity_type: values.activity_type,
             planned_date: values.planned_date,
+            planning_period: values.planning_period,
             recurrence: values.recurrence,
             description: values.description,
             planned_distance: values.planned_distance
@@ -150,11 +151,14 @@ class CalendarDayModal extends Component {
     // CRUD operations for planned exercises
     handleAddPlannedExercise = (id) => {
         const calendarDay = dateFns.format(this.props.calendarDay, "YYYY-MM-DD");
+        const planningPeriod = this.props.selectionType;
+        
         if (!id) {
             const formInitData = {
                 isNewExerciseType: true,
                 measured_by: "reps",
                 planned_sets: 1,
+                planning_period: planningPeriod,
                 recurrence: "weekly",
                 planned_date: dateFns.format(this.props.calendarDay, "YYYY-MM-DD"),
                 repeatOption: "Repeat every " + dateFns.format(this.props.calendarDay, "dddd"),
@@ -176,6 +180,7 @@ class CalendarDayModal extends Component {
                     if (exercise.exercise_type_id === id) {
                         existingPlannedExerciseId = exercise.id;
                         requestBody = JSON.stringify({ 
+                            planning_period: planningPeriod,
                             recurrence: exercise.recurrence,
                             planned_date: calendarDay,
                             planned_sets: (exercise.planned_sets + 1),
@@ -196,6 +201,7 @@ class CalendarDayModal extends Component {
                 })[0];
                 requestBody = JSON.stringify({
                     exercise_type_id: id,
+                    planning_period: planningPeriod,
                     recurrence: "weekly",
                     planned_date: calendarDay,
                     planned_reps: exerciseType.default_reps,
@@ -219,6 +225,7 @@ class CalendarDayModal extends Component {
         if (values.id) {
             const requestBody = JSON.stringify({ 
                 planned_date: values.planned_date,
+                planning_period: values.planning_period,
                 recurrence: values.recurrence,
                 planned_sets: values.planned_sets,
                 planned_reps: values.planned_reps,
@@ -235,6 +242,7 @@ class CalendarDayModal extends Component {
                 planned_sets: values.planned_sets,
                 planned_reps: values.planned_reps,
                 planned_seconds: values.planned_seconds,
+                planning_period: values.planning_period,
                 recurrence: values.recurrence,
                 planned_date: dateFns.format(this.props.calendarDay, "YYYY-MM-DD")
             });
@@ -262,25 +270,36 @@ class CalendarDayModal extends Component {
                 <div className="modal-wrapper">
                     <div className="calendar-modal-header">
                         <div className="d-none d-sm-inline">
-                            <h4>{dateFns.format(this.props.calendarDay, dateFormatFull)}</h4>
+                            <h4>
+                                {this.props.selectionType === "week" && "Week commencing "}
+                                {dateFns.format(this.props.calendarDay, dateFormatFull)}
+                            </h4>
                         </div>
                         <div className="d-inline d-sm-none">
-                            <h4>{dateFns.format(this.props.calendarDay, dateFormatAbbrev)}</h4>
+                            <h4>
+                                {this.props.selectionType === "week" && "w/c "}
+                                {dateFns.format(this.props.calendarDay, dateFormatAbbrev)}
+                            </h4>
                         </div>
                         <span className="close-modal-btn" onClick={this.props.close}><i className="fa fa-window-close"></i></span>
                     </div>
                     <div className="calendar-modal-body">
                         <div>
+                            {this.props.selectionType === "week" &&
+                            <div className="alert alert-info text-left">These are activities and exercises that you can do on any day during the week. To add for a specific day click on that day in the calendar instead.</div>}
                             {this.state.showCalendarDayMain &&
                             <>
+                                {this.props.selectionType === "day" &&
+                                <>
                                 <CompletedActivitiesList calendarDay={this.props.calendarDay} />
                                 <PlannedRacesList calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedRace} onRemove={this.handleRemovePlannedRace} />
                                 <CompletedExercisesList calendarDay={this.props.calendarDay} />
+                                </>}
                                 <PlannedActivitiesList calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedActivity} onRemove={this.handleRemovePlannedActivity} />
                                 <PlannedExercisesList calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedExercise} onRemove={this.handleRemovePlannedExercise} />
-                                {this.state.isFutureDate &&
+                                {(this.state.isFutureDate || this.props.selectionType === "week") &&
                                 <>
-                                    <ActivityTypeButtonSet calendarDay={this.props.calendarDay} onAdd={this.handleAddPlannedActivity} onAddRace={this.handleAddPlannedRace} />
+                                    <ActivityTypeButtonSet planningPeriod={this.props.selectionType} calendarDay={this.props.calendarDay} onAdd={this.handleAddPlannedActivity} onAddRace={this.handleAddPlannedRace} />
                                     <ExerciseTypeButtonSet calendarDay={this.props.calendarDay} onAdd={this.handleAddPlannedExercise} />
                                 </>}
                             </>}

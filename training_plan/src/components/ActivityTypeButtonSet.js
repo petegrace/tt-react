@@ -9,6 +9,7 @@ class ActivityTypeButtonSet extends Component {
         const formInitData = {
             activity_type: activityType.activity_type,
             category_key: activityType.category_key,
+            planning_period: this.props.planningPeriod,
             recurrence: "once",
             planned_date: dateFns.format(this.props.calendarDay, "YYYY-MM-DD"),
             repeatOption: "Repeat every " + dateFns.format(this.props.calendarDay, "dddd"),
@@ -44,12 +45,13 @@ class ActivityTypeButtonSet extends Component {
         let activityTypes = this.props.activityTypes;
         let activityTypeButtons = activityTypes.map(this.renderActivityTypeButton);
         let plannedRaceButton = this.renderPlannedRaceButton();
+        console.log(this.props);
         return(
             <>
             {activityTypes.length > 0 &&
             <h3>Add Activities</h3>}
             {activityTypeButtons}
-            {plannedRaceButton}
+            {this.props.planningPeriod === "day" && plannedRaceButton}
             </>
         );
     }
