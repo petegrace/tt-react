@@ -6,7 +6,7 @@ export function loadTrainingPlanTemplates() {
     return function(dispatch) {
         const api = new TrainingPlanTemplatesApi();
         return api.getTrainingPlanTemplates().then(responseData => {
-            if (responseData.ok) {
+            if (responseData) {
                 dispatch(loadTrainingPlanTemplatesSuccess(responseData));
             }
         }).catch(error => {

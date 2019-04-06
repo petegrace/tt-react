@@ -235,13 +235,14 @@ class Calendar extends Component {
                 day = dateFns.addDays(day, 1);
             }
 
-            if (dateFns.isAfter(day, today)) {
+            // Add rows for flexible planning of future weeks if the user has it enabled
+            if (this.props.user && this.props.user.has_flexible_planning_enabled && dateFns.isAfter(day, today)) {
                 rows.push(
-                    <div key={weekCommencingDay} className="row">
+                    <div key={"wc-" + weekCommencingDay} className="row">
                         <div className="week-todos">
                             <div className={`col cell
                             ${dateFns.isSameDay(weekCommencingDay, selectedWeek) ? "selected" : ""}`} onClick={() => this.onWeekClick(dateFns.parse(weekCommencingDay))}>
-                                <div className="cell-content">{"w/c " + dateFns.format(weekCommencingDay, "D MMMM YYYY")}</div>
+                                <div className="cell-content">{"w/c " + dateFns.format(weekCommencingDay, "D MMMM")}</div>
                             </div>
                         </div>
                     </div>
@@ -266,23 +267,28 @@ class Calendar extends Component {
     onDateClick = (day, plannedActivities) => {
         this.setState({
             selectedDate: day,
+            selectedWeek: null,
             showCalendarDayModal: true,
+            showCalendarWeekModal: false,
             selectedDatePlannedActivities: plannedActivities
         });
         document.body.classList.toggle("noscroll");
     };
 
-    onWeekClick = (startDay) => {
+    onWeekClick = (weekStartDate) => {
         this.setState({
-            selectedWeek: startDay,
-            showCalendarDayModal: true
+            selectedDate: null,
+            selectedWeek: weekStartDate,
+            showCalendarDayModal: false,
+            showCalendarWeekModal: true
         });
         document.body.classList.toggle("noscroll");
     };
 
     handleCloseCalendarDayModal = () => {
         this.setState({
-            showCalendarDayModal: false
+            showCalendarDayModal: false,
+            showCalendarWeekModal: false
         });
         document.body.classList.toggle("noscroll");
         this.refreshPlannedActivities(this.state.currentMonth);
@@ -313,7 +319,9 @@ class Calendar extends Component {
                 {this.renderCells()}
             </div>
             {this.state.showCalendarDayModal && (
-            <CalendarDayModal className="modal" calendarDay={this.state.selectedDate} refresh={this.refreshPlannedActivities} close={this.handleCloseCalendarDayModal} />)}
+            <CalendarDayModal className="modal" selectionType="day" calendarDay={this.state.selectedDate} refresh={this.refreshPlannedActivities} close={this.handleCloseCalendarDayModal} />)}
+            {this.state.showCalendarWeekModal && (
+            <CalendarDayModal className="modal" selectionType="week" calendarDay={this.state.selectedWeek} refresh={this.refreshPlannedActivities} close={this.handleCloseCalendarDayModal} />)}
             <TrainingPlanTemplatesContainer calendarDay={this.state.selectedDate} refresh={this.refreshPlannedActivities} />
             </>
         )
@@ -323,6 +331,7 @@ class Calendar extends Component {
 
 function mapStateToProps(state) {
     return {
+        user: state.user,
         plannedActivities: state.plannedActivities,
         plannedRaces: state.plannedRaces,
         plannedExercises: state.plannedExercises,

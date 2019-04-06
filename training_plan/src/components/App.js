@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import Calendar from "./Calendar";
+import TrainingPlanIntroContainer from "./TrainingPlanIntroContainer";
 import * as activityTypeActions from "../actions/activityTypeActions";
 import * as userActions from "../actions/userActions";
 
@@ -18,11 +19,7 @@ class App extends Component {
             // This is where we can add routing in due course
             <>
             <h2>Training Plan</h2>
-            <div className="alert alert-info">
-                Use our brand new training calendar to plan your activities and exercises.
-                    You can schedule activities to do just once or on a recurring weekly basis,
-                    and they'll show up on your home page when it's time to do them.
-            </div>
+            <TrainingPlanIntroContainer />
             <Calendar />
             </>
         )

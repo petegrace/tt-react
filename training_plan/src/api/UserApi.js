@@ -25,6 +25,27 @@ class UserApi {
             return error;
         });
     }
+
+    patchUserInfo = (requestBody) => {
+        const options = {
+            method: "PATCH",
+            headers: {
+                "Authorization": this.authHeader,
+                "Content-Type": "application/json"
+            },
+            body: requestBody,
+            mode: "cors"
+        };
+        const endpoint = this.endpointOrigin + "/api/user_info";
+
+        return fetch(endpoint, options).then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+        }).catch(error => {
+            throw error;
+        });
+    }
 }
 
 export default UserApi;
