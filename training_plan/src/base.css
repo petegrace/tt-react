@@ -547,7 +547,7 @@ table h5 {
   .calendar .body .week-todos .cell {
     position: relative;
     width: 100%;
-    height: 2.5em;
+    height: 2em;
     border-right: 1px solid var(--calendar-border-color);
     overflow: hidden;
     cursor: pointer;

@@ -152,7 +152,7 @@ class CalendarDayModal extends Component {
     handleAddPlannedExercise = (id) => {
         const calendarDay = dateFns.format(this.props.calendarDay, "YYYY-MM-DD");
         const planningPeriod = this.props.selectionType;
-        
+
         if (!id) {
             const formInitData = {
                 isNewExerciseType: true,
@@ -295,8 +295,8 @@ class CalendarDayModal extends Component {
                                 <PlannedRacesList calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedRace} onRemove={this.handleRemovePlannedRace} />
                                 <CompletedExercisesList calendarDay={this.props.calendarDay} />
                                 </>}
-                                <PlannedActivitiesList calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedActivity} onRemove={this.handleRemovePlannedActivity} />
-                                <PlannedExercisesList calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedExercise} onRemove={this.handleRemovePlannedExercise} />
+                                <PlannedActivitiesList planningPeriod={this.props.selectionType} calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedActivity} onRemove={this.handleRemovePlannedActivity} />
+                                <PlannedExercisesList planningPeriod={this.props.selectionType} calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedExercise} onRemove={this.handleRemovePlannedExercise} />
                                 {(this.state.isFutureDate || this.props.selectionType === "week") &&
                                 <>
                                     <ActivityTypeButtonSet planningPeriod={this.props.selectionType} calendarDay={this.props.calendarDay} onAdd={this.handleAddPlannedActivity} onAddRace={this.handleAddPlannedRace} />

@@ -180,13 +180,13 @@ class Calendar extends Component {
                 formattedDate = dateFns.format(day, dateFormat);
                 const cloneDay = day;
 
-                const plannedActivities = filterPlannedActivities(this.props.plannedActivities, day);
+                const plannedActivities = filterPlannedActivities(this.props.plannedActivities, day, "day");
                 const plannedActivityBadges = plannedActivities.map(this.renderPlannedActivityBadge);
 
                 const plannedRaces = filterPlannedRaces(this.props.plannedRaces, day);
                 const plannedRaceBadges = plannedRaces.map(this.renderPlannedRaceBadge);
 
-                const plannedExerciseCategories = filterPlannedExercises(this.props.plannedExercises, day);
+                const plannedExerciseCategories = filterPlannedExercises(this.props.plannedExercises, day, "day");
                 const plannedExerciseCategoryBadges = plannedExerciseCategories.map(this.renderPlannedExerciseCategoryBadge);
 
                 const completedActivities = filterCompletedActivities(this.props.completedActivities, day);
@@ -237,12 +237,22 @@ class Calendar extends Component {
 
             // Add rows for flexible planning of future weeks if the user has it enabled
             if (this.props.user && this.props.user.has_flexible_planning_enabled && dateFns.isAfter(day, today)) {
+                const plannedWeekActivities = filterPlannedActivities(this.props.plannedActivities, weekCommencingDay, "week");
+                const plannedWeekActivityBadges = plannedWeekActivities.map(this.renderPlannedActivityBadge);
+
+                const plannedWeekExerciseCategories = filterPlannedExercises(this.props.plannedExercises, weekCommencingDay, "week");
+                const plannedWeekExerciseCategoryBadges = plannedWeekExerciseCategories.map(this.renderPlannedExerciseCategoryBadge);
+
                 rows.push(
                     <div key={"wc-" + weekCommencingDay} className="row">
                         <div className="week-todos">
                             <div className={`col cell
                             ${dateFns.isSameDay(weekCommencingDay, selectedWeek) ? "selected" : ""}`} onClick={() => this.onWeekClick(dateFns.parse(weekCommencingDay))}>
-                                <div className="cell-content">{"w/c " + dateFns.format(weekCommencingDay, "D MMMM")}</div>
+                                <div className="cell-content">
+                                    {"w/c " + dateFns.format(weekCommencingDay, "D MMMM")}:&nbsp;
+                                    {plannedWeekActivityBadges}
+                                    {plannedWeekExerciseCategoryBadges}
+                                </div>
                             </div>
                         </div>
                     </div>

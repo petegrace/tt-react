@@ -54,7 +54,7 @@ class PlannedActivitiesList extends Component {
     }
 
     render() {
-        const plannedActivities = filterPlannedActivities(this.props.plannedActivities, this.props.calendarDay);
+        const plannedActivities = filterPlannedActivities(this.props.plannedActivities, this.props.calendarDay, this.props.planningPeriod);
         let plannedActivityRows = plannedActivities.map(this.renderPlannedActivityRow);
 
         return (

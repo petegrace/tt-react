@@ -1,8 +1,8 @@
 import dateFns from "date-fns";
 
-export function filterPlannedActivities(plannedActivities, day) {
+export function filterPlannedActivities(plannedActivities, day, planningPeriod) {
     const jsonDate = dateFns.format(day, "YYYY-MM-DD");
-    const plannedActivitiesFiltered = plannedActivities.filter(plannedActivity => plannedActivity.planned_date === jsonDate);
+    const plannedActivitiesFiltered = plannedActivities.filter(plannedActivity => plannedActivity.planned_date === jsonDate && plannedActivity.planning_period === planningPeriod);
     return plannedActivitiesFiltered;
 }
 
@@ -17,9 +17,9 @@ export function filterPlannedRaces(plannedRaces, day) {
     return plannedRacesFiltered;
 }
 
-export function filterPlannedExercises(plannedExercises, day) {
+export function filterPlannedExercises(plannedExercises, day, planningPeriod) {
     const jsonDate = dateFns.format(day, "YYYY-MM-DD");
-    const plannedExercisesFiltered = plannedExercises.filter(plannedExerciseCategory => plannedExerciseCategory.planned_date === jsonDate);
+    const plannedExercisesFiltered = plannedExercises.filter(plannedExerciseCategory => plannedExerciseCategory.planned_date === jsonDate && plannedExerciseCategory.planning_period === planningPeriod);
     return plannedExercisesFiltered;
 }
 

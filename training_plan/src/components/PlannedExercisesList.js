@@ -48,11 +48,11 @@ class PlannedExercisesList extends Component {
                 <td>
                     <div className="d-none d-sm-inline">
                         {plannedExercise.recurrence === "once" && "Once only"}
-                        {plannedExercise.recurrence === "weekly" && <>Repeats every {dateFns.format(this.props.calendarDay, "dddd")}</>}
+                        {plannedExercise.recurrence === "weekly" && <>Repeats every {this.props.planningPeriod === "day" ? dateFns.format(this.props.calendarDay, "dddd") : "week"}</>}
                     </div>
                     <div className="d-inline d-sm-none">
                         {plannedExercise.recurrence === "once" && "Once"}
-                        {plannedExercise.recurrence === "weekly" && <>{dateFns.format(this.props.calendarDay, "ddd")}</>}
+                        {plannedExercise.recurrence === "weekly" && "Weekly"}
                     </div>
                 </td>
                 <td className="actions">
@@ -79,7 +79,7 @@ class PlannedExercisesList extends Component {
     }
    
     render() {
-        const plannedExerciseCategories = filterPlannedExercises(this.props.plannedExercises, this.props.calendarDay);
+        const plannedExerciseCategories = filterPlannedExercises(this.props.plannedExercises, this.props.calendarDay, this.props.planningPeriod);
         let plannedExerciseRows = [];
         for (let plannedExerciseCategory of plannedExerciseCategories) {
             plannedExerciseRows.push(plannedExerciseCategory.exercises.map(this.renderPlannedExerciseRow));
