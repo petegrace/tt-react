@@ -161,7 +161,7 @@ class CalendarDayModal extends Component {
                 planning_period: planningPeriod,
                 recurrence: "weekly",
                 planned_date: dateFns.format(this.props.calendarDay, "YYYY-MM-DD"),
-                repeatOption: "Repeat every " + dateFns.format(this.props.calendarDay, "dddd"),
+                repeatOption: "Repeat every " + (planningPeriod === "day" ? dateFns.format(this.props.calendarDay, "dddd") : "week"),
                 categoryOptions: this.props.exerciseCategories
             }
             this.setState({
@@ -170,7 +170,7 @@ class CalendarDayModal extends Component {
             this.togglePlannedExerciseForm();
         } else {
             const categories = this.props.plannedExercises.filter(function(plannedExercise) {
-                return plannedExercise.planned_date === calendarDay;
+                return plannedExercise.planned_date === calendarDay && plannedExercise.planning_period === planningPeriod;
             });
 
             let requestBody;
@@ -207,6 +207,7 @@ class CalendarDayModal extends Component {
                     planned_reps: exerciseType.default_reps,
                     planned_seconds: exerciseType.default_seconds
                 });
+                console.log(requestBody);
                 this.props.plannedExerciseActions.addPlannedExercise(requestBody).then(result => {
                     this.props.refresh(this.props.calendarDay);
                 });                
@@ -271,7 +272,7 @@ class CalendarDayModal extends Component {
                     <div className="calendar-modal-header">
                         <div className="d-none d-sm-inline">
                             <h4>
-                                {this.props.selectionType === "week" && "Week commencing "}
+                                {this.props.selectionType === "week" && "Week of "}
                                 {dateFns.format(this.props.calendarDay, dateFormatFull)}
                             </h4>
                         </div>

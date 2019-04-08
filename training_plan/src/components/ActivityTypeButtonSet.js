@@ -12,7 +12,7 @@ class ActivityTypeButtonSet extends Component {
             planning_period: this.props.planningPeriod,
             recurrence: "once",
             planned_date: dateFns.format(this.props.calendarDay, "YYYY-MM-DD"),
-            repeatOption: "Repeat every " + dateFns.format(this.props.calendarDay, "dddd"),
+            repeatOption: "Repeat every " + (this.props.planningPeriod === "day" ? dateFns.format(this.props.calendarDay, "dddd") : "week"),
             distance_uom_preference: this.props.user.distance_uom_preference
         }
 

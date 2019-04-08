@@ -249,7 +249,7 @@ class Calendar extends Component {
                             <div className={`col cell
                             ${dateFns.isSameDay(weekCommencingDay, selectedWeek) ? "selected" : ""}`} onClick={() => this.onWeekClick(dateFns.parse(weekCommencingDay))}>
                                 <div className="cell-content">
-                                    {"w/c " + dateFns.format(weekCommencingDay, "D MMMM")}:&nbsp;
+                                    {"Week of " + dateFns.format(weekCommencingDay, "D MMMM")} (to do any day):&nbsp;
                                     {plannedWeekActivityBadges}
                                     {plannedWeekExerciseCategoryBadges}
                                 </div>

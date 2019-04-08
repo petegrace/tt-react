@@ -17,7 +17,7 @@ class PlannedActivitiesList extends Component {
             planned_distance: plannedActivity.planned_distance,
             recurrence: plannedActivity.recurrence,
             planned_date: dateFns.format(this.props.calendarDay, "YYYY-MM-DD"),
-            repeatOption: "Repeat every " + dateFns.format(this.props.calendarDay, "dddd"),
+            repeatOption: "Repeat every " + (plannedActivity.planning_period === "day" ? dateFns.format(this.props.calendarDay, "dddd") : "week"),
             distance_uom_preference: this.props.user.distance_uom_preference
         };
 
@@ -28,7 +28,7 @@ class PlannedActivitiesList extends Component {
                 <td>{plannedActivity.description}</td>
                 <td>
                     {plannedActivity.recurrence === "once" && "Once only"}
-                    {plannedActivity.recurrence === "weekly" && <>Repeats every {dateFns.format(this.props.calendarDay, "dddd")}</>}
+                    {plannedActivity.recurrence === "weekly" && <>Repeats every {this.props.planningPeriod === "day" ? dateFns.format(this.props.calendarDay, "dddd") : "week"}</>}
                 </td>
                 <td className="actions">
                     <ul className="nav justify-content-end">

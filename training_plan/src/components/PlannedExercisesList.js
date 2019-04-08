@@ -21,7 +21,7 @@ class PlannedExercisesList extends Component {
             planned_seconds: plannedExercise.planned_seconds,
             recurrence: plannedExercise.recurrence,
             planned_date: dateFns.format(this.props.calendarDay, "YYYY-MM-DD"),
-            repeatOption: "Repeat every " + dateFns.format(this.props.calendarDay, "dddd")
+            repeatOption: "Repeat every " + (plannedExercise.planning_period === "day" ? dateFns.format(this.props.calendarDay, "dddd") : "week"),
         }
 
         return (
