@@ -45,7 +45,7 @@ class ActivityTypeButtonSet extends Component {
         let activityTypes = this.props.activityTypes;
         let activityTypeButtons = activityTypes.map(this.renderActivityTypeButton);
         let plannedRaceButton = this.renderPlannedRaceButton();
-        console.log(this.props);
+        
         return(
             <>
             {activityTypes.length > 0 &&

@@ -42,7 +42,7 @@ class PlannedActivitiesList extends Component {
                                 <Dropdown.Item href="#" role="button" onClick={() => this.props.onRemove(plannedActivity.id, "all")}>Remove from plan</Dropdown.Item>}
                                 {plannedActivity.recurrence === "weekly" &&
                                 <>
-                                <Dropdown.Item href="#" role="button" onClick={() => this.props.onRemove(plannedActivity.id, dateFns.format(this.props.calendarDay, "YYYY-MM-DD"))}>Remove for this day</Dropdown.Item>
+                                <Dropdown.Item href="#" role="button" onClick={() => this.props.onRemove(plannedActivity.id, dateFns.format(this.props.calendarDay, "YYYY-MM-DD"))}>Remove for this {this.props.planningPeriod}</Dropdown.Item>
                                 <Dropdown.Item href="#" role="button" onClick={() => this.props.onRemove(plannedActivity.id, "all")}>Remove for all weeks</Dropdown.Item>
                                 </>}
                             </Dropdown.Menu>
