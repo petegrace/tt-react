@@ -1,10 +1,30 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Main from "./Main";
-import "./base.css"
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import { Provider } from "react-redux";
+import thunk from "redux-thunk";
+
+import plannedActivitiesReducer from "./reducers/plannedActivitiesReducer";
+import plannedExercisesReducer from "./reducers/plannedExercisesReducer";
+import userReducer from "./reducers/userReducer";
+import App from "./components/App";
+import "./base.css";
+
+const rootReducer = combineReducers({
+    plannedActivities: plannedActivitiesReducer,
+    plannedExercises: plannedExercisesReducer,
+    user: userReducer
+});
+
+const store = createStore(
+    rootReducer,
+    applyMiddleware(thunk)
+);
 
 // Use a Main class that we can flesh out to include routing as we start to do more of the site's functionality from React
 ReactDOM.render(
-    <Main />,
+    <Provider store={store}>
+        <App />
+    </Provider>,
     document.getElementById("container")
 );
