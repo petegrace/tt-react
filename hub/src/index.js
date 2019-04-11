@@ -3,11 +3,13 @@ import ReactDOM from "react-dom";
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
+import { pendingTasksReducer } from "react-redux-spinner";
 
 import plannedActivitiesReducer from "./reducers/plannedActivitiesReducer";
 import completedExercisesReducer from "./reducers/completedExercisesReducer";
 import plannedExercisesReducer from "./reducers/plannedExercisesReducer";
 import userReducer from "./reducers/userReducer";
+import alertReducer from "./reducers/alertReducer";
 import App from "./components/App";
 import "./base.css";
 
@@ -15,7 +17,9 @@ const rootReducer = combineReducers({
     plannedActivities: plannedActivitiesReducer,
     completedExercises: completedExercisesReducer,
     plannedExercises: plannedExercisesReducer,
-    user: userReducer
+    user: userReducer,
+    pendingTasks: pendingTasksReducer,
+    alert: alertReducer
 });
 
 const store = createStore(

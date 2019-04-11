@@ -1,3 +1,5 @@
+import { pendingTask, begin, end, endAll } from "react-redux-spinner";
+
 import * as types from "./actionTypes";
 import PlannedActivitiesApi from "../api/PlannedActivitiesApi";
 import PlannedActivityApi from "../api/PlannedActivityApi";
@@ -6,6 +8,10 @@ import { loadPlannedExercisesSuccess } from "./plannedExerciseActions";
 
 export function loadPlannedActivities(startDate, endDate) {
     return function(dispatch) {
+        dispatch({
+            type: types.LOAD_PLANNED_ACTIVITIES,
+            [ pendingTask ]: begin
+        });
         const api = new PlannedActivitiesApi();
         return api.getPlannedActivities(startDate, endDate).then(responseData => {
             if (responseData) {
@@ -14,6 +20,10 @@ export function loadPlannedActivities(startDate, endDate) {
                 dispatch(loadPlannedExercisesSuccess(responseData));
             }
         }).catch(error => {
+            dispatch({
+                type: types.ERROR_ENCOUNTERED,
+                [ pendingTask ]: endAll
+            })
             throw(error);
         });
     }
@@ -22,6 +32,7 @@ export function loadPlannedActivities(startDate, endDate) {
 export function loadPlannedActivitiesSuccess(responseData) {
     return {
         type: types.LOAD_PLANNED_ACTIVITIES_SUCCESS,
+        [ pendingTask ]: end,
         plannedActivities: responseData.planned_activities
     };
 }

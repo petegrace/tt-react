@@ -13,7 +13,7 @@ class TodoContainer extends Component {
     handleCompleteExercise = (plannedExerciseId) => {
         const today = new Date();
         const weekStartDate = dateFns.startOfWeek(dateFns.startOfMonth(today), {weekStartsOn: 1});
-        
+
         const requestBody = JSON.stringify({ 
             planned_exercise_id: plannedExerciseId
         })
