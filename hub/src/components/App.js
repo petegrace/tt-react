@@ -20,18 +20,27 @@ class App extends Component {
     }
 
     render() {
+        const user = this.props.user;
+
         return (
             // This is where we can add routing in due course
             <>
             <Spinner />
             <Alert />
-            <TodoContainer planningPeriod="day" />
-            {/* TODO: Only display if flexible planning is enabled and then ensure it makes sense for week */}
-            {/* <TodoContainer planningPeriod="week" /> */}
+            {user && (!user.has_flexible_planning_enabled || user.has_planned_activity_for_today) &&
+            <TodoContainer planningPeriod="day" />}
+            {user && user.has_flexible_planning_enabled && (user.has_planned_activity_for_this_week || !user.has_planned_activity_for_today) &&
+            <TodoContainer planningPeriod="week" />}
             <CountersContainer />
             </>
         );
     }
+}
+
+function mapStateToProps(state) {
+    return {
+        user: state.user
+    };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -41,6 +50,6 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-App = connect(null, mapDispatchToProps)(App);
+App = connect(mapStateToProps, mapDispatchToProps)(App);
 
 export default App;
