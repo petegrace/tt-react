@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { Spinner } from "react-redux-spinner";
 
 import Calendar from "./Calendar";
 import TrainingPlanIntroContainer from "./TrainingPlanIntroContainer";
@@ -18,6 +19,7 @@ class App extends Component {
         return (
             // This is where we can add routing in due course
             <>
+            <Spinner />
             <h2>Training Plan</h2>
             <TrainingPlanIntroContainer />
             <Calendar />

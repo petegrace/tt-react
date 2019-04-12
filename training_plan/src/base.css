@@ -1,5 +1,6 @@
 @import url("//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css");
+@import "./nprogress.css";
 
 .tt-navbar {
     background-color: #1d5454;

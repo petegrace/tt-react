@@ -4,6 +4,7 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import { reducer as formReducer } from "redux-form";
+import { pendingTasksReducer } from "react-redux-spinner";
 
 import App from "./components/App";
 import plannedActivitiesReducer from "./reducers/plannedActivitiesReducer";
@@ -30,7 +31,8 @@ const rootReducer = combineReducers({
     exerciseTypes: exerciseTypesReducer,
     exerciseCategories: exerciseCategoriesReducer,
     trainingPlanTemplates: trainingPlanTemplatesReducer,
-    user: userReducer
+    user: userReducer,
+    pendingTasks: pendingTasksReducer
 });
 
 const store = createStore(
