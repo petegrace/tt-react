@@ -1,4 +1,4 @@
-import { pendingTask, begin, end, endAll } from "react-redux-spinner";
+import { pendingTask, begin, end } from "react-redux-spinner";
 
 import * as types from "./actionTypes";
 import CompletedExercisesApi from "../api/CompletedExercisesApi";
@@ -24,7 +24,7 @@ export function addCompletedExercise(requestBody) {
         }).catch(error => {
             dispatch({
                 type: types.ERROR_ENCOUNTERED,
-                [ pendingTask ]: endAll
+                [ pendingTask ]: end
             })
             throw(error);
         });

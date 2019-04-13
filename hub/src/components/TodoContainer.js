@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import dateFns from "date-fns";
+import * as dateFns from "date-fns";
 
 import * as completedExerciseActions from "../actions/completedExerciseActions";
 import * as plannedActivityActions from "../actions/plannedActivityActions";
@@ -29,11 +29,10 @@ class TodoContainer extends Component {
     }
 
     renderPlannedActivityButton = (plannedActivity) => {
-        const buttonClass = "btn btn-sm " + plannedActivity.category_key;
+        const buttonClass = "btn btn-sm mr-1 ml-1 " + plannedActivity.category_key;
 
         return (
-            <span  key={plannedActivity.id}>
-            <a className={buttonClass} role="button" href="#todo">
+            <button key={plannedActivity.id} className={buttonClass}>
 						{plannedActivity.activity_type}
 						<br />
 						<small>
@@ -43,14 +42,12 @@ class TodoContainer extends Component {
 							{plannedActivity.planned_distance_formatted && plannedActivity.planned_distance_formatted}
                             {!plannedActivity.planned_distance_formatted && <>&nbsp;</>}
 						</small>
-			</a>
-            &nbsp;
-            </span>
+			</button>
         );
     }
 
     renderPlannedExerciseButton = (plannedExercise) => {
-        const buttonClass = "btn btn-sm ml-1 mr-1 " + plannedExercise.category_key;
+        const buttonClass = "btn btn-sm mr-1  ml-1 " + plannedExercise.category_key;
 
         return (
             <button key={plannedExercise.id} className={buttonClass} onClick={() => this.handleCompleteExercise(plannedExercise.id)}>

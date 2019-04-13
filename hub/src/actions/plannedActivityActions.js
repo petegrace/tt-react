@@ -1,4 +1,4 @@
-import { pendingTask, begin, end, endAll } from "react-redux-spinner";
+import { pendingTask, begin, end } from "react-redux-spinner";
 
 import * as types from "./actionTypes";
 import PlannedActivitiesApi from "../api/PlannedActivitiesApi";
@@ -22,7 +22,7 @@ export function loadPlannedActivities(startDate, endDate) {
         }).catch(error => {
             dispatch({
                 type: types.ERROR_ENCOUNTERED,
-                [ pendingTask ]: endAll
+                [ pendingTask ]: end
             })
             throw(error);
         });

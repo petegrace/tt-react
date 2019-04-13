@@ -5,6 +5,8 @@ import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import { pendingTasksReducer } from "react-redux-spinner";
 
+import combinedRecentActivitiesReducer from "./reducers/combinedRecentActivitiesReducer"
+import completedActivitiesReducer from "./reducers/completedActivitiesReducer";
 import plannedActivitiesReducer from "./reducers/plannedActivitiesReducer";
 import completedExercisesReducer from "./reducers/completedExercisesReducer";
 import plannedExercisesReducer from "./reducers/plannedExercisesReducer";
@@ -14,6 +16,8 @@ import App from "./components/App";
 import "./base.css";
 
 const rootReducer = combineReducers({
+    combinedRecentActivities: combinedRecentActivitiesReducer,
+    completedActivities: completedActivitiesReducer,
     plannedActivities: plannedActivitiesReducer,
     completedExercises: completedExercisesReducer,
     plannedExercises: plannedExercisesReducer,
