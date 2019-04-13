@@ -30,6 +30,8 @@ export function loadCombinedRecentActivitiesSuccess(responseData) {
         type: types.LOAD_COMBINED_RECENT_ACTIVITIES_SUCCESS,
         [ pendingTask ]: end,
         pageNo: responseData.page_no,
+        prevPageNo: responseData.prev_page_no,
+        nextPageNo: responseData.next_page_no,
         activitiesAndExercises: responseData.activities_and_exercises
     };
 }

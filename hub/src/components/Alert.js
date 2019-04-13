@@ -3,10 +3,14 @@ import { connect } from "react-redux";
 
 class Alert extends Component {
     render() {
+        const alert = this.props.alert;
         return (
             <>
-            {this.props.alert && this.props.alert.showAlert &&
-            <div className="alert alert-info">{this.props.alert.message}</div>}
+            {alert && alert.showAlert && (
+            <div className="alert alert-info">
+                {alert.message}&nbsp;
+                (<a href="#action" onClick={() => this.props.onActionLinkClick(alert.actionFormInitData)}>{alert.actionLinkText}</a>)
+            </div>)}
             </>
         );
     }

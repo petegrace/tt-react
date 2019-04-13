@@ -1,8 +1,10 @@
 import * as types from "./actionTypes";
 
-export function showAlert(alertMessage) {
+export function showAlert(alertMessage, actionLinkText, actionFormInitData) {
     return {
         type: types.SHOW_ALERT,
-        alertMessage: alertMessage
+        alertMessage: alertMessage,
+        actionLinkText: actionLinkText,
+        actionFormInitData: actionFormInitData
     };
 }

@@ -1,4 +1,4 @@
-import { pendingTask, begin, end, endAll } from "react-redux-spinner";
+import { pendingTask, begin, end } from "react-redux-spinner";
 
 import * as types from "./actionTypes";
 import PlannedExerciseApi from "../api/PlannedExerciseApi";
@@ -23,7 +23,7 @@ export function addPlannedExercise(requestBody) {
         }).catch(error => {
             dispatch({
                 type: types.ERROR_ENCOUNTERED,
-                [ pendingTask ]: endAll
+                [ pendingTask ]: end
             });
             throw(error);
         });
@@ -50,7 +50,7 @@ export function updatePlannedExercise(id, requestBody) {
         }).catch(error => {
             dispatch({
                 type: types.ERROR_ENCOUNTERED,
-                [ pendingTask ]: endAll
+                [ pendingTask ]: end
             });
             throw(error);
         });
@@ -77,7 +77,7 @@ export function deletePlannedExercise(id, scope) {
         }).catch(error => {
             dispatch({
                 type: types.ERROR_ENCOUNTERED,
-                [ pendingTask ]: endAll
+                [ pendingTask ]: end
             });
             throw(error);
         });

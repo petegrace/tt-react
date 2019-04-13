@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
+import { reducer as formReducer } from "redux-form";
 import { pendingTasksReducer } from "react-redux-spinner";
 
 import combinedRecentActivitiesReducer from "./reducers/combinedRecentActivitiesReducer"
@@ -16,6 +17,7 @@ import App from "./components/App";
 import "./base.css";
 
 const rootReducer = combineReducers({
+    form: formReducer,
     combinedRecentActivities: combinedRecentActivitiesReducer,
     completedActivities: completedActivitiesReducer,
     plannedActivities: plannedActivitiesReducer,

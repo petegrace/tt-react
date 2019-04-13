@@ -12,7 +12,9 @@ export default function alertReducer(state, action) {
         case types.SHOW_ALERT:
             return {
                 showAlert: true,
-                message: action.alertMessage
+                message: action.alertMessage,
+                actionLinkText: action.actionLinkText,
+                actionFormInitData: action.actionFormInitData
             };
         default:
             return state;

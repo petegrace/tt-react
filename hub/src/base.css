@@ -676,3 +676,55 @@ table h5 {
   .noscroll { 
     overflow: hidden;
   }
+
+  .modal-wrapper {
+      background: white;
+      border: 1px solid #d0cccc;
+      box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.17);
+      margin: 100px auto 20px;
+      /*transition: all .8s;*/
+      width: 95%;
+      max-width: 800px;
+  }
+  
+  .generic-modal-header {
+      background: #1d5454;
+      height: 50px;
+      line-height: 40px;
+      padding: 10px 20px 10px 20px;
+      text-align: right;
+  }
+  
+  .generic-modal-header h4 {
+      color: white;
+      float: left;
+      margin: 0;
+      padding: 0;
+  }
+
+  .generic-modal-body {
+      padding: 10px 20px 10px 20px;
+  }
+
+  .close-modal-btn {
+      color: white;
+      cursor: pointer;
+      float: right;
+      font-size: 30px;
+      margin: 0;
+  }
+  
+  .close-modal-btn:hover {
+      color: #d0cccc;
+  }
+  
+  .modal-back-drop {
+      background-color: rgba(48, 49, 48, 0.2);
+      height: 100%;
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      z-index: 50;
+      overflow-y: scroll;
+  }

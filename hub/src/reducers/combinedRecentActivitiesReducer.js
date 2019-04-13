@@ -3,7 +3,9 @@ import * as types from "../actions/actionTypes";
 export default function combinedRecentActivitiesReducer(state, action) {
     if (state === undefined) {
         return {
-            pageNo: 1,
+            pageNo: null,
+            prevPageNo: null,
+            nextPageNo: 1,
             activitiesAndExercises: []
         }
     }
@@ -12,6 +14,8 @@ export default function combinedRecentActivitiesReducer(state, action) {
         case types.LOAD_COMBINED_RECENT_ACTIVITIES_SUCCESS:
             return {
                 pageNo: action.pageNo,
+                prevPageNo: action.prevPageNo,
+                nextPageNo: action.nextPageNo,
                 activitiesAndExercises: action.activitiesAndExercises
             };
         default:
