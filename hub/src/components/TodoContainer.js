@@ -6,6 +6,7 @@ import * as dateFns from "date-fns";
 import * as completedExerciseActions from "../actions/completedExerciseActions";
 import * as plannedActivityActions from "../actions/plannedActivityActions";
 import * as combinedRecentActivityActions from "../actions/combinedRecentActivityActions";
+import * as annualStatsActions from "../actions/annualStatsActions";
 import { filterPlannedExercises, filterPlannedActivities } from "../helpers/trainingPlan";
 import StravaImportButton from "./StravaImportButton";
 
@@ -27,6 +28,7 @@ class TodoContainer extends Component {
         this.props.completedExerciseActions.addCompletedExercise(requestBody).then(result => {
             this.props.plannedActivityActions.loadPlannedActivities(this.state.weekStartDate, this.state.today);
             this.props.combinedRecentActivityActions.loadCombinedRecentActivities(1, 5);
+            this.props.annualStatsActions.loadAnnualStats();
         });
     }
 
@@ -132,7 +134,8 @@ function mapDispatchToProps(dispatch) {
     return {
         plannedActivityActions: bindActionCreators(plannedActivityActions, dispatch),
         completedExerciseActions: bindActionCreators(completedExerciseActions, dispatch),
-        combinedRecentActivityActions: bindActionCreators(combinedRecentActivityActions, dispatch)
+        combinedRecentActivityActions: bindActionCreators(combinedRecentActivityActions, dispatch),
+        annualStatsActions: bindActionCreators(annualStatsActions, dispatch)
     };
 }
 

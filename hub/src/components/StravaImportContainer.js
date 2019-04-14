@@ -9,6 +9,7 @@ import * as userActions from "../actions/userActions";
 import * as completedActivityActions from "../actions/completedActivityActions";
 import * as plannedActivityActions from "../actions/plannedActivityActions";
 import * as combinedRecentActivityActions from "../actions/combinedRecentActivityActions";
+import * as annualStatsActions from "../actions/annualStatsActions";
 import StravaImportButton from "./StravaImportButton";
 
 class StravaImportContainer extends Component {
@@ -34,6 +35,7 @@ class StravaImportContainer extends Component {
         this.props.completedActivityActions.addCompletedActivities(requestBody).then(result => {
             this.props.plannedActivityActions.loadPlannedActivities(this.state.weekStartDate, this.state.today);
             this.props.combinedRecentActivityActions.loadCombinedRecentActivities(1, 5);
+            this.props.annualStatsActions.loadAnnualStats();
         });
     }
 
@@ -100,7 +102,8 @@ function mapDispatchToProps(dispatch) {
         userActions: bindActionCreators(userActions, dispatch),
         completedActivityActions: bindActionCreators(completedActivityActions, dispatch),
         plannedActivityActions: bindActionCreators(plannedActivityActions, dispatch),
-        combinedRecentActivityActions: bindActionCreators(combinedRecentActivityActions, dispatch)
+        combinedRecentActivityActions: bindActionCreators(combinedRecentActivityActions, dispatch),
+        annualStatsActions: bindActionCreators(annualStatsActions, dispatch)
     };
 }
 

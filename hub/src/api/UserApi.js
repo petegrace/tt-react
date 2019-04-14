@@ -22,7 +22,7 @@ class UserApi {
                 return response.json();
             }
         }).catch(error => {
-            return error;
+            throw error;
         });
     }
 
