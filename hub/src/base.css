@@ -140,7 +140,7 @@
     border-width: 2px;
 }
 
-button.cat_green:hover, button.cat_green:active {
+button.cat_green:hover, button.cat_green:active, a.cat_green:hover, a.cat_green:active {
     background-color: #679666;
     border-color: #588157;
     color: #ffffff;
@@ -156,7 +156,7 @@ button.cat_green:hover, button.cat_green:active {
     color: #588157;
 }
 
-button.cat_green_outline:hover, button.cat_green_outline:active {
+button.cat_green_outline:hover, button.cat_green_outline:active, a.cat_green_outline:hover, a.cat_green_outline:active {
     background-color: #f1fff1;
     border-color: #588157;
     border-width: 2px;
@@ -177,7 +177,7 @@ button.cat_green_outline:hover, button.cat_green_outline:active {
     border-style: solid;
 }
 
-button.cat_blue:hover, button.cat_blue:active {
+button.cat_blue:hover, button.cat_blue:active, a.cat_blue:hover, a.cat_blue:active {
     background-color: #4994da;
     border-color: #3f7eba;
     color: #ffffff; 
@@ -193,7 +193,7 @@ button.cat_blue:hover, button.cat_blue:active {
     color: #3f7eba;
 }
 
-button.cat_blue_outline:hover, button.cat_blue_outline:active {
+button.cat_blue_outline:hover, button.cat_blue_outline:active, a.cat_blue_outline:hover, a.cat_blue_outline:active {
     background-color: #a3d3ff;
     border-color: #3f7eba;
     border-width: 2px;
@@ -214,7 +214,7 @@ button.cat_blue_outline:hover, button.cat_blue_outline:active {
     border-style: solid;
 }
 
-button.cat_red:hover, button.cat_red:active {
+button.cat_red:hover, button.cat_red:active, a.cat_red:hover, a.cat_red:active {
     background-color: #ff6d6b;
     border-color: #ef6461;
     color: #ffffff; 
@@ -230,7 +230,7 @@ button.cat_red:hover, button.cat_red:active {
     color: #ef6461; 
 }	
 
-button.cat_red_outline:hover, button.cat_red_outline:active {
+button.cat_red_outline:hover, button.cat_red_outline:active, a.cat_red_outline:hover, a.cat_red_outline:active {
     background-color: #ffbebd;
     border-color: #ef6461;
     border-width: 2px;
@@ -251,7 +251,7 @@ button.cat_red_outline:hover, button.cat_red_outline:active {
     border-style: solid;
 }
 
-button.cat_yellow:hover, button.cat_yellow:active {
+button.cat_yellow:hover, button.cat_yellow:active, a.cat_yellow:hover, a.cat_yellow:active {
     background-color: #fcc56d;
     border-color: #e4b363;
     color: #292b2c; 
@@ -267,7 +267,7 @@ button.cat_yellow:hover, button.cat_yellow:active {
     color: #e4b363;
 }
 
-button.cat_yellow_outline:hover, button.cat_yellow_outline:active {
+button.cat_yellow_outline:hover, button.cat_yellow_outline:active, a.cat_yellow_outline:hover, a.cat_yellow_outline:active {
     background-color: #ffecce;
     border-color: #e4b363;
     border-width: 2px;

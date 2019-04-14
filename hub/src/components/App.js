@@ -12,6 +12,7 @@ import Alert from "./Alert";
 import TodoContainer from "./TodoContainer";
 import CountersContainer from "./CountersContainer";
 import RecentActivityContainer from "./RecentActivityContainer";
+import StravaImportContainer from "./StravaImportContainer";
 import CompletedExerciseFormModal from "./CompletedExerciseFormModal";
 
 class App extends Component {
@@ -71,6 +72,7 @@ class App extends Component {
             {user && user.has_flexible_planning_enabled && (user.has_planned_activity_for_this_week || !user.has_planned_activity_for_today) && (
             <TodoContainer planningPeriod="week" />)}
             <RecentActivityContainer onEditCompletedExercise={this.handleEditCompletedExercise} />
+            <StravaImportContainer />
             <CountersContainer />
             {this.state.showCompletedExerciseForm && (
             <CompletedExerciseFormModal className="modal" initData={this.state.completedExerciseFormInitData} onSubmit={this.handleSaveCompletedExercise} close={this.handleCloseCompletedExerciseForm} />)}

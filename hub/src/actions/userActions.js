@@ -61,3 +61,10 @@ export function updateUserInfoSuccess(id, responseData) {
         updatedUserInfo: responseData.updated_user_info
     };
 }
+
+export function updateUserStravaAccessToken(accessToken) {
+    return {
+        type: types.STORE_USER_STRAVA_ACCESS_TOKEN,
+        stravaAccessToken: accessToken
+    };
+}

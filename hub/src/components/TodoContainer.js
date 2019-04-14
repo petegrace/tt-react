@@ -7,7 +7,7 @@ import * as completedExerciseActions from "../actions/completedExerciseActions";
 import * as plannedActivityActions from "../actions/plannedActivityActions";
 import * as combinedRecentActivityActions from "../actions/combinedRecentActivityActions";
 import { filterPlannedExercises, filterPlannedActivities } from "../helpers/trainingPlan";
-
+import StravaImportButton from "./StravaImportButton";
 
 class TodoContainer extends Component {
     constructor(props) {
@@ -22,7 +22,7 @@ class TodoContainer extends Component {
     handleCompleteExercise = (plannedExerciseId) => {
         const requestBody = JSON.stringify({ 
             planned_exercise_id: plannedExerciseId
-        })
+        });
         
         this.props.completedExerciseActions.addCompletedExercise(requestBody).then(result => {
             this.props.plannedActivityActions.loadPlannedActivities(this.state.weekStartDate, this.state.today);
@@ -34,8 +34,10 @@ class TodoContainer extends Component {
         const buttonClass = "btn btn-sm mr-1 ml-1 " + plannedActivity.category_key;
 
         return (
-            <button key={plannedActivity.id} className={buttonClass}>
-						{plannedActivity.activity_type}
+            <span key={plannedActivity.id}>
+                <StravaImportButton buttonClass={buttonClass} buttonContent={(
+                        <>
+                        {plannedActivity.activity_type}
 						<br />
 						<small>
 							{plannedActivity.description && plannedActivity.description}
@@ -44,7 +46,8 @@ class TodoContainer extends Component {
 							{plannedActivity.planned_distance_formatted && plannedActivity.planned_distance_formatted}
                             {!plannedActivity.planned_distance_formatted && <>&nbsp;</>}
 						</small>
-			</button>
+                        </>)} />
+			</span>
         );
     }
 

@@ -9,7 +9,10 @@ class Alert extends Component {
             {alert && alert.showAlert && (
             <div className="alert alert-info">
                 {alert.message}&nbsp;
+                {alert.actionLinkText && (
+                <>
                 (<a href="#action" onClick={() => this.props.onActionLinkClick(alert.actionFormInitData)}>{alert.actionLinkText}</a>)
+                </>)}                
             </div>)}
             </>
         );

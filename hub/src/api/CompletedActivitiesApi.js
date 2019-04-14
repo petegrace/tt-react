@@ -50,6 +50,27 @@ class CompletedActivitiesApi {
             throw error;
         });
     }
+
+    postCompletedActivities = (requestBody) => {        
+        const options = {
+            method: "POST",
+            headers: {
+                "Authorization": this.authHeader,
+                "Content-Type": "application/json"
+            },
+            body: requestBody,
+            mode: "cors"
+        };
+        const endpoint = this.endpointOrigin + "/api/completed_activities";
+
+        return fetch(endpoint, options).then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+        }).catch(error => {
+            throw error;
+        });
+    }
 }
 
 export default CompletedActivitiesApi;
