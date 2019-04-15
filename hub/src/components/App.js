@@ -8,11 +8,14 @@ import * as plannedActivityActions from "../actions/plannedActivityActions";
 import * as completedExerciseActions from "../actions/completedExerciseActions";
 import * as combinedRecentActivityActions from "../actions/combinedRecentActivityActions";
 import * as userActions from "../actions/userActions";
+import * as activityTypeActions from "../actions/activityTypeActions";
+import * as annualStatsActions from "../actions/annualStatsActions";
 import Alert from "./Alert";
 import TodoContainer from "./TodoContainer";
 import CountersContainer from "./CountersContainer";
 import RecentActivityContainer from "./RecentActivityContainer";
 import StravaImportContainer from "./StravaImportContainer";
+import ExerciseTypeButtonSet from "./ExerciseTypeButtonSet";
 import CompletedExerciseFormModal from "./CompletedExerciseFormModal";
 
 class App extends Component {
@@ -30,7 +33,39 @@ class App extends Component {
         const weekStartDate = dateFns.startOfWeek(today, {weekStartsOn: 1});
         this.props.plannedActivityActions.loadPlannedActivities(weekStartDate, today);
         this.props.userActions.loadUserInfo();
-    } 
+        this.props.activityTypeActions.loadActivityTypes();
+    }
+
+    handleCompleteAdhocExercise = (exerciseTypeId) => {
+        if (!exerciseTypeId) {
+            // todo
+            return
+            // const formInitData = {
+            //     isNewExerciseType: true,
+            //     measured_by: "reps",
+            //     planned_sets: 1,
+            //     planning_period: planningPeriod,
+            //     recurrence: "weekly",
+            //     planned_date: dateFns.format(this.props.calendarDay, "YYYY-MM-DD"),
+            //     repeatOption: "Repeat every " + (planningPeriod === "day" ? dateFns.format(this.props.calendarDay, "dddd") : "week"),
+            //     categoryOptions: this.props.exerciseCategories
+            // }
+            // this.setState({
+            //     plannedExerciseFormInitData: formInitData
+            // });
+            // this.togglePlannedExerciseForm();
+        } else {
+            const requestBody = JSON.stringify({ 
+                exercise_type_id: exerciseTypeId
+            });
+            
+            this.props.completedExerciseActions.addCompletedExercise(requestBody).then(result => {
+                this.props.combinedRecentActivityActions.loadCombinedRecentActivities(1, 5);
+                this.props.annualStatsActions.loadAnnualStats();
+            });
+        }
+        
+    }
 
     handleEditCompletedExercise = (formInitData) => {
         this.setState({
@@ -61,6 +96,13 @@ class App extends Component {
 
     render() {
         const user = this.props.user;
+        
+        let exerciseTypeIdsToExcludeFromAdhocButtons = [];
+        for (let categoryAndPeriodGroup of this.props.plannedExercises) {
+            for (let exercise of categoryAndPeriodGroup.exercises) {
+                exerciseTypeIdsToExcludeFromAdhocButtons.push(exercise.exercise_type_id);
+            }
+        }
 
         return (
             // This is where we can add routing in due course
@@ -73,6 +115,15 @@ class App extends Component {
             <TodoContainer planningPeriod="week" />)}
             <RecentActivityContainer onEditCompletedExercise={this.handleEditCompletedExercise} />
             <StravaImportContainer />
+            <div className="card mt-3">
+                <div className="card-header">
+                    <h4>Record adhoc exercises</h4>
+                </div>
+                <div className="card-body exercise-buttons">
+                    <p>Wanting to do a few extra exercises? Use the buttons below to record them as you complete each exercise, without adding to your training plan.</p>
+                    <ExerciseTypeButtonSet calendarDay={this.props.calendarDay} onAdd={this.handleCompleteAdhocExercise} exerciseTypeIdsToExclude={exerciseTypeIdsToExcludeFromAdhocButtons} />
+                </div>
+            </div>
             <CountersContainer />
             {this.state.showCompletedExerciseForm && (
             <CompletedExerciseFormModal className="modal" initData={this.state.completedExerciseFormInitData} onSubmit={this.handleSaveCompletedExercise} close={this.handleCloseCompletedExerciseForm} />)}
@@ -83,7 +134,8 @@ class App extends Component {
 
 function mapStateToProps(state) {
     return {
-        user: state.user
+        user: state.user,
+        plannedExercises: state.plannedExercises
     };
 }
 
@@ -92,7 +144,9 @@ function mapDispatchToProps(dispatch) {
         plannedActivityActions: bindActionCreators(plannedActivityActions, dispatch),
         completedExerciseActions: bindActionCreators(completedExerciseActions, dispatch),
         combinedRecentActivityActions: bindActionCreators(combinedRecentActivityActions, dispatch),
-        userActions: bindActionCreators(userActions, dispatch)
+        userActions: bindActionCreators(userActions, dispatch),
+        activityTypeActions: bindActionCreators(activityTypeActions, dispatch),
+        annualStatsActions: bindActionCreators(annualStatsActions, dispatch)
     };
 }
 
