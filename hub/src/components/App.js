@@ -38,22 +38,15 @@ class App extends Component {
 
     handleCompleteAdhocExercise = (exerciseTypeId) => {
         if (!exerciseTypeId) {
-            // todo
-            return
-            // const formInitData = {
-            //     isNewExerciseType: true,
-            //     measured_by: "reps",
-            //     planned_sets: 1,
-            //     planning_period: planningPeriod,
-            //     recurrence: "weekly",
-            //     planned_date: dateFns.format(this.props.calendarDay, "YYYY-MM-DD"),
-            //     repeatOption: "Repeat every " + (planningPeriod === "day" ? dateFns.format(this.props.calendarDay, "dddd") : "week"),
-            //     categoryOptions: this.props.exerciseCategories
-            // }
-            // this.setState({
-            //     plannedExerciseFormInitData: formInitData
-            // });
-            // this.togglePlannedExerciseForm();
+            const formInitData = {
+                isNewExerciseType: true,
+                measured_by: "reps",
+                categoryOptions: this.props.exerciseCategories
+            }
+            this.setState({
+                showCompletedExerciseForm: true,
+                completedExerciseFormInitData: formInitData
+            });
         } else {
             const requestBody = JSON.stringify({ 
                 exercise_type_id: exerciseTypeId
@@ -74,14 +67,29 @@ class App extends Component {
         });
     }
 
-    handleSaveCompletedExercise = (values) => {        
-        const requestBody = JSON.stringify({ 
-            reps: values.reps,
-            seconds: values.seconds
-        });
-        this.props.completedExerciseActions.updateCompletedExercise(values.id, requestBody).then(result => {
-            this.props.combinedRecentActivityActions.loadCombinedRecentActivities(1, 5);
-        });
+    handleSaveCompletedExercise = (values) => {
+        if (values.id) {    
+            const requestBody = JSON.stringify({ 
+                reps: values.reps,
+                seconds: values.seconds
+            });
+            this.props.completedExerciseActions.updateCompletedExercise(values.id, requestBody).then(result => {
+                this.props.combinedRecentActivityActions.loadCombinedRecentActivities(1, 5);
+            });
+        } else {
+            const requestBody = JSON.stringify({
+                exercise_name: values.exercise_name,
+                measured_by: values.measured_by,
+                exercise_category_id: values.exercise_category_id,
+                reps: values.reps,
+                seconds: values.seconds
+            });
+            this.props.completedExerciseActions.addCompletedExercise(requestBody).then(result => {
+                this.props.combinedRecentActivityActions.loadCombinedRecentActivities(1, 5);
+                // we need to refresh buttons too to pick up the new one!
+                this.props.activityTypeActions.loadActivityTypes();
+            });
+        }
 
         this.setState({
             showCompletedExerciseForm: false,
@@ -135,7 +143,8 @@ class App extends Component {
 function mapStateToProps(state) {
     return {
         user: state.user,
-        plannedExercises: state.plannedExercises
+        plannedExercises: state.plannedExercises,
+        exerciseCategories: state.exerciseCategories
     };
 }
 
