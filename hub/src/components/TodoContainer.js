@@ -93,6 +93,8 @@ class TodoContainer extends Component {
             plannedExerciseButtons.push(plannedExerciseCategory.exercises.map(this.renderPlannedExerciseButton));
         }
 
+        console.log(this.props.user.has_planned_activity_for_today);
+
         return (
             <div className="card mt-3">
                 <div className="card-header">

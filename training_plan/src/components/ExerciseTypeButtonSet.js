@@ -18,11 +18,12 @@ class ExerciseTypeButtonSet extends Component {
     }
 
     render() {
-        let exerciseTypes = this.props.exerciseTypes;
-        let exerciseTypeButtons = exerciseTypes.map(this.renderExerciseTypeButton);
+        const exerciseTypeIdsToExclude = this.props.exerciseTypeIdsToExclude ? this.props.exerciseTypeIdsToExclude : [];
+        const exerciseTypes = this.props.exerciseTypes.filter(({ id }) => !exerciseTypeIdsToExclude.includes(id));
+        const exerciseTypeButtons = exerciseTypes.map(this.renderExerciseTypeButton);
+
         return(
             <>
-            <h3>Add Exercises</h3>
             <button key="new" className="btn btn-sm ml-1 mr-1 btn-secondary new-exercise-type" onClick={() => this.props.onAdd(null)}>
                 <i className="fa fa-calendar-plus-o"></i> New Exercise Type
                 <br />

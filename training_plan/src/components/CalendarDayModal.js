@@ -301,6 +301,7 @@ class CalendarDayModal extends Component {
                                 {(this.state.isFutureDate || this.props.selectionType === "week") &&
                                 <>
                                     <ActivityTypeButtonSet planningPeriod={this.props.selectionType} calendarDay={this.props.calendarDay} onAdd={this.handleAddPlannedActivity} onAddRace={this.handleAddPlannedRace} />
+                                    <h3>Add Exercises</h3>
                                     <ExerciseTypeButtonSet calendarDay={this.props.calendarDay} onAdd={this.handleAddPlannedExercise} />
                                 </>}
                             </>}

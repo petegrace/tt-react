@@ -1,4 +1,4 @@
-import { pendingTask, begin, end, endAll } from "react-redux-spinner";
+import { pendingTask, begin, end } from "react-redux-spinner";
 
 import * as types from "./actionTypes";
 import UserApi from "../api/UserApi";
@@ -17,7 +17,7 @@ export function loadUserInfo() {
         }).catch(error => {
             dispatch({
                 type: types.ERROR_ENCOUNTERED,
-                [ pendingTask ]: endAll
+                [ pendingTask ]: end
             });
             throw(error);
         });
@@ -46,7 +46,7 @@ export function updateUserInfo(id, requestBody) {
         }).catch(error => {
             dispatch({
                 type: types.ERROR_ENCOUNTERED,
-                [ pendingTask ]: endAll
+                [ pendingTask ]: end
             });
             throw(error);
         });
