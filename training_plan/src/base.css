@@ -156,87 +156,151 @@
 }
 
 .cat_green {
-    background-color: #588157;
-    border-color: #588157;
-    color: #ffffff;
-    border-style: solid;
-    border-width: 2px;
+  background-color: #588157;
+  border-color: #588157;
+  color: #ffffff;
+  border-style: solid;
+  border-width: 2px;
+}
+
+button.cat_green:hover, button.cat_green:active, a.cat_green:hover, a.cat_green:active {
+  background-color: #679666;
+  border-color: #588157;
+  color: #ffffff;
+  border-style: solid;
+  border-width: 2px;
 }
 
 .cat_green_outline {
-    background-color: #ffffff;
-    border-color: #588157;
-    border-width: 2px;
-    border-style: solid;
-    color: #588157;
+  background-color: #ffffff;
+  border-color: #588157;
+  border-width: 2px;
+  border-style: solid;
+  color: #588157;
+}
+
+button.cat_green_outline:hover, button.cat_green_outline:active, a.cat_green_outline:hover, a.cat_green_outline:active {
+  background-color: #f1fff1;
+  border-color: #588157;
+  border-width: 2px;
+  border-style: solid;
+  color: #588157;
 }
 
 .cat_green_border_only, .cat_green_outline_border_only {
-    border-color: #588157;
-    border-width: 2px;
+  border-color: #588157;
+  border-width: 2px;
 }
 
 .cat_blue {
-    background-color: #3f7eba;
-    border-color: #3f7eba;
-    color: #ffffff; 
-    border-width: 2px;
-    border-style: solid;
+  background-color: #3f7eba;
+  border-color: #3f7eba;
+  color: #ffffff; 
+  border-width: 2px;
+  border-style: solid;
+}
+
+button.cat_blue:hover, button.cat_blue:active, a.cat_blue:hover, a.cat_blue:active {
+  background-color: #4994da;
+  border-color: #3f7eba;
+  color: #ffffff; 
+  border-width: 2px;
+  border-style: solid;
 }
 
 .cat_blue_outline {
-    background-color: #ffffff;
-    border-color: #3f7eba;
-    border-width: 2px;
-    border-style: solid;
-    color: #3f7eba;
+  background-color: #ffffff;
+  border-color: #3f7eba;
+  border-width: 2px;
+  border-style: solid;
+  color: #3f7eba;
+}
+
+button.cat_blue_outline:hover, button.cat_blue_outline:active, a.cat_blue_outline:hover, a.cat_blue_outline:active {
+  background-color: #a3d3ff;
+  border-color: #3f7eba;
+  border-width: 2px;
+  border-style: solid;
+  color: #3f7eba;
 }
 
 .cat_blue_border_only, .cat_blue_outline_border_only {
-    border-color: #3f7eba;
-    border-width: 2px;
+  border-color: #3f7eba;
+  border-width: 2px;
 }	
 
 .cat_red {
-    background-color: #ef6461;
-    border-color: #ef6461;
-    color: #ffffff; 
-    border-width: 2px;
-    border-style: solid;
+  background-color: #ef6461;
+  border-color: #ef6461;
+  color: #ffffff; 
+  border-width: 2px;
+  border-style: solid;
+}
+
+button.cat_red:hover, button.cat_red:active, a.cat_red:hover, a.cat_red:active {
+  background-color: #ff6d6b;
+  border-color: #ef6461;
+  color: #ffffff; 
+  border-width: 2px;
+  border-style: solid;
 }
 
 .cat_red_outline {
-    background-color: #ffffff;
-    border-color: #ef6461;
-    border-width: 2px;
-    border-style: solid;
-    color: #ef6461; 
+  background-color: #ffffff;
+  border-color: #ef6461;
+  border-width: 2px;
+  border-style: solid;
+  color: #ef6461; 
+}	
+
+button.cat_red_outline:hover, button.cat_red_outline:active, a.cat_red_outline:hover, a.cat_red_outline:active {
+  background-color:#fff0f0;
+  border-color: #ef6461;
+  border-width: 2px;
+  border-style: solid;
+  color: #ef6461; 
 }	
 
 .cat_red_border_only, .cat_red_outline_border_only {
-    border-color: #ef6461;
-    border-width: 2px;
+  border-color: #ef6461;
+  border-width: 2px;
 }	
 
 .cat_yellow {
-    background-color: #e4b363;
-    border-color: #e4b363;
-    color: #292b2c; 
-    border-width: 2px;
-    border-style: solid;
+  background-color: #e4b363;
+  border-color: #e4b363;
+  color: #292b2c; 
+  border-width: 2px;
+  border-style: solid;
+}
+
+button.cat_yellow:hover, button.cat_yellow:active, a.cat_yellow:hover, a.cat_yellow:active {
+  background-color: #fcc56d;
+  border-color: #e4b363;
+  color: #292b2c; 
+  border-width: 2px;
+  border-style: solid;
 }
 
 .cat_yellow_outline {
-    background-color: #ffffff;
-    border-color: #e4b363;
-    border-width: 2px;
-    border-style: solid;
-    color: #e4b363;
+  background-color: #ffffff;
+  border-color: #e4b363;
+  border-width: 2px;
+  border-style: solid;
+  color: #e4b363;
+}
+
+button.cat_yellow_outline:hover, button.cat_yellow_outline:active, a.cat_yellow_outline:hover, a.cat_yellow_outline:active {
+  background-color: #fff8ec;
+  border-color: #e4b363;
+  border-width: 2px;
+  border-style: solid;
+  color: #e4b363;
 }
 
 .cat_yellow_border_only, .cat_yellow_outline_border_only {
-    border-color: #e4b363;
-    border-width: 2px;
+  border-color: #e4b363;
+  border-width: 2px;
 }
 
 /* Classes for uncategorised when displaying the stats, we've ended up with upper and lowercase variants so play it safe with both */

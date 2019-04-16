@@ -231,7 +231,7 @@ button.cat_red:hover, button.cat_red:active, a.cat_red:hover, a.cat_red:active {
 }	
 
 button.cat_red_outline:hover, button.cat_red_outline:active, a.cat_red_outline:hover, a.cat_red_outline:active {
-    background-color: #ffbebd;
+    background-color:#fff0f0;
     border-color: #ef6461;
     border-width: 2px;
     border-style: solid;
@@ -268,7 +268,7 @@ button.cat_yellow:hover, button.cat_yellow:active, a.cat_yellow:hover, a.cat_yel
 }
 
 button.cat_yellow_outline:hover, button.cat_yellow_outline:active, a.cat_yellow_outline:hover, a.cat_yellow_outline:active {
-    background-color: #ffecce;
+    background-color: #fff8ec;
     border-color: #e4b363;
     border-width: 2px;
     border-style: solid;
