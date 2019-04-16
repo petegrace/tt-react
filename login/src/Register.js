@@ -116,7 +116,7 @@ class Register extends Component {
                                 <>
                                 {this.state.authType === "Google" &&
                                 <Form>
-                                    <p>Welcome <strong>{this.state.googleEmail}</strong>! As this is your first time signing in we need to check you're happy with us storing and processing the data that you provide to us. To complete your registration and get started with Training Ticks, please confirm that you consent to us using this data in accordance with our <a href="{{ url_for('privacy_policy') }}">Privacy Policy</a>.</p>					
+                                    <p>Welcome <strong>{this.state.googleEmail}</strong>! As this is your first time signing in we need to check you're happy with us storing and processing the data that you provide to us. To complete your registration and get started with Training Ticks, please confirm that you consent to us using this data in accordance with our <a href="/privacy">Privacy Policy</a>.</p>					
                                     <div className="form-group row">
                                         <div className="col-sm-1 pt-1 text-md-right">
                                             <Field type="checkbox" id="consent_privacy" name="consent_privacy" checked={formProps.values.consent_privacy} required />
@@ -162,7 +162,7 @@ class Register extends Component {
                                             {formProps.errors.password2 && formProps.touched.password2 && <div className="form-error mt-2">{formProps.errors.password2}</div>}
                                         </div>
                                     </div>
-                                    <p>To complete your registration, we need to check you're happy with us storing and processing the data that you provide to us. To complete your registration and get started with Training Ticks, please confirm that you consent to us using this data in accordance with our <a href="{{ url_for('privacy_policy') }}">Privacy Policy</a>.</p>
+                                    <p>To complete your registration, we need to check you're happy with us storing and processing the data that you provide to us. To complete your registration and get started with Training Ticks, please confirm that you consent to us using this data in accordance with our <a href="/privacy">Privacy Policy</a>.</p>
                                     <div className="form-group row">
                                         <div className="col-sm-1 pt-1 text-md-right">
                                             <Field type="checkbox" id="consent_privacy" name="consent_privacy" checked={formProps.values.consent_privacy} required />

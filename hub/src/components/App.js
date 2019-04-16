@@ -41,7 +41,8 @@ class App extends Component {
             const formInitData = {
                 isNewExerciseType: true,
                 measured_by: "reps",
-                categoryOptions: this.props.exerciseCategories
+                categoryOptions: this.props.exerciseCategories,
+                exercise_category_id: (this.props.exerciseCategories.length > 0) ? this.props.exerciseCategories[0].id : null
             }
             this.setState({
                 showCompletedExerciseForm: true,

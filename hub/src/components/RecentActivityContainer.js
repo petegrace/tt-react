@@ -28,7 +28,7 @@ class RecentActivityContainer extends Component {
     }
 
     renderRecentActivityRow = (recentActivity) => {
-        const activityUrl = "{{ url_for('activity_analysis', id=" + recentActivity.id + ") }}";
+        const activityUrl = "/activity_analysis/" + recentActivity.id;
         const viewOnStravaUrl = "https://www.strava.com/activities/" + recentActivity.external_id;
         const exerciseDatetimeFormatted = format(new Date(recentActivity.activity_datetime), "ddd DD MMM HH:mm:ss");
 
@@ -85,7 +85,7 @@ class RecentActivityContainer extends Component {
                 <div className="row align-items-end">
                     <div className="col-md">
                         <h4 className="mt-3">Recently added activity</h4>
-                        <p>(Go to <a href="{{ url_for('weekly_activity', year='current') }}">Analysis & Goals</a> to see more activity)</p>
+                        <p>(Go to <a href="/weekly_activity/current">Analysis & Goals</a> to see more activity)</p>
                     </div>
                     <div className="col-md">
                         <nav>

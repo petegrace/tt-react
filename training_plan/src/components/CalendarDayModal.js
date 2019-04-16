@@ -162,7 +162,8 @@ class CalendarDayModal extends Component {
                 recurrence: "weekly",
                 planned_date: dateFns.format(this.props.calendarDay, "YYYY-MM-DD"),
                 repeatOption: "Repeat every " + (planningPeriod === "day" ? dateFns.format(this.props.calendarDay, "dddd") : "week"),
-                categoryOptions: this.props.exerciseCategories
+                categoryOptions: this.props.exerciseCategories,
+                exercise_category_id: (this.props.exerciseCategories.length > 0) ? this.props.exerciseCategories[0].id : null
             }
             this.setState({
                 plannedExerciseFormInitData: formInitData
