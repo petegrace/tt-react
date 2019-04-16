@@ -93,8 +93,6 @@ class TodoContainer extends Component {
             plannedExerciseButtons.push(plannedExerciseCategory.exercises.map(this.renderPlannedExerciseButton));
         }
 
-        console.log(this.props.user.has_planned_activity_for_today);
-
         return (
             <div className="card mt-3">
                 <div className="card-header">
@@ -116,7 +114,7 @@ class TodoContainer extends Component {
                         {plannedExerciseButtons}
                     </>}
                     <p className="mt-2 mb-0">
-                        <a href="{{ url_for('training_plan') }}">Full Training Plan</a>
+                        <a href="/training_plan">Full Training Plan</a>
                     </p>
                 </div>
             </div>
