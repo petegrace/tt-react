@@ -4,7 +4,7 @@ import { OauthSender } from "react-oauth-flow";
 
 class StravaImportButton extends Component {
     render() {
-        const redirectUri = window.location.origin
+        const redirectUri = window.location.origin + "/hub";
         const stravaAuthCreds = this.props.user && {
             clientId: this.props.user.strava_client_id,
             clientSecret: this.props.user.strava_client_secret
