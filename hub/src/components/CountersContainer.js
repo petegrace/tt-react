@@ -22,12 +22,16 @@ class CountersContainer extends Component {
         const counterBoxes = counters.map(this.createCounterBoxes);
 
         return (
+            <>
+            {counters.length > 0 && (
             <div>
                 <h4 className="mt-3">{this.props.annualStats.heading}</h4>
                 <div className="row">
                     {counterBoxes}
                 </div>
             </div>
+            )}
+            </>
         );
     }
 }
