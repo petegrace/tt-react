@@ -725,3 +725,22 @@ table h5 {
   .noscroll { 
     overflow: hidden;
   }
+  
+  .generic-modal-header {
+      background: #1d5454;
+      height: 50px;
+      line-height: 40px;
+      padding: 10px 20px 10px 20px;
+      text-align: right;
+  }
+  
+  .generic-modal-header h4 {
+      color: white;
+      float: left;
+      margin: 0;
+      padding: 0;
+  }
+
+  .generic-modal-body {
+      padding: 10px 20px 10px 20px;
+  }

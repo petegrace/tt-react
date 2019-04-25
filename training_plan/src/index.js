@@ -15,6 +15,7 @@ import completedExercisesReducer from "./reducers/completedExercisesReducer";
 import activityTypesReducer from "./reducers/activityTypesReducer";
 import exerciseTypesReducer from "./reducers/exerciseTypesReducer";
 import exerciseCategoriesReducer from "./reducers/exerciseCategoriesReducer";
+import trainingPlanGeneratorInputsReducer from "./reducers/trainingPlanGeneratorInputsReducer";
 import trainingPlanTemplatesReducer from "./reducers/trainingPlanTemplatesReducer";
 import userReducer from "./reducers/userReducer";
 import "./base.css";
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
     activityTypes: activityTypesReducer,
     exerciseTypes: exerciseTypesReducer,
     exerciseCategories: exerciseCategoriesReducer,
+    trainingPlanGeneratorInputs: trainingPlanGeneratorInputsReducer,
     trainingPlanTemplates: trainingPlanTemplatesReducer,
     user: userReducer,
     pendingTasks: pendingTasksReducer

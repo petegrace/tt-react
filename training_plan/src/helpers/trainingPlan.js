@@ -11,6 +11,11 @@ export function filterPlannedActivitiesById(plannedActivities, id) {
     return plannedActivitiesFiltered[0];
 }
 
+export function filterPlannedRacesById(plannedRaces, id) {
+    const plannedRacesFiltered = plannedRaces.filter(plannedRace => plannedRace.id === id);
+    return plannedRacesFiltered[0];
+}
+
 export function filterPlannedRaces(plannedRaces, day) {
     const jsonDate = dateFns.format(day, "YYYY-MM-DD");
     const plannedRacesFiltered = plannedRaces.filter(plannedRace => plannedRace.planned_date === jsonDate);

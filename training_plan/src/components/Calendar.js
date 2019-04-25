@@ -4,6 +4,7 @@ import { bindActionCreators } from "redux";
 import dateFns from "date-fns";
 
 import CalendarDayModal from "./CalendarDayModal";
+import TrainingPlanGeneratorModal from "./TrainingPlanGeneratorModal";
 import TrainingPlanTemplatesContainer from "./TrainingPlanTemplatesContainer";
 import * as plannedActivityActions from "../actions/plannedActivityActions";
 import * as completedActivityActions from "../actions/completedActivityActions";
@@ -19,7 +20,9 @@ class Calendar extends Component {
             today: new Date(),
             selectedDate: new Date(),
             selectedWeek: null,
-            showCalendarDayModal: false
+            showCalendarDayModal: false,
+            showCalendarWeekModal: false,
+            showTrainingPlanGeneratorModal: false
         };
     }
 
@@ -280,7 +283,8 @@ class Calendar extends Component {
             selectedWeek: null,
             showCalendarDayModal: true,
             showCalendarWeekModal: false,
-            selectedDatePlannedActivities: plannedActivities
+            showTrainingPlanGeneratorModal: false,
+            selectedDatePlannedActivities: plannedActivities // todo: does this still get used?
         });
         document.body.classList.toggle("noscroll");
     };
@@ -290,15 +294,26 @@ class Calendar extends Component {
             selectedDate: null,
             selectedWeek: weekStartDate,
             showCalendarDayModal: false,
-            showCalendarWeekModal: true
+            showCalendarWeekModal: true,
+            showTrainingPlanGeneratorModal: false
         });
         document.body.classList.toggle("noscroll");
     };
 
-    handleCloseCalendarDayModal = () => {
+    onTrainingPlanGeneratorClick = (weekStartDate) => {
         this.setState({
             showCalendarDayModal: false,
-            showCalendarWeekModal: false
+            showCalendarWeekModal: false,
+            showTrainingPlanGeneratorModal: true
+        });
+        document.body.classList.toggle("noscroll");
+    };
+
+    handleCloseModal = () => {
+        this.setState({
+            showCalendarDayModal: false,
+            showCalendarWeekModal: false,
+            showTrainingPlanGeneratorModal: false
         });
         document.body.classList.toggle("noscroll");
         this.refreshPlannedActivities(this.state.currentMonth);
@@ -323,15 +338,18 @@ class Calendar extends Component {
     render() {
         return (
             <>
+            <button onClick={this.onTrainingPlanGeneratorClick}>Generate Training Plan</button>
             <div className="calendar">
                 {this.renderHeader()}
                 {this.renderDayNames()}
                 {this.renderCells()}
             </div>
             {this.state.showCalendarDayModal && (
-            <CalendarDayModal className="modal" selectionType="day" calendarDay={this.state.selectedDate} refresh={this.refreshPlannedActivities} close={this.handleCloseCalendarDayModal} />)}
+            <CalendarDayModal className="modal" selectionType="day" calendarDay={this.state.selectedDate} refresh={this.refreshPlannedActivities} close={this.handleCloseModal} />)}
             {this.state.showCalendarWeekModal && (
-            <CalendarDayModal className="modal" selectionType="week" calendarDay={this.state.selectedWeek} refresh={this.refreshPlannedActivities} close={this.handleCloseCalendarDayModal} />)}
+            <CalendarDayModal className="modal" selectionType="week" calendarDay={this.state.selectedWeek} refresh={this.refreshPlannedActivities} close={this.handleCloseModal} />)}
+            {this.state.showTrainingPlanGeneratorModal && (
+            <TrainingPlanGeneratorModal className="modal" close={this.handleCloseModal} />)}
             <TrainingPlanTemplatesContainer calendarDay={this.state.selectedDate} refresh={this.refreshPlannedActivities} />
             </>
         )
