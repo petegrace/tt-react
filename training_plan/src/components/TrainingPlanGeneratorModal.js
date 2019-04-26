@@ -85,9 +85,14 @@ class TrainingPlanGeneratorModal extends Component {
                                     <option value="Thu">Thursday</option>
                                     <option value="Fri">Friday</option>
                                     <option value="Sat">Saturday</option>
-                                    <option value="Sun">Sundayy</option>
+                                    <option value="Sun">Sunday</option>
                                 </Field>
                             </div>)}
+                            {trainingPlanGeneratorInputs && trainingPlanGeneratorInputs.total_runs_above_target_distance > 1 && (
+                            <p>
+                                You've done the distance for this race <span className="font-weight-bold">{trainingPlanGeneratorInputs.total_runs_above_target_distance} times</span> before.
+                                We'll look at the training you did before the <span className="font-weight-bold">{trainingPlanGeneratorInputs.current_pb.activity_name} on {trainingPlanGeneratorInputs.current_pb.activity_date}</span> where you averaged <span className="font-weight-bold">{trainingPlanGeneratorInputs.current_pb.average_pace_formatted}</span> and factor that into your suggested training plan.
+                            </p>)}
                             <button type="submit" className="btn btn-primary mr-1">Generate Plan</button>
                             <button type="button" className="btn btn-secondary" onClick={this.props.close}>Cancel</button>
                         </form>
