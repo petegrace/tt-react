@@ -39,7 +39,7 @@ export function copyTrainingPlanTemplate(templateId) {
     });
     return function(dispatch) {
         dispatch({
-            type: types.ADD_PLANNED_RACE,
+            type: types.COPY_TRAINING_PLAN_TEMPLATE,
             [ pendingTask ]: begin
         });
         const api = new PlannedExercisesApi();

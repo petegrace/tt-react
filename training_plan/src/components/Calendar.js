@@ -349,7 +349,7 @@ class Calendar extends Component {
             {this.state.showCalendarWeekModal && (
             <CalendarDayModal className="modal" selectionType="week" calendarDay={this.state.selectedWeek} refresh={this.refreshPlannedActivities} close={this.handleCloseModal} />)}
             {this.state.showTrainingPlanGeneratorModal && (
-            <TrainingPlanGeneratorModal className="modal" close={this.handleCloseModal} />)}
+            <TrainingPlanGeneratorModal className="modal" refresh={this.refreshPlannedActivities} selectedDate={this.state.selectedDate} close={this.handleCloseModal}  />)}
             <TrainingPlanTemplatesContainer calendarDay={this.state.selectedDate} refresh={this.refreshPlannedActivities} />
             </>
         )

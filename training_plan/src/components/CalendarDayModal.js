@@ -76,6 +76,7 @@ class CalendarDayModal extends Component {
     }
 
     handleSavePlannedActivity = (values) => {
+        console.log(values);
         const requestBody = JSON.stringify({ 
             activity_type: values.activity_type,
             planned_date: values.planned_date,

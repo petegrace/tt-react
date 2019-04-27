@@ -16,7 +16,10 @@ class TrainingPlanGeneratorModal extends Component {
     }
 
     componentDidMount() {
-        const { initData } = this.props;
+        const initData = {
+            long_run_planning_period: "day",
+            long_run_day: "Sun"
+        }
         this.props.initialize(initData);
     }
 
@@ -26,10 +29,22 @@ class TrainingPlanGeneratorModal extends Component {
         this.setState({
             targetRace: targetRace
         })
-        console.log(targetRace);
-        this.props.trainingPlanGeneratorActions.loadTrainingPlanGeneratorInputs(targetRace.distance, targetRace.planned_date).then(
-            () => { console.log(this.props.trainingPlanGeneratorInputs); }
-        );
+        this.props.trainingPlanGeneratorActions.loadTrainingPlanGeneratorInputs(targetRace.distance, targetRace.planned_date);
+    }
+
+    handleGeneratePlanClick = (values) => {
+        console.log(values);
+        const requestBody = JSON.stringify({
+            target_race_distance: this.state.targetRace.distance,
+            target_race_date: this.state.targetRace.planned_date,
+            long_run_planning_period: values.long_run_planning_period,
+            long_run_day: values.long_run_day
+        })
+        console.log(requestBody);
+        this.props.trainingPlanGeneratorActions.addPlannedActivities(requestBody).then(result => {
+            this.props.refresh(this.props.selectedDate);
+        });
+        this.props.close();
     }
 
     renderTargetRaceOption = (plannedRace) => {
@@ -39,7 +54,7 @@ class TrainingPlanGeneratorModal extends Component {
     }
 
     render() {
-        const { handleSubmit, initData, user, trainingPlanGeneratorInputs } = this.props;
+        const { user, trainingPlanGeneratorInputs } = this.props;
         const plannedRaces = this.props.plannedRaces;
         const targetRaceOptions = plannedRaces.map(this.renderTargetRaceOption);
 
@@ -53,7 +68,7 @@ class TrainingPlanGeneratorModal extends Component {
                         <span className="close-modal-btn" onClick={this.props.close}><i className="fa fa-window-close"></i></span>
                     </div>
                     <div className="generic-modal-body">
-                        <form onSubmit={handleSubmit} className="form">
+                        <form onSubmit={this.props.handleSubmit(this.handleGeneratePlanClick)} className="form">
                             {/* Dropdown for user to select a race */}
                             <div className="form-group ">
                                 <label className="form-control-label" htmlFor="target_race_id">Choose your target race</label>
@@ -71,8 +86,8 @@ class TrainingPlanGeneratorModal extends Component {
                             <div className="form-group ">
                                 <label className="form-control-label" htmlFor="long_run_planning_period">First, let's plan your long runs...</label>
                                 <Field component="select" className="form-control" id="long_run_planning_period" name="long_run_planning_period">
-                                    <option value="week">I'll be flexible about what day during the week to do my long runs</option>
                                     <option value="day">Let me choose a specific day for my long runs</option>
+                                    <option value="week">I'll be flexible about what day during the week to do my long runs</option>
                                 </Field>
                             </div>)}
                             {this.state.targetRace && (!(user && user.has_flexible_planning_enabled) || this.props.longRunPlanningPeriodValue === "day") && (
@@ -89,10 +104,18 @@ class TrainingPlanGeneratorModal extends Component {
                                 </Field>
                             </div>)}
                             {trainingPlanGeneratorInputs && trainingPlanGeneratorInputs.total_runs_above_target_distance > 1 && (
+                            <>
                             <p>
-                                You've done the distance for this race <span className="font-weight-bold">{trainingPlanGeneratorInputs.total_runs_above_target_distance} times</span> before.
-                                We'll look at the training you did before the <span className="font-weight-bold">{trainingPlanGeneratorInputs.current_pb.activity_name} on {trainingPlanGeneratorInputs.current_pb.activity_date}</span> where you averaged <span className="font-weight-bold">{trainingPlanGeneratorInputs.current_pb.average_pace_formatted}</span> and factor that into your suggested training plan.
-                            </p>)}
+                                You've done the distance for this race {trainingPlanGeneratorInputs.total_runs_above_target_distance} times before.
+                                We'll look at the training you did before the {trainingPlanGeneratorInputs.current_pb.activity_name} on {trainingPlanGeneratorInputs.current_pb.activity_date} where you averaged {trainingPlanGeneratorInputs.current_pb.average_pace_formatted} and factor that into your suggested training plan.
+                            </p>
+                            <p>
+                                Before that event, you did {trainingPlanGeneratorInputs.pre_pb_long_runs.runs_above_90pct_distance_count} runs above 90% of race distance in the {trainingPlanGeneratorInputs.weeks_to_target_race} weeks leading up to it.
+                            </p>
+                            <p>
+                                Your first run at 90% of the distance was {trainingPlanGeneratorInputs.pre_pb_long_runs.weeks_between_first_long_run_and_pb} weeks before and your last before the race was {trainingPlanGeneratorInputs.pre_pb_long_runs.weeks_between_last_long_run_and_pb} weeks before the event. The longest run you did in training was {trainingPlanGeneratorInputs.pre_pb_long_runs.longest_distance_formatted}.
+                            </p>
+                            </>)}
                             <button type="submit" className="btn btn-primary mr-1">Generate Plan</button>
                             <button type="button" className="btn btn-secondary" onClick={this.props.close}>Cancel</button>
                         </form>
@@ -102,18 +125,6 @@ class TrainingPlanGeneratorModal extends Component {
         );
     };
 }
-
-// const renderField = ({ input, label, type, meta: { touched, error, warning } }) => {
-//     return (
-//         <div>
-//             <label className="form-control-label">{label}</label>
-//             <div>
-//             <input className="form-control" {...input} type={type}/>
-//             {touched && ((error && <div className="error mt-1">{error}</div>) || (warning && <span>{warning}</span>))}
-//             </div>
-//         </div>
-//     );
-// }
 
 TrainingPlanGeneratorModal = reduxForm({
     form: "trainingPlanGenerator"
