@@ -1,6 +1,7 @@
 import { pendingTask, begin, end } from "react-redux-spinner";
 
 import * as types from "./actionTypes";
+import { showAlert } from "./alertActions";
 import TrainingPlanGeneratorApi from "../api/TrainingPlanGeneratorApi";
 import PlannedActivitiesApi from "../api/PlannedActivitiesApi";
 
@@ -41,7 +42,7 @@ export function addPlannedActivities(requestBody) {
         });
         const api = new PlannedActivitiesApi();
         return api.postPlannedActivities(requestBody).then(responseData => {
-            dispatch(addPlannedActivitiesSuccess(responseData));
+            dispatch(addPlannedActivitiesSuccess(responseData, dispatch));
         }).catch(error => {
             dispatch({
                 type: types.ERROR_ENCOUNTERED,
@@ -52,7 +53,10 @@ export function addPlannedActivities(requestBody) {
     }
 }
 
-export function addPlannedActivitiesSuccess(responseData) {
+export function addPlannedActivitiesSuccess(responseData, dispatch) {
+    const alertMessage = responseData.message;
+    dispatch(showAlert(alertMessage));
+
     return {
         type: types.ADD_PLANNED_ACTIVITIES_SUCCESS,
         [ pendingTask ]: end,

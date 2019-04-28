@@ -5,6 +5,7 @@ import { Spinner } from "react-redux-spinner";
 
 import Calendar from "./Calendar";
 import TrainingPlanIntroContainer from "./TrainingPlanIntroContainer";
+import Alert from "./Alert";
 import * as activityTypeActions from "../actions/activityTypeActions";
 import * as userActions from "../actions/userActions";
 
@@ -20,6 +21,7 @@ class App extends Component {
             // This is where we can add routing in due course
             <>
             <Spinner />
+            <Alert />
             <h2>Training Plan</h2>
             <TrainingPlanIntroContainer />
             <Calendar />

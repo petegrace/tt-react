@@ -18,6 +18,7 @@ import exerciseCategoriesReducer from "./reducers/exerciseCategoriesReducer";
 import trainingPlanGeneratorInputsReducer from "./reducers/trainingPlanGeneratorInputsReducer";
 import trainingPlanTemplatesReducer from "./reducers/trainingPlanTemplatesReducer";
 import userReducer from "./reducers/userReducer";
+import alertReducer from "./reducers/alertReducer";
 import "./base.css";
 
 // Might want to refactor this redux stuff into separate files for reducers and configuring store as per tutorial
@@ -34,7 +35,8 @@ const rootReducer = combineReducers({
     trainingPlanGeneratorInputs: trainingPlanGeneratorInputsReducer,
     trainingPlanTemplates: trainingPlanTemplatesReducer,
     user: userReducer,
-    pendingTasks: pendingTasksReducer
+    pendingTasks: pendingTasksReducer,
+    alert: alertReducer
 });
 
 const store = createStore(
