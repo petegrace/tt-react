@@ -12,6 +12,7 @@ class PlannedActivitiesList extends Component {
         const formInitData = {
             id: plannedActivity.id,
             activity_type: plannedActivity.activity_type,
+            activity_subtype: plannedActivity.activity_subtype,
             category_key: plannedActivity.category_key,
             description: plannedActivity.description,
             planned_distance: plannedActivity.planned_distance,
@@ -23,7 +24,7 @@ class PlannedActivitiesList extends Component {
 
         return (
             <tr key={plannedActivity.id}>
-                <td className="name-badge"><h5><span className={badgeClass}>{plannedActivity.activity_type}</span></h5></td>
+                <td className="name-badge"><h5><span className={badgeClass}>{plannedActivity.activity_subtype}</span></h5></td>
                 <td>{plannedActivity.planned_distance ? plannedActivity.planned_distance + " " + this.props.user.distance_uom_preference : ""}</td>
                 <td>{plannedActivity.description}</td>
                 <td>

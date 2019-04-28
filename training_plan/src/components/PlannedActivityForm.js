@@ -15,6 +15,19 @@ class PlannedActivityForm extends Component {
         return (
             <form onSubmit={handleSubmit} className="form">
                 <h4 className="mt-3 mb-3"><small>Activity Type:</small> <span className={badgeClass}>{initData.activity_type}</span></h4>
+                {initData.activity_type === "Run" && (
+                <div className="form-group ">
+                    <label className="form-control-label" htmlFor="activity_subtype">Run Type</label>
+                    <Field component="select" className="form-control" id="activity_subtype" name="activity_subtype">
+                        <option value="">(optional)</option>
+                        <option value="Long Run">Long Run</option>
+                        <option value="Easy / Social Run">Easy / Social Run</option>
+                        <option value="Intervals / Fartlek">Intervals / Fartlek</option>
+                        <option value="Tempo Run">Tempo Run</option>
+                        <option value="Hilly Run">Hilly Run</option>
+                        <option value="Trail Run">Trail Run</option>
+                    </Field>
+                </div>)}
                 <div className="form-group ">
                     <label className="form-control-label" htmlFor="recurrence">Recurrence</label>
                     <Field component="select" className="form-control" id="recurrence" name="recurrence">

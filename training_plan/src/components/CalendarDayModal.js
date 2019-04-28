@@ -79,6 +79,7 @@ class CalendarDayModal extends Component {
         console.log(values);
         const requestBody = JSON.stringify({ 
             activity_type: values.activity_type,
+            activity_subtype: values.activity_subtype,
             planned_date: values.planned_date,
             planning_period: values.planning_period,
             recurrence: values.recurrence,
