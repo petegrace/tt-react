@@ -39,14 +39,12 @@ class TodoContainer extends Component {
             <span key={plannedActivity.id}>
                 <StravaImportButton buttonClass={buttonClass} buttonContent={(
                         <>
-                        {plannedActivity.activity_type}
+                        {plannedActivity.activity_subtype}
 						<br />
 						<small>
-							{plannedActivity.description && plannedActivity.description}
-                            {!plannedActivity.description && <>&nbsp;</>}
-							<br />
 							{plannedActivity.planned_distance_formatted && plannedActivity.planned_distance_formatted}
                             {!plannedActivity.planned_distance_formatted && <>&nbsp;</>}
+						    <br />&nbsp;
 						</small>
                         </>)} />
 			</span>
