@@ -18,7 +18,9 @@ class TrainingPlanGeneratorModal extends Component {
     componentDidMount() {
         const initData = {
             long_run_planning_period: "day",
-            long_run_day: "Sun"
+            long_run_day: "Sun",
+            other_runs_per_week: "0",
+            other_runs_planning_period: "day"
         }
         this.props.initialize(initData);
     }
@@ -57,6 +59,20 @@ class TrainingPlanGeneratorModal extends Component {
         const { user, trainingPlanGeneratorInputs } = this.props;
         const plannedRaces = this.props.plannedRaces;
         const targetRaceOptions = plannedRaces.map(this.renderTargetRaceOption);
+        const runDayOptions = [
+            {name: "Monday", value: "Mon"},
+            {name: "Tuesday", value: "Tue"},
+            {name: "Wednesday", value: "Wed"},
+            {name: "Thursday", value: "Thu"},
+            {name: "Friday", value: "Fri"},
+            {name: "Saturday", value: "Sat"},
+            {name: "Sunday", value: "Sun"}
+        ];
+        const runTypeOptions = [
+            {name: "Intervals / Fartlek", value: "intervals"},
+            {name: "Tempo", value: "tempo"},
+            {name: "Hills", value: "hills"}
+        ];
 
         return (
             <div className="modal-back-drop">
@@ -78,16 +94,36 @@ class TrainingPlanGeneratorModal extends Component {
                                 </Field>
                             </div>
                             {this.state.targetRace && trainingPlanGeneratorInputs && (
+                            <>
+                            <h5>How we'll generate your plan</h5>
                             <p>
                                 Your selected race is <span className="font-weight-bold">{this.state.targetRace.distance_formatted}</span> long.
-                                Let's come up with a training plan for the remaining <span className="font-weight-bold">{trainingPlanGeneratorInputs.weeks_to_target_race}</span> weeks until the race.
-                            </p>)}
+                                Let's come up with a training plan for the remaining <span className="font-weight-bold">{trainingPlanGeneratorInputs.weeks_to_target_race}</span> weeks until the race,
+                                given your activity from the last 4 weeks where you've averaged {trainingPlanGeneratorInputs.last_4_weeks.runs_per_week} runs per week with a longest run of {trainingPlanGeneratorInputs.last_4_weeks.longest_distance_formatted}.
+                            </p>
+                            {trainingPlanGeneratorInputs && trainingPlanGeneratorInputs.total_runs_above_target_distance > 1 && (
+                            <>
+                            <p>
+                                You've done the distance for this race {trainingPlanGeneratorInputs.total_runs_above_target_distance} times before.
+                                We'll look at the training you did before the {trainingPlanGeneratorInputs.current_pb.activity_name} on {trainingPlanGeneratorInputs.current_pb.activity_date} where you averaged {trainingPlanGeneratorInputs.current_pb.average_pace_formatted} and factor that into your suggested training plan.
+                            </p>
+                            <p>
+                                Before that event, you did {trainingPlanGeneratorInputs.pre_pb_long_runs.runs_above_90pct_distance_count} runs above 90% of race distance in the {trainingPlanGeneratorInputs.weeks_to_target_race} weeks leading up to it.
+                            </p>
+                            <p>
+                                Your first run at 90% of the distance was {trainingPlanGeneratorInputs.pre_pb_long_runs.weeks_between_first_long_run_and_pb} weeks before and your last before the race was {trainingPlanGeneratorInputs.pre_pb_long_runs.weeks_between_last_long_run_and_pb} weeks before the event. The longest run you did in training was {trainingPlanGeneratorInputs.pre_pb_long_runs.longest_distance_formatted}.
+                            </p>
+                            </>)}
+                            </>)}
+                            {this.state.targetRace && (
+                            <h5>Plan your long runs</h5>
+                            )}
                             {this.state.targetRace && user && user.has_flexible_planning_enabled && (
                             <div className="form-group ">
-                                <label className="form-control-label" htmlFor="long_run_planning_period">First, let's plan your long runs...</label>
+                                <label className="form-control-label" htmlFor="long_run_planning_period">Would you like to choose a day for your long runs?</label>
                                 <Field component="select" className="form-control" id="long_run_planning_period" name="long_run_planning_period">
-                                    <option value="day">Let me choose a specific day for my long runs</option>
-                                    <option value="week">I'll be flexible about what day during the week to do my long runs</option>
+                                    <option value="day">Yes, let me choose a specific day for my long runs</option>
+                                    <option value="week">No, I'll be flexible about what day during the week to do my long runs</option>
                                 </Field>
                             </div>)}
                             {this.state.targetRace && (!(user && user.has_flexible_planning_enabled) || this.props.longRunPlanningPeriodValue === "day") && (
@@ -103,19 +139,53 @@ class TrainingPlanGeneratorModal extends Component {
                                     <option value="Sun">Sunday</option>
                                 </Field>
                             </div>)}
-                            {trainingPlanGeneratorInputs && trainingPlanGeneratorInputs.total_runs_above_target_distance > 1 && (
-                            <>
-                            <p>
-                                You've done the distance for this race {trainingPlanGeneratorInputs.total_runs_above_target_distance} times before.
-                                We'll look at the training you did before the {trainingPlanGeneratorInputs.current_pb.activity_name} on {trainingPlanGeneratorInputs.current_pb.activity_date} where you averaged {trainingPlanGeneratorInputs.current_pb.average_pace_formatted} and factor that into your suggested training plan.
-                            </p>
-                            <p>
-                                Before that event, you did {trainingPlanGeneratorInputs.pre_pb_long_runs.runs_above_90pct_distance_count} runs above 90% of race distance in the {trainingPlanGeneratorInputs.weeks_to_target_race} weeks leading up to it.
-                            </p>
-                            <p>
-                                Your first run at 90% of the distance was {trainingPlanGeneratorInputs.pre_pb_long_runs.weeks_between_first_long_run_and_pb} weeks before and your last before the race was {trainingPlanGeneratorInputs.pre_pb_long_runs.weeks_between_last_long_run_and_pb} weeks before the event. The longest run you did in training was {trainingPlanGeneratorInputs.pre_pb_long_runs.longest_distance_formatted}.
-                            </p>
-                            </>)}
+                            {this.state.targetRace && (
+                            <h5>Plan your other runs</h5>
+                            )}
+                            {this.state.targetRace && (
+                            <div className="form-group ">
+                                <label className="form-control-label" htmlFor="other_runs_per_week">How many other runs would you like to include each week (excluding your long run)?</label>
+                                <Field component="select" className="form-control" id="other_runs_per_week" name="other_runs_per_week">
+                                    <option value="0">None, I'll stick to just the long run</option>
+                                    <option value="1">1 more run per week</option>
+                                    <option value="2">2 more runs per week</option>
+                                    <option value="3">3 more runs per week</option>
+                                    <option value="4">4 more runs per week</option>
+                                    <option value="5">5 more runs per week</option>
+                                </Field>
+                            </div>)}
+                            {this.state.targetRace && this.props.otherRunsPerWeekValue !== "0" && user && user.has_flexible_planning_enabled && (
+                            <div className="form-group ">
+                                <label className="form-control-label" htmlFor="other_runs_planning_period">Would you like your remaining runs to be planned for specific days?</label>
+                                <Field component="select" className="form-control" id="other_runs_planning_period" name="other_runs_planning_period">
+                                    <option value="day">Yes, generate runs for specific days of the week</option>
+                                    <option value="week">No, I'll be flexible about what days during the week to do my remaining runs</option>
+                                </Field>
+                            </div>)}
+                            {this.state.targetRace && this.props.otherRunsPerWeekValue !== "0" && (!(user && user.has_flexible_planning_enabled) || this.props.otherRunsPlanningPeriodValue === "day") && (
+                            <div className="form-group ">
+                                {runDayOptions.map(runDay => {
+                                    return (
+                                        <>
+                                        <label className="form-control-label" htmlFor={`runDay.${runDay.value}`}>{runDay.name}</label>
+                                        <Field component="input" type="checkbox" name={`runDay.${runDay.value}`} />
+                                        </>
+                                    );
+                                })}
+                                </div>
+                            )}
+                            {this.state.targetRace && this.props.otherRunsPerWeekValue !== "0" && (
+                            <div className="form-group ">
+                                {runTypeOptions.map(runType => {
+                                    return (
+                                        <>
+                                        <label className="form-control-label" htmlFor={`runDay.${runType.value}`}>{runType.name}</label>
+                                        <Field component="input" type="checkbox" name={`runDay.${runType.value}`} />
+                                        </>
+                                    );
+                                })}
+                                </div>
+                            )}
                             <button type="submit" className="btn btn-primary mr-1">Generate Plan</button>
                             <button type="button" className="btn btn-secondary" onClick={this.props.close}>Cancel</button>
                         </form>
@@ -134,8 +204,10 @@ TrainingPlanGeneratorModal = reduxForm({
 const selector = formValueSelector("trainingPlanGenerator");
 TrainingPlanGeneratorModal = connect(
     (state) => {
-        const longRunPlanningPeriodValue = selector(state, "long_run_planning_period")
-        return { longRunPlanningPeriodValue };
+        const longRunPlanningPeriodValue = selector(state, "long_run_planning_period");
+        const otherRunsPerWeekValue = selector(state, "other_runs_per_week");
+        const otherRunsPlanningPeriodValue = selector(state, "other_runs_planning_period");
+        return { longRunPlanningPeriodValue, otherRunsPerWeekValue, otherRunsPlanningPeriodValue };
     }
 )(TrainingPlanGeneratorModal)
  
