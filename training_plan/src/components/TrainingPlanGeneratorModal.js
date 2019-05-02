@@ -43,7 +43,7 @@ class TrainingPlanGeneratorModal extends Component {
             long_run_day: values.long_run_day,
             other_runs_per_week: values.other_runs_per_week,
             other_runs_planning_period: values.other_runs_planning_period,
-            other_run_days: values.other_run_types,
+            other_run_days: values.other_run_days,
             other_run_types: values.other_run_types
         })
         console.log(requestBody);
@@ -64,13 +64,13 @@ class TrainingPlanGeneratorModal extends Component {
         const plannedRaces = this.props.plannedRaces;
         const targetRaceOptions = plannedRaces.map(this.renderTargetRaceOption);
         const runDayOptions = [
-            {name: "Monday", value: "Mon"},
-            {name: "Tuesday", value: "Tue"},
-            {name: "Wednesday", value: "Wed"},
-            {name: "Thursday", value: "Thu"},
-            {name: "Friday", value: "Fri"},
-            {name: "Saturday", value: "Sat"},
-            {name: "Sunday", value: "Sun"}
+            {name: "Monday", value: "day1"},
+            {name: "Tuesday", value: "day2"},
+            {name: "Wednesday", value: "day3"},
+            {name: "Thursday", value: "day4"},
+            {name: "Friday", value: "day5"},
+            {name: "Saturday", value: "day6"},
+            {name: "Sunday", value: "day7"}
         ];
         const runTypeOptions = [
             {name: "Intervals / Fartlek", value: "intervals"},
@@ -181,7 +181,7 @@ class TrainingPlanGeneratorModal extends Component {
                             </div>
                             </>
                             )}
-                            {this.state.targetRace && this.props.otherRunsPerWeekValue !== "0" && (
+                            {this.state.targetRace && this.props.otherRunsPerWeekValue > "1" && (
                             <>
                             <p>What types of run would you like to do aside from your long run and easy runs?</p>
                             <div className="form-group row">
