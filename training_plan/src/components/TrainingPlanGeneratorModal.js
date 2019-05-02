@@ -40,7 +40,11 @@ class TrainingPlanGeneratorModal extends Component {
             target_race_distance: this.state.targetRace.distance,
             target_race_date: this.state.targetRace.planned_date,
             long_run_planning_period: values.long_run_planning_period,
-            long_run_day: values.long_run_day
+            long_run_day: values.long_run_day,
+            other_runs_per_week: values.other_runs_per_week,
+            other_runs_planning_period: values.other_runs_planning_period,
+            other_run_days: values.other_run_types,
+            other_run_types: values.other_run_types
         })
         console.log(requestBody);
         this.props.trainingPlanGeneratorActions.addPlannedActivities(requestBody).then(result => {
@@ -163,28 +167,34 @@ class TrainingPlanGeneratorModal extends Component {
                                 </Field>
                             </div>)}
                             {this.state.targetRace && this.props.otherRunsPerWeekValue !== "0" && (!(user && user.has_flexible_planning_enabled) || this.props.otherRunsPlanningPeriodValue === "day") && (
-                            <div className="form-group ">
+                            <>
+                            <p>What other days of the week are you able to run on?</p>
+                            <div className="form-group row">
                                 {runDayOptions.map(runDay => {
                                     return (
-                                        <>
-                                        <label className="form-control-label" htmlFor={`runDay.${runDay.value}`}>{runDay.name}</label>
-                                        <Field component="input" type="checkbox" name={`runDay.${runDay.value}`} />
-                                        </>
+                                        <div key={runDay.value} className="col-4">
+                                        <Field component="input" type="checkbox" name={`other_run_days.${runDay.value}`} />
+                                        &nbsp;<label className="form-control-label" htmlFor={`other_run_days.${runDay.value}`}>{runDay.name}</label>
+                                        </div>
                                     );
                                 })}
-                                </div>
+                            </div>
+                            </>
                             )}
                             {this.state.targetRace && this.props.otherRunsPerWeekValue !== "0" && (
-                            <div className="form-group ">
+                            <>
+                            <p>What types of run would you like to do aside from your long run and easy runs?</p>
+                            <div className="form-group row">
                                 {runTypeOptions.map(runType => {
                                     return (
-                                        <>
-                                        <label className="form-control-label" htmlFor={`runDay.${runType.value}`}>{runType.name}</label>
-                                        <Field component="input" type="checkbox" name={`runDay.${runType.value}`} />
-                                        </>
+                                        <div key={runType.value} className="col-4">
+                                        <Field component="input" type="checkbox" name={`other_run_types.${runType.value}`} />
+                                        &nbsp;<label className="form-control-label" htmlFor={`other_run_types.${runType.value}`}>{runType.name}</label>
+                                        </div>
                                     );
                                 })}
-                                </div>
+                            </div>
+                            </>
                             )}
                             <button type="submit" className="btn btn-primary mr-1">Generate Plan</button>
                             <button type="button" className="btn btn-secondary" onClick={this.props.close}>Cancel</button>
