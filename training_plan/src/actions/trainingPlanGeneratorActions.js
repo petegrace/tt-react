@@ -56,7 +56,7 @@ export function addPlannedActivities(requestBody) {
 export function addPlannedActivitiesSuccess(responseData, dispatch) {
     const alertMessage = responseData.message;
     dispatch(showAlert(alertMessage));
-
+    
     return {
         type: types.ADD_PLANNED_ACTIVITIES_SUCCESS,
         [ pendingTask ]: end,

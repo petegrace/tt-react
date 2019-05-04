@@ -31,11 +31,12 @@ class TrainingPlanGeneratorModal extends Component {
         this.setState({
             targetRace: targetRace
         })
-        this.props.trainingPlanGeneratorActions.loadTrainingPlanGeneratorInputs(targetRace.distance, targetRace.planned_date);
+        if (targetRace) {
+            this.props.trainingPlanGeneratorActions.loadTrainingPlanGeneratorInputs(targetRace.distance, targetRace.planned_date);
+        }
     }
 
     handleGeneratePlanClick = (values) => {
-        console.log(values);
         const requestBody = JSON.stringify({
             target_race_distance: this.state.targetRace.distance,
             target_race_date: this.state.targetRace.planned_date,
@@ -46,7 +47,6 @@ class TrainingPlanGeneratorModal extends Component {
             other_run_days: values.other_run_days,
             other_run_types: values.other_run_types
         })
-        console.log(requestBody);
         this.props.trainingPlanGeneratorActions.addPlannedActivities(requestBody).then(result => {
             this.props.refresh(this.props.selectedDate);
         });
@@ -97,6 +97,9 @@ class TrainingPlanGeneratorModal extends Component {
                                     {targetRaceOptions}
                                 </Field>
                             </div>
+                            {targetRaceOptions.length === 0 &&
+                            (<p>To use the Training Plan Generator you will first need to add a race to your calendar. Close this dialog and then click into the calendar on the date
+                                of your target race to add the event. Make sure you specify the distance, and you'll then be able to select it as an option above.</p>)}
                             {this.state.targetRace && trainingPlanGeneratorInputs && (
                             <>
                             <h5>How we'll generate your plan</h5>
@@ -110,12 +113,7 @@ class TrainingPlanGeneratorModal extends Component {
                             <p>
                                 You've done the distance for this race {trainingPlanGeneratorInputs.total_runs_above_target_distance} times before.
                                 We'll look at the training you did before the {trainingPlanGeneratorInputs.current_pb.activity_name} on {trainingPlanGeneratorInputs.current_pb.activity_date} where you averaged {trainingPlanGeneratorInputs.current_pb.average_pace_formatted} and factor that into your suggested training plan.
-                            </p>
-                            <p>
-                                Before that event, you did {trainingPlanGeneratorInputs.pre_pb_long_runs.runs_above_90pct_distance_count} runs above 90% of race distance in the {trainingPlanGeneratorInputs.weeks_to_target_race} weeks leading up to it.
-                            </p>
-                            <p>
-                                Your first run at 90% of the distance was {trainingPlanGeneratorInputs.pre_pb_long_runs.weeks_between_first_long_run_and_pb} weeks before and your last before the race was {trainingPlanGeneratorInputs.pre_pb_long_runs.weeks_between_last_long_run_and_pb} weeks before the event. The longest run you did in training was {trainingPlanGeneratorInputs.pre_pb_long_runs.longest_distance_formatted}.
+                                The longest run you did leading up to that event was {trainingPlanGeneratorInputs.pre_pb_long_runs.longest_distance_formatted}.
                             </p>
                             </>)}
                             </>)}

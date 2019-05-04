@@ -4,8 +4,9 @@ import { bindActionCreators } from "redux";
 import dateFns from "date-fns";
 
 import CalendarDayModal from "./CalendarDayModal";
+// import TrainingPlanIntroContainer from "./TrainingPlanIntroContainer";
 import TrainingPlanGeneratorModal from "./TrainingPlanGeneratorModal";
-import TrainingPlanTemplatesContainer from "./TrainingPlanTemplatesContainer";
+import TrainingPlanToolsContainer from "./TrainingPlanToolsContainer";
 import * as plannedActivityActions from "../actions/plannedActivityActions";
 import * as completedActivityActions from "../actions/completedActivityActions";
 import { filterPlannedActivities, filterPlannedRaces, filterPlannedExercises, filterCompletedActivities, filterCompletedExercises } from "../helpers/trainingPlan";
@@ -300,7 +301,7 @@ class Calendar extends Component {
         document.body.classList.toggle("noscroll");
     };
 
-    onTrainingPlanGeneratorClick = (weekStartDate) => {
+    handleTrainingPlanGeneratorOpen = (weekStartDate) => {
         this.setState({
             showCalendarDayModal: false,
             showCalendarWeekModal: false,
@@ -338,7 +339,7 @@ class Calendar extends Component {
     render() {
         return (
             <>
-            <button onClick={this.onTrainingPlanGeneratorClick}>Generate Training Plan</button>
+            {/* <TrainingPlanIntroContainer onGenerateTrainingPlan={this.handleTrainingPlanGeneratorOpen} /> */}
             <div className="calendar">
                 {this.renderHeader()}
                 {this.renderDayNames()}
@@ -350,7 +351,7 @@ class Calendar extends Component {
             <CalendarDayModal className="modal" selectionType="week" calendarDay={this.state.selectedWeek} refresh={this.refreshPlannedActivities} close={this.handleCloseModal} />)}
             {this.state.showTrainingPlanGeneratorModal && (
             <TrainingPlanGeneratorModal className="modal" refresh={this.refreshPlannedActivities} selectedDate={this.state.selectedDate} close={this.handleCloseModal}  />)}
-            <TrainingPlanTemplatesContainer calendarDay={this.state.selectedDate} refresh={this.refreshPlannedActivities} />
+            <TrainingPlanToolsContainer calendarDay={this.state.selectedDate} onGenerateTrainingPlan={this.handleTrainingPlanGeneratorOpen} refresh={this.refreshPlannedActivities} />
             </>
         )
         

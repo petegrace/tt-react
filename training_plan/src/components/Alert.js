@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 
 class Alert extends Component {
     render() {
+        const alert = this.props.alert;
         return (
             <>
             {alert && alert.showAlert && (

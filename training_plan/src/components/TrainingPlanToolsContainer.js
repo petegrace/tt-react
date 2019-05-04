@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 import * as trainingPlanTemplateActions from "../actions/trainingPlanTemplateActions";
 import * as activityTypeActions from "../actions/activityTypeActions";
 
-class TrainingPlanTemplatesContainer extends Component {  
+class TrainingPlanToolsContainer extends Component {  
 
     componentDidMount() {
         this.props.trainingPlanTemplateActions.loadTrainingPlanTemplates();
@@ -35,6 +35,21 @@ class TrainingPlanTemplatesContainer extends Component {
         let templateDetailsList = templates.map(this.renderTemplateDetails);
 
         return (
+            <>
+            <div className="card mt-4">
+                <div className="card-header">
+                    <h4>Try out the new Training Plan Generator for runners</h4>
+                </div>
+                <div className="card-body">
+                    <p>You can now generate a customised training plan for your running races. This is a very early release of
+                        a tool we'll be refining to suit more athletes and types of events, and it will work best for people training
+                        for events of around half marathon distance. Let us know how you get on with it and if there's anything in particular you'd like to see improved
+                        via <a href="mailto:feedback@trainingticks.com">feedback@trainingticks.com</a>.</p>
+                    <p>Start by adding your planned race to the calendar above if you haven't already, ensuring that you specify the distance of the event. Then you'll be able
+                        to <a href="#tpg" onClick={this.props.onGenerateTrainingPlan} className="font-weight-bold">Generate a Training Plan</a> taking
+                        you up to the week of the race.</p>
+                </div>
+            </div>
             <div className="card mt-4">
                 <div className="card-header">
                     <h4>Get started using a template</h4>
@@ -49,6 +64,7 @@ class TrainingPlanTemplatesContainer extends Component {
                     {templateDetailsList}
                 </div>
             </div>
+            </>
         );
     }
 }
@@ -66,6 +82,6 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-TrainingPlanTemplatesContainer = connect(mapStateToProps, mapDispatchToProps)(TrainingPlanTemplatesContainer);
+TrainingPlanToolsContainer = connect(mapStateToProps, mapDispatchToProps)(TrainingPlanToolsContainer);
 
-export default TrainingPlanTemplatesContainer;
+export default TrainingPlanToolsContainer;
