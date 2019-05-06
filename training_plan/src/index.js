@@ -17,6 +17,7 @@ import exerciseTypesReducer from "./reducers/exerciseTypesReducer";
 import exerciseCategoriesReducer from "./reducers/exerciseCategoriesReducer";
 import trainingPlanGeneratorInputsReducer from "./reducers/trainingPlanGeneratorInputsReducer";
 import trainingPlanTemplatesReducer from "./reducers/trainingPlanTemplatesReducer";
+import weeklyActivitySummaryReducer from "./reducers/weeklyActivitySummaryReducer";
 import userReducer from "./reducers/userReducer";
 import alertReducer from "./reducers/alertReducer";
 import "./base.css";
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
     plannedExercises: plannedExercisesReducer,
     completedActivities: completedActivitiesReducer,
     completedExercises: completedExercisesReducer,
+    weeklyActivitySummary: weeklyActivitySummaryReducer,
     activityTypes: activityTypesReducer,
     exerciseTypes: exerciseTypesReducer,
     exerciseCategories: exerciseCategoriesReducer,

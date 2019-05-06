@@ -39,3 +39,9 @@ export function filterCompletedExercises(completedExercises, day) {
     const completedExercisesFiltered = completedExercises.filter(completedExerciseCategory => completedExerciseCategory.exercise_date === jsonDate);
     return completedExercisesFiltered;
 }
+
+export function filterCalendarPeriodSummary(periodActivitySummary, periodStartDate) {
+    const jsonDate = dateFns.format(periodStartDate, "YYYY-MM-DD");
+    const calendarPeriodSummaryFiltered = periodActivitySummary.filter(activityByPeriod => activityByPeriod.period_start_date === jsonDate);
+    return calendarPeriodSummaryFiltered;
+}

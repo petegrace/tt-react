@@ -14,6 +14,8 @@ import PlannedExercisesList from "./PlannedExercisesList";
 import PlannedActivityForm from "./PlannedActivityForm";
 import PlannedRaceForm from "./PlannedRaceForm";
 import PlannedExerciseForm from "./PlannedExerciseForm";
+import CalendarPeriodSummary from "./CalendarPeriodSummary";
+import ActivitiesGoalForm from "./ActivitiesGoalForm";
 import * as plannedActivityActions from "../actions/plannedActivityActions";
 import * as plannedRaceActions from "../actions/plannedRaceActions";
 import * as plannedExerciseActions from "../actions/plannedExerciseActions";
@@ -29,6 +31,7 @@ class CalendarDayModal extends Component {
             showPlannedRaceForm: false,
             showPlannedExerciseForm: false,
             isFutureDate: (props.calendarDay >= dateFns.startOfDay(new Date())),
+            isPastOrCurrentDate: (props.calendarDay <= dateFns.startOfDay(new Date())),
             plannedActivities: props.plannedActivities
         }
     }
@@ -60,6 +63,16 @@ class CalendarDayModal extends Component {
         })
     }
 
+    toggleActivitiesGoalForm = () => {
+        this.setState({
+            showCalendarDayMain: !this.state.showCalendarDayMain,
+            showActivitiesGoalForm: !this.state.showActivitiesGoalForm,
+            showPlannedExerciseForm: false,
+            showPlannedActivityForm: false,
+            showPlannedRaceForm: false
+        })
+    }
+
     // Planned Activity CRUD operations
     handleAddPlannedActivity = (formInitData) => {
         this.setState({
@@ -76,7 +89,6 @@ class CalendarDayModal extends Component {
     }
 
     handleSavePlannedActivity = (values) => {
-        console.log(values);
         const requestBody = JSON.stringify({ 
             activity_type: values.activity_type,
             activity_subtype: values.activity_subtype,
@@ -103,7 +115,6 @@ class CalendarDayModal extends Component {
             this.props.refresh(this.props.calendarDay);
         });
     }
-
     
 
     // Planned Race CRUD operations
@@ -131,7 +142,6 @@ class CalendarDayModal extends Component {
             race_website_url: values.race_website_url,
             notes: values.notes
         });
-        console.log(requestBody);
         if (values.id) {
             this.props.plannedRaceActions.updatePlannedRace(values.id, requestBody).then(result => {
                 this.props.refresh(this.props.calendarDay);
@@ -149,6 +159,7 @@ class CalendarDayModal extends Component {
             this.props.refresh(this.props.calendarDay);
         });
     }
+
 
     // CRUD operations for planned exercises
     handleAddPlannedExercise = (id) => {
@@ -210,7 +221,6 @@ class CalendarDayModal extends Component {
                     planned_reps: exerciseType.default_reps,
                     planned_seconds: exerciseType.default_seconds
                 });
-                console.log(requestBody);
                 this.props.plannedExerciseActions.addPlannedExercise(requestBody).then(result => {
                     this.props.refresh(this.props.calendarDay);
                 });                
@@ -265,6 +275,27 @@ class CalendarDayModal extends Component {
         });
     }
 
+
+    // Handle click actions on summary metrics
+    handleSummaryMetricClick = (formInitData) => {
+        this.setState({
+            activitiesGoalFormInitData: formInitData
+        });
+        this.toggleActivitiesGoalForm();
+    }
+
+    handleSaveActivitiesGoal = (values) => {
+        const requestBody = JSON.stringify({ 
+            target_activities: values.target_activities,
+            min_distance: values.min_distance
+        });
+        // this.props.goalActions.updatePlannedRace(values.id, requestBody).then(result => {
+        //         this.props.refresh(this.props.calendarDay);
+        // });
+        this.toggleActivitiesGoalForm();
+    }
+
+
     render() {
         const dateFormatFull = "dddd DD MMMM YYYY";
         const dateFormatAbbrev = "ddd DD MMM YYYY";
@@ -289,20 +320,25 @@ class CalendarDayModal extends Component {
                     </div>
                     <div className="calendar-modal-body">
                         <div>
-                            {this.props.selectionType === "week" &&
-                            <div className="alert alert-info text-left">These are activities and exercises that you can do on any day during the week. To add for a specific day click on that day in the calendar instead.</div>}
                             {this.state.showCalendarDayMain &&
                             <>
+                                {this.props.selectionType === "week" && this.state.isPastOrCurrentDate &&
+                                <>
+                                    <h3>Weekly Summary</h3>
+                                    <CalendarPeriodSummary calendarPeriod="week" periodStartDate={this.props.calendarDay} onSummaryMetricClick={this.handleSummaryMetricClick} />
+                                </>}
                                 {this.props.selectionType === "day" &&
                                 <>
-                                <CompletedActivitiesList calendarDay={this.props.calendarDay} />
-                                <PlannedRacesList calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedRace} onRemove={this.handleRemovePlannedRace} />
-                                <CompletedExercisesList calendarDay={this.props.calendarDay} />
+                                    <CompletedActivitiesList calendarDay={this.props.calendarDay} />
+                                    <PlannedRacesList calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedRace} onRemove={this.handleRemovePlannedRace} />
+                                    <CompletedExercisesList calendarDay={this.props.calendarDay} />
                                 </>}
                                 <PlannedActivitiesList planningPeriod={this.props.selectionType} calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedActivity} onRemove={this.handleRemovePlannedActivity} />
                                 <PlannedExercisesList planningPeriod={this.props.selectionType} calendarDay={this.props.calendarDay} onEdit={this.handleEditPlannedExercise} onRemove={this.handleRemovePlannedExercise} />
                                 {(this.state.isFutureDate || this.props.selectionType === "week") &&
                                 <>
+                                    {this.props.selectionType === "week" &&
+                                    <div className="alert alert-info text-left">These are activities and exercises that you can do on any day during the week. To add for a specific day click on that day in the calendar instead.</div>}
                                     <ActivityTypeButtonSet planningPeriod={this.props.selectionType} calendarDay={this.props.calendarDay} onAdd={this.handleAddPlannedActivity} onAddRace={this.handleAddPlannedRace} />
                                     <h3>Add Exercises</h3>
                                     <ExerciseTypeButtonSet calendarDay={this.props.calendarDay} onAdd={this.handleAddPlannedExercise} />
@@ -314,6 +350,8 @@ class CalendarDayModal extends Component {
                             <PlannedRaceForm initData={this.state.plannedRaceFormInitData} onSubmit={this.handleSavePlannedRace} handleBackClick={this.togglePlannedRaceForm} />}
                             {this.state.showPlannedExerciseForm &&
                             <PlannedExerciseForm initData={this.state.plannedExerciseFormInitData} onSubmit={this.handleSavePlannedExercise} handleBackClick={this.togglePlannedExerciseForm} />}
+                            {this.state.showActivitiesGoalForm &&
+                            <ActivitiesGoalForm initData={this.state.activitiesGoalFormInitData} onSubmit={this.handleSaveActivitiesGoal} handleBackClick={this.toggleActivitiesGoalForm} />}
                         </div>
                     </div>
                 </div>

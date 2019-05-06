@@ -39,9 +39,16 @@ class Calendar extends Component {
         this.props.completedActivityActions.loadCompletedActivities(startDate, endDate);
     }
 
+    refreshWeeklyActivitySummary = (currentMonth) => {
+        const startDate = dateFns.startOfWeek(dateFns.startOfMonth(currentMonth), {weekStartsOn: 1});
+        const endDate = dateFns.endOfWeek(dateFns.endOfMonth(currentMonth), {weekStartsOn: 1});
+        this.props.completedActivityActions.loadWeeklyActivitySummary(startDate, endDate);
+    }
+
     refreshAllActivities = (currentMonth) => {
         this.refreshPlannedActivities(currentMonth);
         this.refreshCompletedActivities(currentMonth);
+        this.refreshWeeklyActivitySummary(currentMonth);
     }
 
     componentDidMount() {

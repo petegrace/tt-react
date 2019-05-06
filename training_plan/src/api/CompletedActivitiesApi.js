@@ -10,7 +10,7 @@ class CompletedActivitiesApi {
         this.dateFormat = "YYYY-MM-DD";
     }
     
-    getCompletedActivities = (startDate, endDate) => {
+    getCompletedActivities = (startDate, endDate, resultType="detail") => {
         const options = {
             method: "GET",
             headers: {
@@ -19,7 +19,8 @@ class CompletedActivitiesApi {
         };
         const endpoint = this.endpointOrigin + "/api/completed_activities?"
                                              + "startDate=" + dateFns.format(startDate, this.dateFormat)
-                                             + "&endDate=" + dateFns.format(endDate, this.dateFormat);
+                                             + "&endDate=" + dateFns.format(endDate, this.dateFormat)
+                                             + "&resultType=" + resultType;
 
         return fetch(endpoint, options).then(response => {
             if (response.ok) {
